@@ -33,8 +33,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="PlatformFeatures\Queries\NewFolder\" />
-  </ItemGroup>
-
 </Project>
