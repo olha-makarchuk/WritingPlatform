@@ -1,0 +1,74 @@
+.publication-container {
+    background-color: #f0f4f8;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: 'Montserrat', sans-serif; /* Зміна шрифта для заголовків */
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .publication-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  
+  .publication-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+    flex-basis: 200px;
+    text-align: center;
+  }
+  
+  .publication-title {
+    color: #333;
+    font-size: 32px; /* Змінений розмір заголовків */
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  
+  .publication-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .publication-content {
+    font-size: 18px;
+    flex-grow: 1;
+    min-width: 250px;
+  }
+  
+  .publication-content p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif; /* Зміна шрифта для тексту */
+  }
+  
+  .publication-content p strong {
+    color: #222;
+  }
+  
+  .read-button {
+    background-color: #3498db; /* колір фону */
+    color: white; /* колір тексту */
+    padding: 15px 25px; /* відступи */
+    border: none; /* видалення рамки */
+    border-radius: 8px; /* закруглені кути */
+    cursor: pointer; /* зміна курсору при наведенні */
+    transition: background-color 0.3s; /* плавна зміна коліру фону */
+  }
+  .disabled-button {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+  }
+  
+  

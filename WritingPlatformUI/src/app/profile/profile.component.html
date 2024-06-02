@@ -1,0 +1,27 @@
+<div *ngIf="currentUser">
+  <h2>User Profile</h2>
+  
+  <form (ngSubmit)="updateUserInfo()">
+    <div>
+      <label for="email">Username:</label>
+      <input type="text" id="email" [value]="currentUser.email" readonly/>
+    </div>
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" [(ngModel)]="currentUser.userName" name="userName"/>
+    </div>
+    <div>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" [(ngModel)]="currentUser.firstName" name="firstName" />
+    </div>
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" [(ngModel)]="currentUser.lastName" name="lastName" />
+    </div>
+    <div>
+      <label for="personalInformation">Personal Information:</label>
+      <textarea id="personalInformation" [(ngModel)]="currentUser.personalInformation" name="personalInformation"></textarea>
+    </div>
+    <button type="submit">Update</button>
+  </form>
+</div>

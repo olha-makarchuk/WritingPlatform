@@ -1,0 +1,18 @@
+<div style="margin-top: 80px;"></div>
+<div class="jumbotron container" style="background-color: white; width: 70%;">
+  <header class="text-center">
+    <h3>Автори</h3>
+  </header>
+  <div style="margin-top: 20px;" class="author-list">
+    <h3 class="text-center mt-5 mb-3 text-warning" *ngIf="authors.length === 0">Немає авторів...</h3>
+    <div class="list-group">
+      <a [routerLink]="['/all-publications/by-author', author.idAuthor]" class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let author of authors">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ author.firstName }} {{ author.lastName }}</h5>
+          <small>{{ author.countPublication }} Публікацій</small>
+        </div>
+        <p class="mb-1">{{ author.userName }}</p>
+      </a>
+    </div>
+  </div>
+</div>

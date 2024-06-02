@@ -1,0 +1,54 @@
+<div *ngIf="publication" class="publication-container" style="margin-top:100px">
+  <div class="publication-row">
+    <div class="publication-left">
+      <h2 class="publication-title">{{ publication.publicationName }}</h2>
+      <div>
+        <img class="publication-image" alt="Publication Image" [src]="'https://drive.google.com/thumbnail?id=' + publication.titleKey + '&sz=w1000'">
+      </div>
+      <button [routerLink]="['/read-publication']" [queryParams]="{ publicationId: publication.publicationId, currentPage: 1 }" class="read-button" style="margin-top: 20px;" [disabled]="!isLoggedIn" [class.disabled-button]="!isLoggedIn">Читати</button>
+      <div *ngIf="!isLoggedIn">
+        <p>Зареєструйтеся, щоб отримати доступ до книги</p>
+      </div>
+    </div>
+    <div class="publication-content" style="margin-top: 50px;">
+      <p><strong>Автор:</strong> {{ publication.author.firstName }}</p>
+      <p><strong>Жанр:</strong> {{ publication.genreName }}</p>
+      <p><strong>Рейтинг:</strong> {{ publication.rating }}</p>
+      <p><strong>Дата публікації:</strong> {{ publication.datePublication | date }}</p>
+    </div>
+  </div>
+</div>
+<div class="tab-buttons">
+  <button (click)="showBookInfo()" [class.active]="activeTab === 'book'">Про книгу</button>
+  <button (click)="showAuthorInfo()" [class.active]="activeTab === 'author'">Про автора</button>
+  <button (click)="showReviewsInfo()" [class.active]="activeTab === 'reviews'">Відгуки</button>
+</div>
+
+<td style="vertical-align: top;" [ngSwitch]="activeTab">
+  <ng-container *ngSwitchCase="'book'">
+    <p>{{publication?.bookDescription}}</p>
+  </ng-container>
+  <ng-container *ngSwitchCase="'author'">
+    <p>{{publication?.author?.personalInformation}}</p>
+  </ng-container>
+  <ng-container *ngSwitchCase="'reviews'">
+    <div *ngIf="comments.length > 0; else noComments">
+      <div *ngFor="let comment of comments" class="comment">
+        <p>{{comment.commentText}}</p>
+        <button *ngIf="comment.userId === loggedInUserId" (click)="onDeleteComment(comment.commentId)">Видалити</button>
+      </div>
+    </div>
+    <ng-template #noComments>
+      <p>Поки що немає жодних коментарів.</p>
+    </ng-template>
+    <div *ngIf="isLoggedIn">
+      <form (ngSubmit)="onSubmitComment()" #commentForm="ngForm">
+        <textarea [(ngModel)]="newCommentText" name="commentText" required></textarea>
+        <button type="submit" [disabled]="!commentForm.form.valid">Додати відгук</button>
+      </form>
+    </div>
+    <div *ngIf="!isLoggedIn">
+      <p>Зареєструйтеся, щоб залишити відгук</p>
+    </div>
+  </ng-container>
+</td>

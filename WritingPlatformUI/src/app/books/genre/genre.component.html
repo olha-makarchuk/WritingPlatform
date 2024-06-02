@@ -1,0 +1,20 @@
+<div style="margin-top: 80px;"></div>
+<div class="jumbotron container" style="background-color: white; width: 70%;">
+  <header class="text-center">
+    <h3>Категорії книг</h3>
+  </header>
+  <div style="margin-top: 80px;" class="genre-list">
+    <h3 class="text-center mt-5 mb-3 text-warning" *ngIf="genres.length === 0">No movies here...</h3>
+    <div class="genre-block">
+      <div class="row">
+        <div class="col-md-4 col-sm-6" *ngFor="let genre of genres">
+          <div class="genre-item">
+            <a [routerLink]="['/all-publications/by-genre', genre.id]" class="genre-link d-flex align-items-center">
+              <img alt="#" style="width: 40px; height: 40px;" src="https://drive.google.com/thumbnail?id={{genre.fileKey}}&sz=w1000">
+              <div style="margin-left: 10px;" class="genre-name">{{ genre.name }}</div>
+            </a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

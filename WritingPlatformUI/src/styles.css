@@ -1,1 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+.home{
+  background-color: #000000;
+}
+
+body {
+  background-color: #d9d9dd; /* сірий колір фону */
+}
+
+.navbar a {
+  background-color: black; /* Override link color to black */
+  color: white;
+}
+
+.button-link {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 5px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-link:hover {
+  background-color: #0056b3;
+}
+
+.genre-list {
+  margin-top: 30px;
+}
+
+.genre-item {
+  border: none;
+  background-color: transparent;
+}
+
+.genre-item:hover {
+  background-color: #f8f9fa;
+}
+
+.genre-link {
+  color: #007bff; /* змініть колір, якщо потрібно */
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.genre-link:hover {
+  color: #0056b3; /* колір при наведенні */
+}

@@ -1,0 +1,38 @@
+.genre-block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.genre-item {
+  margin-bottom: 30px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.genre-item:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.genre-link {
+  display: block;
+  width: 600px;
+  text-decoration: none;
+  color: black;
+  padding: 15px;
+}
+
+.genre-icon {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.genre-name {
+  margin-left: 30px;
+  font-size: 20px;
+  text-align: center;
+}
