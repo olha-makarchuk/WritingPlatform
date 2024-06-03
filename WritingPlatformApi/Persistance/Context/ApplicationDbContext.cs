@@ -15,6 +15,8 @@ namespace Persistence.Context
         public DbSet<Genre> Genre {  get; set; }
         public DbSet<Publication> Publication { get; set; }
         public DbSet<Comment> Comment { get; set; }
+        public DbSet<SortByItem> SortByItem { get; set; }
+
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {

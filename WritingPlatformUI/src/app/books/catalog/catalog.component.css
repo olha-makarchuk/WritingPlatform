@@ -1,0 +1,47 @@
+/* catalog.component.css */
+div {
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: inline-block;
+    width: 100px;
+  }
+  
+  .publication-list-container {
+    margin-top: 50px;
+  }
+  
+  .publication-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .publication-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .publication-details h3 {
+    margin-top: 0;
+  }
+  
+  .no-publications {
+    font-style: italic;
+    color: #888;
+  }
+  .checkbox-container {
+    background-color: white;
+    /* Задаємо фіксовану висоту контейнера, де містяться checkbox */
+    height: 300px; /* Наприклад, ви можете змінити це значення на потрібну вам висоту */
+    overflow-y: auto; /* Додаємо вертикальний скроллер */
+  }
+  
+  .genre-scroll-container {
+    /* Додаємо падінг, щоб зберегти простір навколо checkbox */
+    padding: 10px;
+  }
+  

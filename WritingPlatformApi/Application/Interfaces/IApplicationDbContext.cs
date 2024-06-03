@@ -8,6 +8,8 @@ namespace Application.Interfaces
         DbSet<Genre> Genre { get; set; }
         DbSet<Publication> Publication { get; set; }
         DbSet<Comment> Comment { get; set; }
+        DbSet<SortByItem> SortByItem { get; set; }
+        
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

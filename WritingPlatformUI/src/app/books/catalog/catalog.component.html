@@ -1,1 +1,65 @@
-<p>catalog works!</p>
+<div style="margin-top: 100px;">
+    <h1>Catalog</h1>
+    <div class="checkbox-container">
+        <label>Genres:</label>
+        <div class="genre-scroll-container">
+          <div *ngFor="let genre of genres">
+            <label>
+              <input type="checkbox" [value]="genre.id" (change)="onGenreChange($event)">
+              {{ genre.name }}
+            </label>
+          </div>
+        </div>
+      
+        <!-- Додайте інші елементи HTML, які ви маєте -->
+      </div>
+      
+      <div>
+        <label for="startPage">Start Page:</label>
+        <input type="number" id="startPage" [(ngModel)]="sortQuery.startPage" (change)="onPageChange()">
+      </div>
+      <div>
+        <label for="endPage">End Page:</label>
+        <input type="number" id="endPage" [(ngModel)]="sortQuery.endPage" (change)="onPageChange()">
+      </div>
+      <div>
+        <label for="yearPublication">Year of Publication:</label>
+        <input type="number" id="yearPublication" [(ngModel)]="sortQuery.yearPublication" (change)="onYearPublicationChange()">
+      </div>
+      
+  </div>
+  
+  <div>
+    <label for="sort">Sort by:</label>
+    <select id="sort" (change)="onSortChange($event)">
+      <option *ngFor="let item of sortByItems" [value]="item.id">{{ item.itemName }}</option>
+    </select>
+    <select id="sortDirection" (change)="onSortDirectionChange($event)">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+  <div>
+    <button (click)="sortPublications()">Sort</button>
+  </div>
+  <div class="publication-list-container">
+    <div *ngIf="publications.length > 0; else noPublications">
+      <ul class="publication-list">
+        <li class="publication-item" *ngFor="let publication of publications">
+          <a [routerLink]="['/publication', publication.publicationId]" class="publication-link">
+            <div class="publication-details">
+              <h3>{{ publication.publicationName }}</h3>
+              <p><strong>Author:</strong> {{ publication.author.userName }}</p>
+              <p><strong>Genre:</strong> {{ publication.genreName }}</p>
+              <p><strong>Rating:</strong> {{ publication.rating }}/5</p>
+              <p><strong>Date:</strong> {{ publication.datePublication | date }}</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <ng-template #noPublications>
+      <p class="no-publications">No publications found.</p>
+    </ng-template>
+  </div>
+  

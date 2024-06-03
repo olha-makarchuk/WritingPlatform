@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Author} from "../shared/models/author";
 import {Genre} from "../shared/models/genre";
-import { Publication } from '../shared/models/publication';
+import { Publication, SortByItem, SortPublicationQuery } from '../shared/models/publication';
 import { PublicationText } from '../shared/models/publication-text';
 import { CreateComment } from '../shared/models/create-comment';
 import { Comments } from '../shared/models/get-comment';
@@ -97,4 +97,21 @@ export class UserService {
       personalInformation: personalInformation };
     return this.http.post<PersonalInformationChange>(API_URL + 'UserAccount/change', body);
   }
+
+  getAllOrderByItems(): Observable<Array<SortByItem>> {
+    return this.http.get<Array<SortByItem>>(API_URL + 'SortByItem', { responseType: 'json' });
+  }
+
+  sortPublications(query: SortPublicationQuery, sortDirection: string): Observable<Publication[]> {
+    const body = {
+      genreIds: query.genreIds,
+      startPage: query.startPage,
+      endPage: query.endPage,
+      yearPublication: query.yearPublication,
+      sortBy: query.sortByItemId,
+      sortDirection: sortDirection
+    };
+    return this.http.post<Publication[]>(API_URL + 'Catalog', body);
+  }
 }
+
