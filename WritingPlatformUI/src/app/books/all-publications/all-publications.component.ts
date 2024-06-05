@@ -10,27 +10,41 @@ import { UserService } from "../../_services/user.service";
 })
 export class AllPublicationsComponent implements OnInit {
   publications: Array<Publication> = [];
-
+  currentPage: number = 1;
+  pageSize: number = 3; // Adjust this value to control items per page
+  totalPages: number = 0;
+  
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     const genreId = this.route.snapshot.params['genreId'];
     const authorId = this.route.snapshot.params['authorId'];
+    this.fetchPublications(genreId, authorId);
+  }
 
+   fetchPublications(genreId?: number, authorId?: string): void {
+    let observable;
     if (genreId) {
-      this.userService.getPublicationsByGenre(genreId).subscribe(publications => {
-        this.publications = publications;
-      });
+      observable = this.userService.getPublicationsByGenre(genreId);
+    } else if (authorId) {
+      observable = this.userService.getPublicationsByAuthor(authorId);
+    } else {
+      observable = this.userService.getAllPublications();
     }
-    else if (authorId) {
-      this.userService.getPublicationsByAuthor(authorId).subscribe(publications => {
-        this.publications = publications;
-      });
-    }
-    else {
-      this.userService.getAllPublications().subscribe(publications => {
-        this.publications = publications;
-      });
-    }
+
+    observable.subscribe(publications => {
+      this.publications = publications;
+      this.totalPages = Math.ceil(publications.length / this.pageSize);
+    });
+  }
+
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+  getPaginatedPublications(): Publication[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = Math.min(startIndex + this.pageSize, this.publications.length);
+    return this.publications.slice(startIndex, endIndex);
   }
 }

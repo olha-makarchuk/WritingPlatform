@@ -6,29 +6,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.PlatformFeatures.Commands.PublicationCommands
 {
-    public class DeletePublicationCommand : IRequest<Publication>
+    public class DeletePublicationByIdCommand : IRequest<Publication>
     {
         public int Id { get; set; }
     }
 
-    public class DeleteMovieByIdCommandHandler : IRequestHandler<DeletePublicationCommand, Publication>
+    public class DeletePublicationCommandHandler : IRequestHandler<DeletePublicationByIdCommand, Publication>
     {
         private readonly IApplicationDbContext _context;
         private IApiClientGoogleDrive _client;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeleteMovieByIdCommandHandler(IApplicationDbContext context, UserManager<ApplicationUser> userManager, IApiClientGoogleDrive client)
+        public DeletePublicationCommandHandler(IApplicationDbContext context, UserManager<ApplicationUser> userManager, IApiClientGoogleDrive client)
         {
             _context = context;
             _userManager = userManager;
             _client = client;
         }
 
-        public async Task<Publication> Handle(DeletePublicationCommand command, CancellationToken cancellationToken)
+        public async Task<Publication> Handle(DeletePublicationByIdCommand command, CancellationToken cancellationToken)
         {
             var publication = await _context.Publication.Where(a => a.Id == command.Id)
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new Exception("Publication not Found");
+
+            var comments = await _context.Comment.Where(a => a.PublicationId == publication.Id).ToListAsync(cancellationToken);
+            _context.Comment.RemoveRange(comments);
+            await _context.SaveChangesAsync(cancellationToken);
 
             _context.Publication.Remove(publication);
             await _context.SaveChangesAsync(cancellationToken);

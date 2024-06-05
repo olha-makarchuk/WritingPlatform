@@ -28,14 +28,11 @@ namespace WritingPlatformApi.Controllers.v1
             return Ok(a);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCommentById(int id)
+        [HttpDelete("{commentId}")]
+        public async Task<IActionResult> DeleteCommentById(int commentId)
         {
-            return Ok();
+            var a = await Mediator.Send(new DeleteCommentCommand() { CommentId= commentId });
+            return Ok(a);
         }
-    }
-    public class DeleteCommentCommand
-    {
-        public int commentId { get; set; }
     }
 }

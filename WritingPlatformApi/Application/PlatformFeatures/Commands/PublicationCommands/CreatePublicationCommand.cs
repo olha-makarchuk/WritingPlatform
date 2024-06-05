@@ -1,10 +1,11 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
-using Google.Apis.Drive.v3.Data;
+using iTextSharp.text.pdf;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace Application.PlatformFeatures.Commands.PublicationCommands
 {
@@ -24,7 +25,6 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
         private IApiClientGoogleDrive _client;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        // Define destination folders for storing files temporarily
         private readonly string _publicationFolder = "TempPublicationFolder";
         private readonly string _titleFolder = "TempTitleFolder";
 
@@ -54,15 +54,14 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
                 await _userManager.UpdateAsync(user);
             }
 
-            // Save the files locally
             var publicationFilePath = await SaveFileAsync(command.FilePath, _publicationFolder);
             var titleFilePath = await SaveFileAsync(command.TitlePath, _titleFolder);
 
-            // Upload files to Google Drive
+
             var IdFile = _client.AddFile(publicationFilePath, "PublicationFolder");
             var idTitle = _client.AddFile(titleFilePath, "TitleFolder");
 
-            var countPages = _client.CountPages(publicationFilePath);
+            int pageCount = GetPageCount(publicationFilePath);
 
             var publication = new Publication
             {
@@ -72,7 +71,7 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
                 GenreId = command.GenreId,
                 PublicationName = command.PublicationName,
                 Rating = 0,
-                CountPages = countPages,
+                CountPages = pageCount,
                 ApplicationUserId = user.Id,
                 bookDescription = command.bookDescription
             };
@@ -80,12 +79,20 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
             _context.Publication.Add(publication);
             await _context.SaveChangesAsync(cancellationToken);
 
-            // Optionally, delete the local files after upload
             System.IO.File.Delete(publicationFilePath);
             System.IO.File.Delete(titleFilePath);
 
             return publication;
         }
+
+        public static int GetPageCount(string filePath)
+        {
+            using (var pdfReader = new PdfReader(filePath))
+            {
+                return pdfReader.NumberOfPages;
+            }
+        }
+
 
         private async Task<string> SaveFileAsync(IFormFile formFile, string destinationFolder)
         {

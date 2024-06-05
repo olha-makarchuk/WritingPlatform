@@ -1,21 +1,27 @@
 <div class="publication-list-container">
-    <div *ngIf="publications.length > 0; else noPublications">
-      <ul class="publication-list">
-        <li class="publication-item" *ngFor="let publication of publications">
-          <a [routerLink]="['/publication', publication.publicationId]" class="publication-link">
-            <div class="publication-details">
-              <h3>{{ publication.publicationName }}</h3>
-              <p><strong>Author:</strong> {{ publication.authorName }}</p>
-              <p><strong>Genre:</strong> {{ publication.genreName }}</p>
-              <p><strong>Rating:</strong> {{ publication.rating }}/5</p>
-              <p><strong>Date:</strong> {{ publication.datePublication | date }}</p>
-            </div>
-          </a>
-        </li>
-      </ul>
+  <div *ngIf="publications.length > 0; else noPublications">
+    <ul class="publication-list">
+      <li class="publication-item" *ngFor="let publication of getPaginatedPublications()">
+        <a [routerLink]="['/publication', publication.publicationId]" class="publication-link">
+          <div class="publication-details">
+            <h3>{{ publication.publicationName }}</h3>
+            <p><strong>Author:</strong> {{ publication.authorName }}</p>
+            <p><strong>Genre:</strong> {{ publication.genreName }}</p>
+            <p><strong>Rating:</strong> {{ publication.rating }}/5</p>
+            <p><strong>Date:</strong> {{ publication.datePublication | date }}</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+
+    <div class="pagination-controls">
+      <button *ngIf="currentPage > 1" (click)="onPageChange(currentPage - 1)">Previous Page</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button *ngIf="currentPage < totalPages" (click)="onPageChange(currentPage + 1)">Next Page</button>
     </div>
-    <ng-template #noPublications>
-      <p class="no-publications">No publications found.</p>
-    </ng-template>
   </div>
-  
+
+  <ng-template #noPublications>
+    <p class="no-publications">No publications found.</p>
+  </ng-template>
+</div>

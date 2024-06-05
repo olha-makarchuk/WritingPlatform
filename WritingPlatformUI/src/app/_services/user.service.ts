@@ -33,7 +33,7 @@ export class UserService {
     return this.http.get<Array<Publication>>(API_URL + 'Publication', { responseType: 'json' });
   }
 
-  getPublicationsByAuthor(authorId: number): Observable<Publication[]> {
+  getPublicationsByAuthor(authorId: string): Observable<Publication[]> {
     const body = { IdAuthor: authorId };
     return this.http.post<Publication[]>(API_URL + 'Publication/by-author', body);
   }
@@ -112,6 +112,14 @@ export class UserService {
       sortDirection: sortDirection
     };
     return this.http.post<Publication[]>(API_URL + 'Catalog', body);
+  }
+
+  deletePublication(publicationId: number): Observable<void> {
+    return this.http.delete<void>(API_URL + 'Publication/' + publicationId);
+  }
+
+  deleteAccount(accountId: string): Observable<void> {
+    return this.http.delete<void>(API_URL + 'UserAccount/' + accountId);
   }
 }
 

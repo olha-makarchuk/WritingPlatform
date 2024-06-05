@@ -26,5 +26,11 @@ namespace WritingPlatformApi.Controllers.v1
         {
             return Ok(await Mediator.Send(query));
         }
+
+        [HttpDelete("{accountId}")]
+        public async Task<IActionResult> DeleteAccount(string accountId)
+        {
+            return Ok(await Mediator.Send(new DeleteAccountCommand() {UserId = accountId }));
+        }
     }
 }

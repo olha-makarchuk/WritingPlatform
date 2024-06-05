@@ -21,6 +21,9 @@ import { AllPublicationsComponent } from "./books/all-publications/all-publicati
 import { ReadPublicationComponent } from "./books/read-publication/read-publication.component";
 import { CreatePublicationComponent } from './books/create-publication/create-publication.component';
 import { CatalogComponent } from './books/catalog/catalog.component';
+import { MyPublicationsComponent } from './books/my-publications/my-publications.component';
+import { NewBooksComponent } from './books/new-books/new-books.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,9 @@ import { CatalogComponent } from './books/catalog/catalog.component';
     AllPublicationsComponent,
     ReadPublicationComponent,
     CreatePublicationComponent,
-    CatalogComponent
+    CatalogComponent,
+    MyPublicationsComponent,
+    NewBooksComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +49,7 @@ import { CatalogComponent } from './books/catalog/catalog.component';
     HttpClientModule,
     RouterModule,
     CommonModule,
+    PdfViewerModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3000,

@@ -1,5 +1,18 @@
-<div class="container text-center">
-  <header>
-    <h1>Welcome to the Movie Manager!</h1>
-  </header>
+<h2>PDF Viewer</h2>
+
+<div class="pdf-container">
+  
+  <pdf-viewer [src]="src"
+              [original-size]="false"
+              [show-all]="false"
+              [page]="currentPage"
+  ></pdf-viewer>
+
+  <button (click)="previousPage()" [disabled]="currentPage <= 1">Попередня сторінка ({{ currentPage - 1 > 0 ? currentPage - 1 : '' }})</button>
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Наступна сторінка ({{ currentPage + 1 <= totalPages ? currentPage + 1 : '' }})</button>
+  
+  <div class="paginator">
+    <input type="number" [(ngModel)]="currentPage" (change)="goToPage()">
+    <span>/ {{ totalPages }}</span>
+  </div>
 </div>

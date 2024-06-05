@@ -55,5 +55,11 @@ namespace WritingPlatformApi.Controllers.v1
         {
             return Ok(await Mediator.Send(query));
         }
+
+        [HttpDelete("{publicationId}")]
+        public async Task<IActionResult> DeletePubicationById(int publicationId)
+        {
+            return Ok(await Mediator.Send(new DeletePublicationByIdCommand() { Id= publicationId }));
+        }
     }
 }

@@ -29,7 +29,10 @@ namespace Application.PlatformFeatures.Commands.Auth
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken = default)
         {
             var user = await _userManager.FindByNameAsync(request.username) ?? throw new Exception("Invalid username");
-
+            if (!user.IsActive)
+            {
+                throw new Exception("Invalid username");
+            }
             if (!await _userManager.CheckPasswordAsync(user, request.password)) throw new Exception("Invalid password");
 
             var userRoles = await _userManager.GetRolesAsync(user);

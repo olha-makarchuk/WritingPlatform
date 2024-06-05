@@ -21,8 +21,6 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
 
             public async Task<PublicationTextDto> Handle(GetPublicationByIdQuery query, CancellationToken cancellationToken)
             {
-                //string text = _client.GetTextFromDocxFile("1eILVfqB7x22UMoaHfMQASUiZIib9oTuT", 1);
-
                 var publication = await _context.Publication
                .Where(a => a.Id == query.IdPublication)
                .Include(p => p.Genre)
@@ -42,8 +40,6 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                        PersonalInformation = p.ApplicationUser.PersonalInformation
                    },
                    bookDescription = p.bookDescription,
-                   //FileKey = p.FileKey,
-                   //Text = text,
                    DatePublication = p.DatePublication
                })
                .FirstOrDefaultAsync(cancellationToken)
@@ -58,10 +54,8 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
     {
         public int PublicationId { get; set; }
         public string PublicationName { get; set; }
-      //public string Text { get; set; }
         public string GenreName { get; set; }
         public int Rating { get; set; }
-      //public string FileKey { get; set; }
         public string TitleKey { get; set; }
         public DateTime DatePublication { get; set; }
         public Author Author {  get; set; }

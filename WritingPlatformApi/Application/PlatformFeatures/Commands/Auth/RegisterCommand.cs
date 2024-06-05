@@ -27,15 +27,16 @@ namespace Application.PlatformFeatures.Commands.Auth
 
         public async Task<RegistrationResponse> Handle(RegistrationCommand request, CancellationToken cancellationToken = default)
         {
-            var userExists = await _userManager.FindByNameAsync(request.UserName);
+            var userExists = await _userManager.FindByNameAsync(request.UserName); 
 
             if (userExists != null) throw new Exception("User already exists");
-
+            
             var user = new ApplicationUser
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 IsAuthor = false,
+                IsActive = true,
                 Email = request.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 RefreshToken = GenerateRefreshToken(),

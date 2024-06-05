@@ -13,6 +13,8 @@ import { AllPublicationsComponent } from './books/all-publications/all-publicati
 import { ReadPublicationComponent } from './books/read-publication/read-publication.component';
 import { CreatePublicationComponent } from './books/create-publication/create-publication.component';
 import { CatalogComponent } from './books/catalog/catalog.component';
+import { MyPublicationsComponent } from './books/my-publications/my-publications.component';
+import { NewBooksComponent } from './books/new-books/new-books.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -27,10 +29,12 @@ const routes: Routes = [
   { path: 'publication/:publicationId', component: PublicationComponent },
   { path: 'authors', component: AuthorComponent },
   { path: 'authors/:Idauthor', component: AuthorComponent },
-  { path: 'read-publication/:publicationId/:currentPage', component: ReadPublicationComponent},
-  { path: 'read-publication', component: ReadPublicationComponent},
-  { path: 'create-publication', component: CreatePublicationComponent},
-  { path: 'catalog', component: CatalogComponent}
+  { path: 'read-publication/:publicationId/:currentPage', component: ReadPublicationComponent, canActivate: [AuthGuard] },
+  { path: 'read-publication', component: ReadPublicationComponent, canActivate: [AuthGuard] },
+  { path: 'create-publication', component: CreatePublicationComponent, canActivate: [AuthGuard]},
+  { path: 'catalog', component: CatalogComponent},
+  { path: 'my-publications', component: MyPublicationsComponent, canActivate: [AuthGuard] },
+  { path: 'test', component: NewBooksComponent},
 ];
 
 @NgModule({
