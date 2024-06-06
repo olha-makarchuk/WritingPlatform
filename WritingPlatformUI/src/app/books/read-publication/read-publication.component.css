@@ -1,20 +1,6 @@
-/* read-publication.component.css */
-
-.publication-container {
-    margin-top: 50px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 800px; /* Максимальна ширина тексту */
-    margin: 0 auto; /* Центруємо текст на сторінці */
-}
-
-.publication-text {
-    font-size: 16px;
-    line-height: 1.6;
-    text-align: justify; /* Вирівнюємо текст по ширині */
-}
-
-.publication-text p {
-    margin-bottom: 15px;
-}
+pdf-viewer {
+    display: block;
+    height: 1100px; 
+    width: 700px;
+  }
+  

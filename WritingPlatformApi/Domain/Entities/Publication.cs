@@ -28,7 +28,8 @@ namespace Domain.Entities
         [StringLength(255)]
         public string FileKey { get; set; } = string.Empty;
         public string TitleKey { get; set; } = string.Empty;
-        public int CountPages {  get; set; }
+        public int CountOfPages {  get; set; }
+        public int CountOfRewiews {  get; set; }
 
         [Required]
         [StringLength(int.MaxValue)]

@@ -22,7 +22,6 @@ import { ReadPublicationComponent } from "./books/read-publication/read-publicat
 import { CreatePublicationComponent } from './books/create-publication/create-publication.component';
 import { CatalogComponent } from './books/catalog/catalog.component';
 import { MyPublicationsComponent } from './books/my-publications/my-publications.component';
-import { NewBooksComponent } from './books/new-books/new-books.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
@@ -40,7 +39,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     CreatePublicationComponent,
     CatalogComponent,
     MyPublicationsComponent,
-    NewBooksComponent,
   ],
   imports: [
     BrowserModule,

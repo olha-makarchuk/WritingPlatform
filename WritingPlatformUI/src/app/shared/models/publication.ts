@@ -8,7 +8,9 @@ export interface Publication {
   rating: number;
   datePublication: Date;
   titleKey: string;
-  
+  fileKey: string;
+  countOfPages:number;
+  countOfRewiews:number;
   bookDescription: string;
   author: Author;
 }

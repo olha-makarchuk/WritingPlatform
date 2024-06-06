@@ -47,7 +47,7 @@ namespace Application.PlatformFeatures.Queries.Catalog
                         DatePublication = p.DatePublication,
                         bookDescription = p.bookDescription,
                         GenreId = p.GenreId,
-                        CountPages = p.CountPages
+                        CountPages = p.CountOfPages
                     })
                     .ToListAsync(cancellationToken);
 

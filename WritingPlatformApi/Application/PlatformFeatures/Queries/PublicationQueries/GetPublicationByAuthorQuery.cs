@@ -8,7 +8,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
     public class GetPublicationByAuthorQuery : IRequest<List<PublicationDto>>
     {
-        public string IdAuthor { get; set; } =string.Empty;
+        public string UserId { get; set; } =string.Empty;
 
         public class GetPublicationByAuthorHandler : IRequestHandler<GetPublicationByAuthorQuery, List<PublicationDto>>
         {
@@ -22,14 +22,14 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
 
             public async Task<List<PublicationDto>> Handle(GetPublicationByAuthorQuery query, CancellationToken cancellationToken)
             {
-                var authorExist = await _userManager.FindByIdAsync(query.IdAuthor);
+                var authorExist = await _userManager.FindByIdAsync(query.UserId);
                 if (authorExist == null || !authorExist.IsAuthor)
                 {
                     throw new Exception("Author not found");
                 }
 
                var publicationList = await _context.Publication
-               .Where(a => a.ApplicationUserId == query.IdAuthor)
+               .Where(a => a.ApplicationUserId == query.UserId)
                .Include(p => p.Genre)
                .Include(p => p.ApplicationUser)
                .Select(p => new PublicationDto

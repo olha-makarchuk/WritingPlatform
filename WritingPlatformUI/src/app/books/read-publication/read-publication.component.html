@@ -1,19 +1,18 @@
-<div *ngIf="publicationText" style="margin-top:100px">
-    <h2 style="text-align: center;">{{ publicationText.publicationName }}</h2>
+<h2>PDF Viewer</h2>
 
-    <div class="publication-container">
-        <div class="publication-text">
-            <p *ngFor="let paragraph of getCurrentPageText()">{{ paragraph }}</p>
-        </div>
-    </div>
+<div class="pdf-container">
+  
+  <pdf-viewer [src]="src"
+              [original-size]="false"
+              [show-all]="false"
+              [page]="currentPage"
+  ></pdf-viewer>
 
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <button (click)="previousPage()" [disabled]="publicationText.currentPage === 1">Previous Page</button>
-        <p style="margin: 0 10px;">{{publicationText.currentPage}} of {{publicationText.countOfPages}}</p>
-        <button (click)="nextPage()" [disabled]="publicationText.currentPage === publicationText.countOfPages">Next Page</button>
-    </div>
-</div>
-
-<div *ngIf="!publicationText">
-    <p>Loading publication...</p>
+  <button (click)="previousPage()" [disabled]="currentPage <= 1">Попередня сторінка ({{ currentPage - 1 > 0 ? currentPage - 1 : '' }})</button>
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Наступна сторінка ({{ currentPage + 1 <= totalPages ? currentPage + 1 : '' }})</button>
+  
+  <div class="paginator">
+    <input type="number" [(ngModel)]="currentPage" (change)="goToPage()">
+    <span>/ {{ totalPages }}</span>
+  </div>
 </div>

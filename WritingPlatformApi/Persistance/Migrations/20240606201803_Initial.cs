@@ -205,7 +205,8 @@ namespace Persistence.Migrations
                     DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FileKey = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     TitleKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountPages = table.Column<int>(type: "int", nullable: false),
+                    CountOfPages = table.Column<int>(type: "int", nullable: false),
+                    CountOfRewiews = table.Column<int>(type: "int", nullable: false),
                     bookDescription = table.Column<string>(type: "nvarchar(max)", maxLength: 2147483647, nullable: false)
                 },
                 constraints: table =>
@@ -246,6 +247,32 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comment_Publication_PublicationId",
+                        column: x => x.PublicationId,
+                        principalTable: "Publication",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRewiew",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rewiew = table.Column<int>(type: "int", maxLength: 500, nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PublicationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRewiew", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserRewiew_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRewiew_Publication_PublicationId",
                         column: x => x.PublicationId,
                         principalTable: "Publication",
                         principalColumn: "Id");
@@ -309,6 +336,16 @@ namespace Persistence.Migrations
                 name: "IX_Publication_GenreId",
                 table: "Publication",
                 column: "GenreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRewiew_ApplicationUserId",
+                table: "UserRewiew",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRewiew_PublicationId",
+                table: "UserRewiew",
+                column: "PublicationId");
         }
 
         /// <inheritdoc />
@@ -334,6 +371,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "SortByItem");
+
+            migrationBuilder.DropTable(
+                name: "UserRewiew");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

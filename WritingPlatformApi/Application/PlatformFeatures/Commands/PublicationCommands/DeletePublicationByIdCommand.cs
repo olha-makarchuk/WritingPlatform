@@ -14,14 +14,14 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
     public class DeletePublicationCommandHandler : IRequestHandler<DeletePublicationByIdCommand, Publication>
     {
         private readonly IApplicationDbContext _context;
-        private IApiClientGoogleDrive _client;
+        private readonly IBlobStorage _storage;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeletePublicationCommandHandler(IApplicationDbContext context, UserManager<ApplicationUser> userManager, IApiClientGoogleDrive client)
+        public DeletePublicationCommandHandler(IApplicationDbContext context, UserManager<ApplicationUser> userManager, IBlobStorage storage)
         {
             _context = context;
             _userManager = userManager;
-            _client = client;
+            _storage = storage;
         }
 
         public async Task<Publication> Handle(DeletePublicationByIdCommand command, CancellationToken cancellationToken)
@@ -29,6 +29,9 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
             var publication = await _context.Publication.Where(a => a.Id == command.Id)
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new Exception("Publication not Found");
+
+            await _storage.DeleteAsync(publication.FileKey);
+            await _storage.DeleteAsync(publication.TitleKey);
 
             var comments = await _context.Comment.Where(a => a.PublicationId == publication.Id).ToListAsync(cancellationToken);
             _context.Comment.RemoveRange(comments);
@@ -40,8 +43,6 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
             var publicationsUser = await _context.Publication
                 .Where(p=>p.ApplicationUserId == publication.ApplicationUserId)
                 .ToListAsync(cancellationToken);
-
-            //_client.DeleteFile(, "PublicationFolder");
 
             if (publicationsUser == null )
             {

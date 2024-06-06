@@ -5,15 +5,28 @@
       <div>
         <img class="publication-image" alt="Publication Image" [src]="'https://drive.google.com/thumbnail?id=' + publication.titleKey + '&sz=w1000'">
       </div>
-      <button [routerLink]="['/read-publication']" [queryParams]="{ publicationId: publication.publicationId, currentPage: 1 }" class="read-button" style="margin-top: 20px;" [disabled]="!isLoggedIn" [class.disabled-button]="!isLoggedIn">Читати</button>
+      <button [routerLink]="['/read-publication']" [queryParams]="{ fileKey: publication.fileKey}" class="read-button" style="margin-top: 20px;" [disabled]="!isLoggedIn" [class.disabled-button]="!isLoggedIn">Читати</button>
       <div *ngIf="!isLoggedIn">
         <p>Зареєструйтеся, щоб отримати доступ до книги</p>
+      </div>
+      <div *ngIf="isLoggedIn && !hasReviewed" class="rating-form">
+        <label for="rating">Додати оцінку (0-100):</label>
+        <input type="number" id="rating" [(ngModel)]="newRating" name="rating" min="0" max="100">
+        <button (click)="onSubmitReview()" class="read-button" style="margin-top: 20px;" [disabled]="isSubmittingReview">Додати оцінку</button>
+        <div *ngIf="ratingError" class="error-message">{{ ratingError }}</div>
+      </div>
+      <div *ngIf="isLoggedIn && hasReviewed">
+        <p>Ви вже залишили відгук.</p>
+        <button (click)="onDeleteReview()" class="delete-button" style="margin-top: 20px;">Видалити відгук</button>
+      </div>
+      <div *ngIf="!isLoggedIn">
+        <p>Зареєструйтеся, щоб додати оцінку</p>
       </div>
     </div>
     <div class="publication-content" style="margin-top: 50px;">
       <p><strong>Автор:</strong> {{ publication.author.firstName }}</p>
       <p><strong>Жанр:</strong> {{ publication.genreName }}</p>
-      <p><strong>Рейтинг:</strong> {{ publication.rating }}</p>
+      <p><strong>Рейтинг:</strong> {{ publication.rating }} ({{publication.countOfRewiews}} відгуків)</p>
       <p><strong>Дата публікації:</strong> {{ publication.datePublication | date }}</p>
     </div>
   </div>

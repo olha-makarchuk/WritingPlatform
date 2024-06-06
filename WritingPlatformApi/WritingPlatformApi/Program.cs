@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence.Context;
 using CorrelationId.DependencyInjection;
 using WritingPlatformApi.Modules;
+using Application.PlatformFeatures.Commands;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,9 @@ builder.Services.AddApplication();
 
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddScoped<IApiClientGoogleDrive, ApiClientGoogleDrive>();
+builder.Services.AddScoped<IBlobStorage, BlobStorage>();
+
+builder.Services.AddSingleton<BlobStorageConfig>();
 
 
 

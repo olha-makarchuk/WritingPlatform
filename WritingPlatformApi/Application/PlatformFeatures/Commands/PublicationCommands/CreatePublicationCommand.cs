@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 
 namespace Application.PlatformFeatures.Commands.PublicationCommands
 {
@@ -13,40 +12,42 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
     {
         public string PublicationName { get; set; } = string.Empty;
         public int GenreId { get; set; }
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
         public IFormFile FilePath { get; set; }
         public IFormFile TitlePath { get; set; }
-        public string bookDescription { get; set; } = string.Empty;
+        public string BookDescription { get; set; } = string.Empty;
     }
 
     public class CreatePublicationCommandHandler : IRequestHandler<CreatePublicationCommand, Publication>
     {
         private readonly IApplicationDbContext _context;
-        private IApiClientGoogleDrive _client;
+        private readonly IBlobStorage _storage;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        private readonly string _publicationFolder = "TempPublicationFolder";
-        private readonly string _titleFolder = "TempTitleFolder";
-
-        public CreatePublicationCommandHandler(IApplicationDbContext context, IApiClientGoogleDrive client, UserManager<ApplicationUser> userManager)
+        public CreatePublicationCommandHandler(IApplicationDbContext context, IBlobStorage storage, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _client = client;
+            _storage = storage;
             _userManager = userManager;
         }
 
         public async Task<Publication> Handle(CreatePublicationCommand command, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByNameAsync(command.UserName);
-
-            if (user == null)
+            if (command == null)
             {
-                throw new Exception("User not found");
+                throw new ArgumentNullException(nameof(command));
             }
+
+            ValidatePdfFile(command.FilePath);
+            ValidateJpegFile(command.TitlePath);
+
+            var user = await _userManager.FindByNameAsync(command.UserName)
+                ?? throw new InvalidOperationException("User not found");
 
             var existingPublications = await _context.Publication
                 .Include(u => u.ApplicationUser)
-                .Where(a => a.ApplicationUser.UserName == command.UserName).ToListAsync(cancellationToken);
+                .Where(a => a.ApplicationUser.UserName == command.UserName)
+                .ToListAsync(cancellationToken);
 
             if (!existingPublications.Any())
             {
@@ -54,64 +55,67 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
                 await _userManager.UpdateAsync(user);
             }
 
-            var publicationFilePath = await SaveFileAsync(command.FilePath, _publicationFolder);
-            var titleFilePath = await SaveFileAsync(command.TitlePath, _titleFolder);
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            var publicationFileName = $"{Guid.NewGuid()}_{timestamp}_{command.FilePath.FileName}";
+            var titleFileName = $"{Guid.NewGuid()}_{timestamp}_{command.TitlePath.FileName}";
 
+            int pageCount;
+            await using (var publicationStream = command.FilePath.OpenReadStream())
+            {
+                await _storage.PutContextAsync(publicationFileName, publicationStream);
+                publicationStream.Position = 0;
+                pageCount = GetPageCount(publicationStream);
+            }
 
-            var IdFile = _client.AddFile(publicationFilePath, "PublicationFolder");
-            var idTitle = _client.AddFile(titleFilePath, "TitleFolder");
-
-            int pageCount = GetPageCount(publicationFilePath);
+            await using (var titleStream = command.TitlePath.OpenReadStream())
+            {
+                await _storage.PutContextAsync(titleFileName, titleStream);
+            }
 
             var publication = new Publication
             {
                 DatePublication = DateTime.Now,
-                FileKey = IdFile,
-                TitleKey = idTitle,
+                FileKey = publicationFileName,
+                TitleKey = titleFileName,
                 GenreId = command.GenreId,
                 PublicationName = command.PublicationName,
                 Rating = 0,
-                CountPages = pageCount,
+                CountOfPages = pageCount,
                 ApplicationUserId = user.Id,
-                bookDescription = command.bookDescription
+                bookDescription = command.BookDescription
             };
 
-            _context.Publication.Add(publication);
+            await _context.Publication.AddAsync(publication, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
-            System.IO.File.Delete(publicationFilePath);
-            System.IO.File.Delete(titleFilePath);
 
             return publication;
         }
 
-        public static int GetPageCount(string filePath)
+        private static void ValidatePdfFile(IFormFile file)
         {
-            using (var pdfReader = new PdfReader(filePath))
+            if (file == null || file.ContentType != "application/pdf")
             {
-                return pdfReader.NumberOfPages;
+                throw new InvalidOperationException("Only PDF files are allowed for FilePath.");
             }
         }
 
-
-        private async Task<string> SaveFileAsync(IFormFile formFile, string destinationFolder)
+        private static void ValidateJpegFile(IFormFile file)
         {
-            if (!Directory.Exists(destinationFolder))
+            if (file == null || (file.ContentType != "image/jpeg" && file.ContentType != "image/jpg"))
             {
-                Directory.CreateDirectory(destinationFolder);
+                throw new InvalidOperationException("Only JPEG files are allowed for TitlePath.");
+            }
+        }
+
+        private static int GetPageCount(Stream filePath)
+        {
+            if (filePath == null)
+            {
+                throw new ArgumentNullException(nameof(filePath));
             }
 
-            var fileName = Path.GetFileName(formFile.FileName);
-            var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
-            var filePath = Path.Combine(destinationFolder, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await formFile.CopyToAsync(stream);
-            }
-
-            return filePath;
+            using var pdfReader = new PdfReader(filePath);
+            return pdfReader.NumberOfPages;
         }
     }
-
 }

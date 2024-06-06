@@ -19,6 +19,11 @@ export class PublicationComponent implements OnInit {
   login: string = '';
   newCommentText: string = '';
   loggedInUserId: string = '';
+  newRating: number | null = null;
+  ratingError: string = '';
+  hasReviewed = false;  // To track if the user has already reviewed
+  isSubmittingReview = false;  // To track if a review is being submitted
+  userReviewId: number | null = null;  // To store the user's review ID
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -58,6 +63,15 @@ export class PublicationComponent implements OnInit {
     this.userService.getComments(publicationId).subscribe(comments => {
       this.comments = comments;
     });
+
+    if (this.isLoggedIn && this.loggedInUserId) {
+      this.userService.getOwnRewiew(publicationId, this.loggedInUserId).subscribe(review => {
+        if (review) {
+          this.hasReviewed = true;
+          this.userReviewId = review.id;  // Assuming the review object has an ID
+        }
+      });
+    }
   }
   
   onSubmitComment(): void {
@@ -76,5 +90,38 @@ export class PublicationComponent implements OnInit {
       this.comments = this.comments.filter(comment => comment.commentId !== commentId);
     });
   }
-  
+
+  onSubmitReview(): void {
+    if (this.isSubmittingReview) {
+      return; // Prevent multiple submissions
+    }
+
+    if (this.newRating !== null && this.newRating >= 0 && this.newRating <= 100 && this.publication && !this.hasReviewed) {
+      this.isSubmittingReview = true;  // Set flag to indicate submission in progress
+      this.userService.addRewiew(this.publication.publicationId, this.newRating, this.loggedInUserId).subscribe(() => {
+        this.userService.getPublicationById(this.publication!.publicationId).subscribe(publication => {
+          this.publication = publication;
+        });
+        this.hasReviewed = true; // Mark as reviewed
+        this.isSubmittingReview = false; // Reset the submission flag
+        this.ratingError = '';
+      }, () => {
+        this.isSubmittingReview = false; // Reset the submission flag on error
+      });
+    } else {
+      this.ratingError = 'Please enter a rating between 0 and 100.';
+    }
+  }
+
+  onDeleteReview(): void {
+    if (this.userReviewId) {
+      this.userService.deleteRewiew(this.userReviewId).subscribe(() => {
+        this.hasReviewed = false;
+        this.userReviewId = null;
+        this.userService.getPublicationById(this.publication!.publicationId).subscribe(publication => {
+          this.publication = publication;
+        });
+      });
+    }
+  }
 }

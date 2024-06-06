@@ -6,13 +6,19 @@
   <div style="margin-top: 20px;" class="author-list">
     <h3 class="text-center mt-5 mb-3 text-warning" *ngIf="authors.length === 0">Немає авторів...</h3>
     <div class="list-group">
-      <a [routerLink]="['/all-publications/by-author', author.idAuthor]" class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let author of authors">
+      <a [routerLink]="['/all-publications/by-author', author.idAuthor]" class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let author of getPaginatedAuthors()">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{ author.firstName }} {{ author.lastName }}</h5>
           <small>{{ author.countPublication }} Публікацій</small>
         </div>
         <p class="mb-1">{{ author.userName }}</p>
       </a>
+    </div>
+
+    <div class="pagination-controls">
+      <button *ngIf="currentPage > 1" (click)="onPageChange(currentPage - 1)">Previous Page</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button *ngIf="currentPage < totalPages" (click)="onPageChange(currentPage + 1)">Next Page</button>
     </div>
   </div>
 </div>

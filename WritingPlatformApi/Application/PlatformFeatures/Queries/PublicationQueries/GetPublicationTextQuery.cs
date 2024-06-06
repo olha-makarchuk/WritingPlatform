@@ -34,7 +34,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                     PublicationId = publication.Id,
                     PublicationName = publication.PublicationName,
                     Text = text,
-                    CountOfPages = publication.CountPages,
+                    CountOfPages = publication.CountOfPages,
                     CurrentPage = query.CurrentPage
                 };
 

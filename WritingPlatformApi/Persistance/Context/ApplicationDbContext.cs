@@ -16,7 +16,7 @@ namespace Persistence.Context
         public DbSet<Publication> Publication { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<SortByItem> SortByItem { get; set; }
-
+        public DbSet<UserRewiew> UserRewiew { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
@@ -27,17 +27,17 @@ namespace Persistence.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            /*modelBuilder.Entity<Comment>()
-                .HasOne(c => c.ApplicationUser)
-                .WithMany()
-                .HasForeignKey(c => c.ApplicationUserId)
-                .OnDelete(DeleteBehavior.NoAction); // or DeleteBehavior.Cascade*/
-
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Publication)
                 .WithMany()
                 .HasForeignKey(c => c.PublicationId)
-                .OnDelete(DeleteBehavior.NoAction); // or DeleteBehavior.Cascade
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UserRewiew>()
+                .HasOne(c => c.Publication)
+                .WithMany()
+                .HasForeignKey(c => c.PublicationId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

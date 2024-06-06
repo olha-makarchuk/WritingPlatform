@@ -12,7 +12,7 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240603200157_Initial")]
+    [Migration("20240606201803_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -181,7 +181,10 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CountPages")
+                    b.Property<int>("CountOfPages")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountOfRewiews")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DatePublication")
@@ -240,6 +243,34 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SortByItem");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserRewiew", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rewiew")
+                        .HasMaxLength(500)
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("PublicationId");
+
+                    b.ToTable("UserRewiew");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -411,6 +442,25 @@ namespace Persistence.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserRewiew", b =>
+                {
+                    b.HasOne("Domain.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Publication", "Publication")
+                        .WithMany()
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Publication");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

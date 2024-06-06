@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import {Author} from "../shared/models/author";
 import {Genre} from "../shared/models/genre";
 import { Publication, SortByItem, SortPublicationQuery } from '../shared/models/publication';
-import { PublicationText } from '../shared/models/publication-text';
 import { CreateComment } from '../shared/models/create-comment';
 import { Comments } from '../shared/models/get-comment';
 import { PublicationCreate } from '../shared/models/publication-create';
 import { PersonalInformation } from '../shared/models/personal-informatin';
 import { PersonalInformationChange } from '../shared/models/personal-informatin-change';
+import { Rewiew } from '../shared/models/rewiew';
 
 
 const API_URL = 'https://localhost:7265/api/v1.0/';
@@ -34,7 +34,7 @@ export class UserService {
   }
 
   getPublicationsByAuthor(authorId: string): Observable<Publication[]> {
-    const body = { IdAuthor: authorId };
+    const body = { userId: authorId };
     return this.http.post<Publication[]>(API_URL + 'Publication/by-author', body);
   }
 
@@ -50,11 +50,6 @@ export class UserService {
   getPublicationById(publicationId: number): Observable<Publication> {
     const body = { IdPublication: publicationId };
     return this.http.post<Publication>(API_URL + 'Publication/by-id', body);
-  }
-
-  getPublicationText(publicationId: number, currentPage: number): Observable<PublicationText> {
-    const body = { IdPublication: publicationId,  currentPage: currentPage};
-    return this.http.post<PublicationText>(API_URL + 'Publication/text', body);
   }
 
   createComment(publicationId: number, commentText: string, applicationUserId: string): Observable<CreateComment> {
@@ -120,6 +115,20 @@ export class UserService {
 
   deleteAccount(accountId: string): Observable<void> {
     return this.http.delete<void>(API_URL + 'UserAccount/' + accountId);
+  }
+
+  addRewiew(publicationId: number, rating: number, userId: string ): Observable<void> {
+    const body = { idPublication: publicationId,  rating: rating, userId: userId};
+    return this.http.post<void>(API_URL + 'Rewiew/rewiew', body);
+  }
+
+  getOwnRewiew(publicationId: number, userId: string ): Observable<Rewiew> {
+    const body = { publicationId: publicationId, userId: userId};
+    return this.http.post<Rewiew>(API_URL + 'Rewiew/own-rewiew', body);
+  }
+
+  deleteRewiew(rewiewId: number): Observable<void> {
+    return this.http.delete<void>(API_URL + 'Rewiew/' + rewiewId);
   }
 }
 

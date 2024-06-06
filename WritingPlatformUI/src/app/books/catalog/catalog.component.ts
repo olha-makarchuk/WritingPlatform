@@ -20,6 +20,10 @@ export class CatalogComponent implements OnInit {
   };
   sortByItems: SortByItem[] = []; // Array to store SortByItem objects received from the service
   sortDirection: string = 'asc';
+  currentPage: number = 1;
+  pageSize: number = 3; 
+  totalPages: number = 0;
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -43,6 +47,7 @@ export class CatalogComponent implements OnInit {
   sortPublications(): void {
     this.userService.sortPublications(this.sortQuery, this.sortDirection).subscribe(publications => {
       this.publications = publications;
+      this.totalPages = Math.ceil(publications.length / this.pageSize);
     });
   }
   
@@ -67,16 +72,26 @@ export class CatalogComponent implements OnInit {
     const genreId = Number(target.value);
     const index = this.sortQuery.genreIds.indexOf(genreId);
     if (index === -1) {
-      // Якщо жанр ще не вибраний, додайте його до масиву
+      // If genre is not already selected, add it to the array
       this.sortQuery.genreIds.push(genreId);
     } else {
-      // Якщо жанр вже вибраний, видаліть його з масиву
+      // If genre is already selected, remove it from the array
       this.sortQuery.genreIds.splice(index, 1);
     }
-    this.sortPublications(); // Виклик методу сортування після зміни жанрів
+    this.sortPublications(); // Call sort method after genre change
   }
   
-  onPageChange(): void {
+  onPageChange(pageNumber: number): void {
+    this.currentPage = pageNumber;
+  }
+
+  getPaginatedPublications(): Publication[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = Math.min(startIndex + this.pageSize, this.publications.length);
+    return this.publications.slice(startIndex, endIndex);
+  }
+
+  onPageInputChange(): void {
     // Ensure startPage is less than or equal to endPage
     if (this.sortQuery.startPage > this.sortQuery.endPage) {
       // Swap startPage and endPage if startPage is greater than endPage
@@ -86,8 +101,8 @@ export class CatalogComponent implements OnInit {
     }
     this.sortPublications();
   }
+
   onYearPublicationChange(): void {
     this.sortPublications();
   }
-  // Add methods for handling startPage, endPage, and yearPublication changes if needed
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from "../../_services/user.service";
-import { PublicationText } from '../../shared/models/publication-text';
+import { Publication } from '../../shared/models/publication';
 
 @Component({
   selector: 'app-read-publication',
@@ -9,44 +9,45 @@ import { PublicationText } from '../../shared/models/publication-text';
   styleUrls: ['./read-publication.component.css']
 })
 export class ReadPublicationComponent implements OnInit {
-  publicationText: PublicationText | null = null;
+  publication: Publication | null = null;
+  src: string = ""; 
+  fileKey: string | null = null; 
+  countOfPages: number = 0; 
+  currentPage = 1;
+  totalPages: number=0;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const publicationId = params['publicationId'];
-      const currentPage = params['currentPage'];
-
-      if (publicationId) {
-        this.userService.getPublicationText(publicationId, currentPage).subscribe(text => {
-          this.publicationText = text;
-        });
+      this.fileKey = params['fileKey']; 
+      if (this.fileKey) { 
+        this.src = `https://booksinshops.blob.core.windows.net/books-in-shop/${this.fileKey}`;
+      }
+      this.countOfPages = params['countOfPages']; 
+      if (this.countOfPages) { 
+        this.totalPages = this.countOfPages;
       }
     });
   }
 
-  getCurrentPageText(): string[] {
-    if (this.publicationText) {
-      const paragraphsPerPage = this.publicationText.text.split('\n').length / this.publicationText.countOfPages;
-      const startIndex = (this.publicationText.currentPage - 1) * paragraphsPerPage;
-      const endIndex = startIndex + paragraphsPerPage;
-      return this.publicationText.text.split('\n').slice(startIndex, endIndex);
-    }
-    return [];
-  }
-
-  nextPage(): void {
-    if (this.publicationText && this.publicationText.currentPage < this.publicationText.countOfPages) {
-      const nextPage = this.publicationText.currentPage + 1;
-      this.router.navigate([], { queryParams: { currentPage: nextPage }, queryParamsHandling: 'merge' });
+  goToPage() {
+    if (this.currentPage < 1) {
+      this.currentPage = 1;
+    } else if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
     }
   }
 
-  previousPage(): void {
-    if (this.publicationText && this.publicationText.currentPage > 1) {
-      const previousPage = this.publicationText.currentPage - 1;
-      this.router.navigate([], { queryParams: { currentPage: previousPage }, queryParamsHandling: 'merge' });
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
     }
   }
 }

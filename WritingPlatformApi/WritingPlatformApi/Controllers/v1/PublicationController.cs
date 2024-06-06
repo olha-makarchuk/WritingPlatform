@@ -2,6 +2,7 @@
 using MediatR;
 using Application.PlatformFeatures.Queries.PublicationQueries;
 using Application.PlatformFeatures.Commands.PublicationCommands;
+using Application.PlatformFeatures.Commands.RewiewCommand;
 
 namespace WritingPlatformApi.Controllers.v1
 {
@@ -13,9 +14,7 @@ namespace WritingPlatformApi.Controllers.v1
         public PublicationController(ILogger<PublicationController> logger, IMediator mediator) : base(mediator)
         {
             _logger = logger;
-        }
-
-        [HttpPost]
+        }        [HttpPost]
         public async Task<IActionResult> Create(CreatePublicationCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -60,6 +59,13 @@ namespace WritingPlatformApi.Controllers.v1
         public async Task<IActionResult> DeletePubicationById(int publicationId)
         {
             return Ok(await Mediator.Send(new DeletePublicationByIdCommand() { Id= publicationId }));
+        }
+
+        [HttpPost]
+        [Route("rewiew")]
+        public async Task<IActionResult> AddRewiew(CreateRewiewCommand command)
+        {
+            return Ok(await Mediator.Send(command));
         }
     }
 }

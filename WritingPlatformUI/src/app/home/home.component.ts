@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 
 export class HomeComponent {
-  src = 'https://booksinshops.blob.core.windows.net/books-in-shop/Макарчук_Ольга_ІК-12_МКР-2 (2).pdf';
+  src = 'https://booksinshops.blob.core.windows.net/books-in-shop/c5be4063-61ec-4d35-b1ab-502bf0345598_Макарчук_Ольга_КР-2.pdf';
   currentPage = 1;
   totalPages = 10; // Загальна кількість сторінок у PDF
 

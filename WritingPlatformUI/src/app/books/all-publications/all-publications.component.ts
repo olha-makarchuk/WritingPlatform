@@ -11,7 +11,7 @@ import { UserService } from "../../_services/user.service";
 export class AllPublicationsComponent implements OnInit {
   publications: Array<Publication> = [];
   currentPage: number = 1;
-  pageSize: number = 3; // Adjust this value to control items per page
+  pageSize: number = 3; 
   totalPages: number = 0;
   
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }

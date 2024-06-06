@@ -31,7 +31,10 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                    PublicationName = p.PublicationName,
                    GenreName = p.Genre.Name,
                    Rating = p.Rating,
+                   FileKey = p.FileKey,
                    TitleKey = p.TitleKey,
+                   CountOfPages = p.CountOfPages,
+                   CountOfRewiews = p.CountOfRewiews,
                    Author = new Author
                    {
                        UserName = p.ApplicationUser.UserName,
@@ -57,8 +60,11 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
         public string GenreName { get; set; }
         public int Rating { get; set; }
         public string TitleKey { get; set; }
+        public string FileKey { get; set; }
         public DateTime DatePublication { get; set; }
         public Author Author {  get; set; }
         public string bookDescription { get; set; }
+        public int CountOfPages { get; set; }
+        public int CountOfRewiews { get; set; }
     }
 }
