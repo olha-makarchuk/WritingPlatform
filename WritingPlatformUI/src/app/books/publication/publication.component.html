@@ -3,7 +3,7 @@
     <div class="publication-left">
       <h2 class="publication-title">{{ publication.publicationName }}</h2>
       <div>
-        <img class="publication-image" alt="Publication Image" [src]="'https://drive.google.com/thumbnail?id=' + publication.titleKey + '&sz=w1000'">
+        <img class="publication-image" alt="Publication Image" [src]="'https://booksinshops.blob.core.windows.net/books-in-shop/' + publication.titleKey">
       </div>
       <button [routerLink]="['/read-publication']" [queryParams]="{ fileKey: publication.fileKey}" class="read-button" style="margin-top: 20px;" [disabled]="!isLoggedIn" [class.disabled-button]="!isLoggedIn">Читати</button>
       <div *ngIf="!isLoggedIn">

@@ -130,5 +130,10 @@ export class UserService {
   deleteRewiew(rewiewId: number): Observable<void> {
     return this.http.delete<void>(API_URL + 'Rewiew/' + rewiewId);
   }
+
+  getPublicationsByName(PublicationName: string): Observable<Publication[]> {
+    const body = { publicationName: PublicationName };
+    return this.http.post<Publication[]>(API_URL + 'Publication/by-name', body);
+  }
 }
 

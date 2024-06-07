@@ -11,23 +11,28 @@ import { UserService } from "../../_services/user.service";
 export class AllPublicationsComponent implements OnInit {
   publications: Array<Publication> = [];
   currentPage: number = 1;
-  pageSize: number = 3; 
+  pageSize: number = 3;
   totalPages: number = 0;
-  
+  searchQuery: string = ''; // Add this line
+
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     const genreId = this.route.snapshot.params['genreId'];
     const authorId = this.route.snapshot.params['authorId'];
-    this.fetchPublications(genreId, authorId);
+    const publicationName = this.route.snapshot.params['publicationName'];
+
+    this.fetchPublications(genreId, authorId, publicationName);
   }
 
-   fetchPublications(genreId?: number, authorId?: string): void {
+  fetchPublications(genreId?: number, authorId?: string, publicationName?: string): void {
     let observable;
     if (genreId) {
       observable = this.userService.getPublicationsByGenre(genreId);
     } else if (authorId) {
       observable = this.userService.getPublicationsByAuthor(authorId);
+    } else if (publicationName) {
+      observable = this.userService.getPublicationsByName(publicationName);
     } else {
       observable = this.userService.getAllPublications();
     }
@@ -36,6 +41,10 @@ export class AllPublicationsComponent implements OnInit {
       this.publications = publications;
       this.totalPages = Math.ceil(publications.length / this.pageSize);
     });
+  }
+
+  searchPublicationsByName(): void { // Add this method
+    this.fetchPublications(undefined, undefined, this.searchQuery);
   }
 
   onPageChange(pageNumber: number) {

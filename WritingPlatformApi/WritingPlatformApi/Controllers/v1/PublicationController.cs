@@ -67,5 +67,13 @@ namespace WritingPlatformApi.Controllers.v1
         {
             return Ok(await Mediator.Send(command));
         }
+
+
+        [HttpPost]
+        [Route("by-name")]
+        public async Task<IActionResult> GetPubicationsByName(GetPublicationByNameQuery query)
+        {
+            return Ok(await Mediator.Send(query));
+        }
     }
 }

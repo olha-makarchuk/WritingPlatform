@@ -5,13 +5,21 @@
 }
 
 .genre-item {
-  margin-bottom: 30px;
+  margin-bottom: 100px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s;
+}
+
+.genre-image {
+  width: 80px;
+  height:80px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .genre-item:hover {
@@ -23,7 +31,7 @@
   width: 600px;
   text-decoration: none;
   color: black;
-  padding: 15px;
+  padding: 5px;
 }
 
 .genre-icon {

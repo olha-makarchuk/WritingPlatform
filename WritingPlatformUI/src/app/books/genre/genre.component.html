@@ -10,7 +10,7 @@
         <div class="col-md-4 col-sm-6" *ngFor="let genre of genres">
           <div class="genre-item">
             <a [routerLink]="['/all-publications/by-genre', genre.id]" class="genre-link d-flex align-items-center">
-              <img alt="#" style="width: 40px; height: 40px;" src="https://drive.google.com/thumbnail?id={{genre.fileKey}}&sz=w1000">
+              <img class="genre-image" alt="Genre Image" [src]="'https://booksinshops.blob.core.windows.net/books-in-shop/' + genre.fileKey">
               <div style="margin-left: 10px;" class="genre-name">{{ genre.name }}</div>
             </a>
           </div>

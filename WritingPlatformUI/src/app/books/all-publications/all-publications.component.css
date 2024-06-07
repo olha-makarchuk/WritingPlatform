@@ -23,4 +23,14 @@
     font-style: italic;
     color: #888;
   }
+  .search-bar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar-container input {
+    flex: 1;
+    margin-right: 10px;
+  }
   

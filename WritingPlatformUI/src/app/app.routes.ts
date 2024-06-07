@@ -24,6 +24,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'all-publications/by-author/:authorId', component: AllPublicationsComponent },
   { path: 'all-publications/by-genre/:genreId', component: AllPublicationsComponent },
+  { path: 'all-publications/by-name/:publicationId', component: AllPublicationsComponent },
   { path: 'all-publications', component: AllPublicationsComponent },
   { path: 'publication/:publicationId', component: PublicationComponent },
   { path: 'authors', component: AuthorComponent },
