@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
-using Application.PlatformFeatures.Queries.GenreQueries;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.PlatformFeatures.Commands.GenreCommands
@@ -10,32 +10,38 @@ namespace Application.PlatformFeatures.Commands.GenreCommands
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public string FilePath { get; set; } = null!;
+        public IFormFile FilePath { get; set; } = null!;
     }
     public class UpdateGenreCommandHandler : IRequestHandler<UpdateGenreCommand, Genre>
     {
         private readonly IApplicationDbContext _context;
-        private IApiClientGoogleDrive _client;
+        private readonly IBlobStorage _storage;
 
-        public UpdateGenreCommandHandler(IApplicationDbContext context, IApiClientGoogleDrive client)
+        public UpdateGenreCommandHandler(IApplicationDbContext context, IBlobStorage storage)
         {
             _context = context;
-            _client = client;
+            _storage = storage;
         }
 
         public async Task<Genre> Handle(UpdateGenreCommand command, CancellationToken cancellationToken)
         {
-            var genre = await _context.Genre.Where(a => a.Id == command.Id).FirstOrDefaultAsync(cancellationToken)
+            var genre = await _context.Genre.FirstOrDefaultAsync(a => a.Id == command.Id, cancellationToken)
                 ?? throw new Exception("Genre not found");
 
-            _client.UpdateFile(command.FilePath, "GenreFolder");
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            var genreFileName = $"{Guid.NewGuid()}_{timestamp}_{command.FilePath.FileName}";
 
-            if(command.Name != genre.Name)
+            await using (var genreStream = command.FilePath.OpenReadStream())
             {
-                genre.Name = command.Name;
-                _context.Genre.Add(genre);
-                await _context.SaveChangesAsync();
+                await _storage.PutContextAsync(genreFileName, genreStream);
             }
+
+            await _storage.DeleteAsync(genre.FileKey);
+
+            genre.FileKey = genreFileName;
+            genre.Name = command.Name;
+
+            await _context.SaveChangesAsync();
 
             return genre;
         }

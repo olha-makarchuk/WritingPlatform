@@ -2,7 +2,6 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Linq;
 
 namespace Application.PlatformFeatures.Commands.GenreCommands
 {
@@ -11,24 +10,22 @@ namespace Application.PlatformFeatures.Commands.GenreCommands
         public string Name { get; set; } = null!;
         public IFormFile FilePath { get; set; } = null!;
     }
-    public class CreateMovieCommandHandler : IRequestHandler<CreateGenreCommand, Genre>
+    public class CreateGenreCommandHandler : IRequestHandler<CreateGenreCommand, Genre>
     {
         private readonly IApplicationDbContext _context;
-        private IApiClientGoogleDrive _client;
         private readonly IBlobStorage _storage;
 
-        public CreateMovieCommandHandler(IApplicationDbContext context, IApiClientGoogleDrive client, IBlobStorage storage)
+        public CreateGenreCommandHandler(IApplicationDbContext context,IBlobStorage storage)
         {
             _context = context;
-            _client = client;
             _storage = storage;
         }
 
         public async Task<Genre> Handle(CreateGenreCommand command, CancellationToken cancellationToken)
         {
-            if (command == null)
+            if (command.Name == null && command.FilePath == null)
             {
-                throw new ArgumentNullException(nameof(command));
+                throw new Exception("Fields cannot be null");
             }
 
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");

@@ -45,7 +45,6 @@ namespace WritingPlatformApi.Controllers.v1
 
                 var user = await Mediator.Send(command);
 
-                //return CreatedAtAction(nameof(Register), user);
                 return Ok();
             }
             catch (Exception ex)

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Application.Interfaces
+namespace Application.Services
 {
     public class BlobStorageConfig
     {

@@ -23,5 +23,14 @@ namespace WritingPlatformApi.Controllers.v1
         {
             return Ok(await Mediator.Send(command));
         }
+
+
+        [HttpPost]
+        [Route("sort")]
+        public async Task<IActionResult> Sort(SortPublicationQuery query)
+        {
+            var a = await Mediator.Send(query);
+            return Ok(a);
+        }
     }
 }

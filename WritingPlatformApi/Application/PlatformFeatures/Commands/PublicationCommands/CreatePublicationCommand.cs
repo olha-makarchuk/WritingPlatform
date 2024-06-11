@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using iTextSharp.text.pdf;
 using MediatR;
@@ -12,7 +13,7 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
     {
         public string PublicationName { get; set; } = string.Empty;
         public int GenreId { get; set; }
-        public string UserName { get; set; } = string.Empty;
+        public string UserId { get; set; } = string.Empty;
         public IFormFile FilePath { get; set; }
         public IFormFile TitlePath { get; set; }
         public string BookDescription { get; set; } = string.Empty;
@@ -23,30 +24,30 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
         private readonly IApplicationDbContext _context;
         private readonly IBlobStorage _storage;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IPdfReaderService _pdfReaderService;
 
-        public CreatePublicationCommandHandler(IApplicationDbContext context, IBlobStorage storage, UserManager<ApplicationUser> userManager)
+        public CreatePublicationCommandHandler(IApplicationDbContext context, IBlobStorage storage, UserManager<ApplicationUser> userManager, IPdfReaderService pdfReaderService)
         {
             _context = context;
             _storage = storage;
             _userManager = userManager;
+            _pdfReaderService = pdfReaderService;
         }
 
         public async Task<Publication> Handle(CreatePublicationCommand command, CancellationToken cancellationToken)
         {
-            if (command == null)
-            {
-                throw new ArgumentNullException(nameof(command));
-            }
-
             ValidatePdfFile(command.FilePath);
             ValidateJpegFile(command.TitlePath);
 
-            var user = await _userManager.FindByNameAsync(command.UserName)
+            var user = await _userManager.FindByIdAsync(command.UserId)
                 ?? throw new InvalidOperationException("User not found");
+
+            var genre = await _context.Genre.FirstOrDefaultAsync(u => u.Id == command.GenreId)
+                ?? throw new InvalidOperationException("Genre not found");
 
             var existingPublications = await _context.Publication
                 .Include(u => u.ApplicationUser)
-                .Where(a => a.ApplicationUser.UserName == command.UserName)
+                .Where(a => a.ApplicationUser.Id == command.UserId)
                 .ToListAsync(cancellationToken);
 
             if (!existingPublications.Any())
@@ -64,7 +65,7 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
             {
                 await _storage.PutContextAsync(publicationFileName, publicationStream);
                 publicationStream.Position = 0;
-                pageCount = GetPageCount(publicationStream);
+                pageCount = _pdfReaderService.GetPageCount(publicationStream);
             }
 
             await using (var titleStream = command.TitlePath.OpenReadStream())
@@ -105,17 +106,6 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
             {
                 throw new InvalidOperationException("Only JPEG files are allowed for TitlePath.");
             }
-        }
-
-        private static int GetPageCount(Stream filePath)
-        {
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
-            using var pdfReader = new PdfReader(filePath);
-            return pdfReader.NumberOfPages;
         }
     }
 }

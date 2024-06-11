@@ -66,7 +66,7 @@ export class UserService {
     const formData: FormData = new FormData();
     formData.append('publicationName', publication.publicationName);
     formData.append('genreId', publication.genreId.toString());
-    formData.append('userName', publication.userName);
+    formData.append('userId', publication.userId);
     formData.append('filePath', publication.filePath, publication.filePath.name);
     formData.append('titlePath', publication.titlePath, publication.titlePath.name);
     formData.append('bookDescription', publication.bookDescription);
@@ -106,7 +106,7 @@ export class UserService {
       sortBy: query.sortByItemId,
       sortDirection: sortDirection
     };
-    return this.http.post<Publication[]>(API_URL + 'Catalog', body);
+    return this.http.post<Publication[]>(API_URL + 'SortByItem/sort', body);
   }
 
   deletePublication(publicationId: number): Observable<void> {

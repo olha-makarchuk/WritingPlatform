@@ -12,24 +12,30 @@ namespace Application.PlatformFeatures.Commands.CommentCommands
         public int PublicationId { get; set; }
     }
 
-    public class CreateMovieCommandHandler : IRequestHandler<CreateCommentCommand, Comment>
+    public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, Comment>
     {
         private readonly IApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateMovieCommandHandler(IApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CreateCommentCommandHandler(IApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        public async Task<Comment> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
+        public async Task<Comment> Handle(CreateCommentCommand command, CancellationToken cancellationToken)
         {
+            var user = await _userManager.FindByIdAsync(command.ApplicationUserId)
+                ?? throw new Exception($"User with ID {command.ApplicationUserId} not found.");
+
+            var publication = _context.Publication.Where(u => u.Id == command.PublicationId)
+                ?? throw new Exception($"Publication with ID {command.PublicationId} not found.");
+
             var comment = new Comment
             {
-                ApplicationUserId = request.ApplicationUserId,
-                CommentText = request.CommentText,
-                PublicationId = request.PublicationId
+                ApplicationUserId = command.ApplicationUserId,
+                CommentText = command.CommentText,
+                PublicationId = command.PublicationId
             };
 
             _context.Comment.Add(comment);

@@ -7,26 +7,25 @@ namespace Application.PlatformFeatures.Commands.CommentCommands
 {
     public class DeleteCommentCommand : IRequest<Comment>
     {
-        public int CommentId { get; set; } 
+        public int CommentId { get; set; }
     }
 
     public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, Comment>
     {
         private readonly IApplicationDbContext _context;
-        private IApiClientGoogleDrive _client;
 
-        public DeleteCommentCommandHandler(IApplicationDbContext context, IApiClientGoogleDrive client)
+        public DeleteCommentCommandHandler(IApplicationDbContext context)
         {
             _context = context;
-            _client = client;
         }
 
         public async Task<Comment> Handle(DeleteCommentCommand command, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comment.Where(u => u.Id == command.CommentId).FirstOrDefaultAsync();
-            
+            var comment = await _context.Comment.FirstOrDefaultAsync(u => u.Id == command.CommentId, cancellationToken)
+                ?? throw new Exception($"Comment with ID {command.CommentId} not found.");
+
             _context.Comment.Remove(comment);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return comment;
         }

@@ -4,7 +4,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.PlatformFeatures.Queries.Catalog
+namespace Application.PlatformFeatures.Queries.SortByItemQueries
 {
     public class SortPublicationQuery : IRequest<List<PublicationDtoSort>>
     {
@@ -13,7 +13,7 @@ namespace Application.PlatformFeatures.Queries.Catalog
         public int EndPage { get; set; }
         public int YearPublication { get; set; }
         public int SortBy { get; set; }
-        public string SortDirection {  get; set; }
+        public string SortDirection { get; set; }
 
         public class SortPublicationQueryHandler : IRequestHandler<SortPublicationQuery, List<PublicationDtoSort>>
         {

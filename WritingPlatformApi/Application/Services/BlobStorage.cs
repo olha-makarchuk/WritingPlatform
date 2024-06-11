@@ -1,10 +1,9 @@
 ﻿using Application.Interfaces;
 using Azure;
 using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
 using System.Diagnostics;
 
-namespace Application.PlatformFeatures.Commands
+namespace Application.Services
 {
     public class BlobStorage : IBlobStorage
     {

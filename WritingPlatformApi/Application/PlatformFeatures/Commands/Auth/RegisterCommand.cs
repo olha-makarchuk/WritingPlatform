@@ -43,7 +43,8 @@ namespace Application.PlatformFeatures.Commands.Auth
                 RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7),
                 UserName = request.UserName,
             };
-            var createdUserResult = await _userManager.CreateAsync(user, request.Password) ?? throw new Exception();
+
+            var createdUserResult = await _userManager.CreateAsync(user, request.Password);
 
             if (!createdUserResult.Succeeded) throw new Exception("User creation failed! Please check user details and try again.");
 

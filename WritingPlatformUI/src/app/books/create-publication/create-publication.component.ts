@@ -33,7 +33,7 @@ export class CreatePublicationComponent implements OnInit {
 
     const user = this.tokenStorageService.getUser();
     if (user) {
-      this.login = user.userName || null;
+      this.login = user.userId || null;
     }
   }
 
@@ -51,7 +51,7 @@ export class CreatePublicationComponent implements OnInit {
       const publication: PublicationCreate = {
         publicationName: this.publicationName,
         genreId: this.genreId,
-        userName: this.login,
+        userId: this.login,
         filePath: this.filePath,
         titlePath: this.titlePath,
         bookDescription: this.bookDescription

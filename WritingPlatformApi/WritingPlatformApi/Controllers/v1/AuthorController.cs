@@ -18,12 +18,5 @@ namespace WritingPlatformApi.Controllers.v1
 
             return Ok(authors);
         }
-        /*
-
-        [HttpGet]
-        public async Task<IActionResult> GetComments(User request)
-        {
-            return null;
-        }*/
     }
 }

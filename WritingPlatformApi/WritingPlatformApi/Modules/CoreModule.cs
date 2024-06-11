@@ -24,10 +24,7 @@ namespace WritingPlatformApi.Modules
                    .AsImplementedInterfaces()
                    .WithTransientLifetime());
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            });
+            
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
@@ -44,9 +41,6 @@ namespace WritingPlatformApi.Modules
                     In = ParameterLocation.Header,
                     Description = "Enter the Bearer Authorization string as following: `Generated-JWT-Token`",
                     Type = SecuritySchemeType.Http,
-                    // or
-                    // Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
-                    //Type = SecuritySchemeType.ApiKey,
                     BearerFormat = "JWT",
                     Scheme = "Bearer"
                 });
@@ -67,11 +61,6 @@ namespace WritingPlatformApi.Modules
                     }
                 });
             });
-
-            // For Identity  
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<ApplicationDbContext>()
-                            .AddDefaultTokenProviders();
 
             // Adding Authentication  
             services.AddAuthentication(options =>

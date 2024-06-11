@@ -1,7 +1,7 @@
 export interface PublicationCreate {
         publicationName: string;
         genreId: number;
-        userName: string;
+        userId: string;
         filePath: File;
         titlePath: File;
         bookDescription: string;
