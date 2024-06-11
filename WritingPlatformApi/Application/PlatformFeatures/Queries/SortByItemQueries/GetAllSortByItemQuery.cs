@@ -11,12 +11,10 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
         public class GetAllSortByItemQueryHandler : IRequestHandler<GetAllSortByItemQuery, IEnumerable<SortByItem>>
         {
             private readonly IApplicationDbContext _context;
-            private IApiClientGoogleDrive _client;
 
-            public GetAllSortByItemQueryHandler(IApplicationDbContext context, IApiClientGoogleDrive client)
+            public GetAllSortByItemQueryHandler(IApplicationDbContext context)
             {
                 _context = context;
-                _client = client;
             }
 
             public async Task<IEnumerable<SortByItem>> Handle(GetAllSortByItemQuery request, CancellationToken cancellationToken)

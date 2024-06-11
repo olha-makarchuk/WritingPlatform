@@ -11,12 +11,10 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
         public class GetPublicationByIdQueryHandler : IRequestHandler<GetPublicationByIdQuery, PublicationTextDto>
         {
             private readonly IApplicationDbContext _context;
-            private IApiClientGoogleDrive _client;
 
-            public GetPublicationByIdQueryHandler(IApplicationDbContext context, IApiClientGoogleDrive client)
+            public GetPublicationByIdQueryHandler(IApplicationDbContext context)
             {
                 _context = context;
-                _client = client;
             }
 
             public async Task<PublicationTextDto> Handle(GetPublicationByIdQuery query, CancellationToken cancellationToken)
