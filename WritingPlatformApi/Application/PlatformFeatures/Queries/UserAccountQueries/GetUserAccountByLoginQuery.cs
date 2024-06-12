@@ -7,7 +7,7 @@ namespace Application.PlatformFeatures.Queries.UserAccountQueries
 {
     public class GetUserAccountByLoginQuery : IRequest<PersonalInformationResponse>
     {
-        public string UserName { get; set; }
+        public string UserId { get; set; }
     }
 
     public class GetUserAccountByLoginQueryHandler : IRequestHandler<GetUserAccountByLoginQuery, PersonalInformationResponse>
@@ -23,7 +23,7 @@ namespace Application.PlatformFeatures.Queries.UserAccountQueries
 
         public async Task<PersonalInformationResponse> Handle(GetUserAccountByLoginQuery query, CancellationToken cancellationToken)
         {
-            var user = _userManager.FindByNameAsync(query.UserName).Result
+            var user = _userManager.FindByIdAsync(query.UserId).Result
                 ?? throw new Exception("User not found");
 
             PersonalInformationResponse response = new();

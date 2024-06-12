@@ -1,15 +1,15 @@
 ﻿using Application.Interfaces;
-using Application.PlatformFeatures.Queries.PublicationQueries;
+using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.PlatformFeatures.Queries.CommentQueries
 {
-    public class GetCommentsByPublicationQuery : IRequest<List<CommentTextModel>>
+    public class GetCommentsByPublicationQuery : IRequest<List<CommentResponse>>
     {
         public int IdPublication { get; set; }
 
-        public class GetCommentByPublicationQuerieHandler : IRequestHandler<GetCommentsByPublicationQuery, List<CommentTextModel>>
+        public class GetCommentByPublicationQuerieHandler : IRequestHandler<GetCommentsByPublicationQuery, List<CommentResponse>>
         {
             private readonly IApplicationDbContext _context;
 
@@ -18,15 +18,16 @@ namespace Application.PlatformFeatures.Queries.CommentQueries
                 _context = context;
             }
 
-            public async Task<List<CommentTextModel>> Handle(GetCommentsByPublicationQuery query, CancellationToken cancellationToken)
+            public async Task<List<CommentResponse>> Handle(GetCommentsByPublicationQuery query, CancellationToken cancellationToken)
             {
-                var publicationExist = await _context.Publication.Where(a => a.Id == query.IdPublication)
-                    .FirstOrDefaultAsync(cancellationToken)
+                var a = await _context.Publication.ToListAsync(cancellationToken);
+                var publicationExist = await _context.Publication
+                    .FirstOrDefaultAsync(a => a.Id == query.IdPublication)
                     ?? throw new Exception("Publication not found");
 
                 return await _context.Comment
                     .Where(a => a.PublicationId == query.IdPublication)
-                    .Select(a => new CommentTextModel
+                    .Select(a => new CommentResponse
                     {
                         CommentText = a.CommentText,
                         CommentId = a.Id,
@@ -35,12 +36,5 @@ namespace Application.PlatformFeatures.Queries.CommentQueries
                     .ToListAsync(cancellationToken);
             }
         }
-    }
-
-    public class CommentTextModel
-    {
-        public string CommentText { get; set; }
-        public string UserId { get; set; }
-        public int CommentId { get; set; }
     }
 }

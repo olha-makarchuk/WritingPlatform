@@ -1,12 +1,11 @@
 ﻿using Application.Interfaces;
-using Application.PlatformFeatures.Queries.PublicationQueries;
-using Domain.Entities;
+using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.PlatformFeatures.Queries.SortByItemQueries
 {
-    public class SortPublicationQuery : IRequest<List<PublicationDtoSort>>
+    public class SortPublicationQuery : IRequest<List<SortPublicationResponse>>
     {
         public List<int> GenreIds { get; set; }
         public int StartPage { get; set; }
@@ -15,7 +14,7 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
         public int SortBy { get; set; }
         public string SortDirection { get; set; }
 
-        public class SortPublicationQueryHandler : IRequestHandler<SortPublicationQuery, List<PublicationDtoSort>>
+        public class SortPublicationQueryHandler : IRequestHandler<SortPublicationQuery, List<SortPublicationResponse>>
         {
             private readonly IApplicationDbContext _context;
 
@@ -24,17 +23,17 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
                 _context = context;
             }
 
-            public async Task<List<PublicationDtoSort>> Handle(SortPublicationQuery query, CancellationToken cancellationToken)
+            public async Task<List<SortPublicationResponse>> Handle(SortPublicationQuery query, CancellationToken cancellationToken)
             {
                 var publicationsQuery = await _context.Publication
                     .Include(p => p.Genre)
                     .Include(p => p.ApplicationUser)
-                    .Select(p => new PublicationDtoSort
+                    .Select(p => new SortPublicationResponse
                     {
                         PublicationId = p.Id,
                         PublicationName = p.PublicationName,
                         GenreName = p.Genre.Name,
-                        Author = new Author
+                        Author = new AuthorResponse
                         {
                             FirstName = p.ApplicationUser.FirstName,
                             LastName = p.ApplicationUser.LastName,
@@ -77,7 +76,6 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
                             CommentsCount = comments.Count()
                         }).ToList();
 
-                // Отримання інформації про порядок сортування з бази даних
                 var sortByItem = await _context.SortByItem.FirstOrDefaultAsync(item => item.Id == query.SortBy, cancellationToken);
 
                 if (sortByItem == null)
@@ -85,7 +83,6 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
                     throw new Exception("Invalid sort by item");
                 }
 
-                // Визначення поля для сортування на основі інформації з бази даних
                 IOrderedEnumerable<PublicationWithCommentsCount> orderedPublicationsQuery;
                 switch (sortByItem.FieldName)
                 {
@@ -109,31 +106,14 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
                 }
 
 
-                // Виконання запиту та отримання відсортованого списку
                 var sortedPublications = orderedPublicationsQuery.Select(a => a.Publication).ToList();
                 return sortedPublications;
             }
-
-            public class PublicationWithCommentsCount
-            {
-                public PublicationDtoSort Publication { get; set; }
-                public int CommentsCount { get; set; }
-            }
         }
     }
-
-    public class PublicationDtoSort
+    public class PublicationWithCommentsCount
     {
-        public int PublicationId { get; set; }
-        public string PublicationName { get; set; }
-        public string GenreName { get; set; }
-        public Author Author { get; set; }
-        public int Rating { get; set; }
-        public string FileKey { get; set; }
-        public string TitleKey { get; set; }
-        public int GenreId { get; set; }
-        public int CountPages { get; set; }
-        public DateTime DatePublication { get; set; }
-        public string bookDescription { get; set; }
+        public SortPublicationResponse Publication { get; set; }
+        public int CommentsCount { get; set; }
     }
 }

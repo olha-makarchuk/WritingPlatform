@@ -1,15 +1,17 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
+using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
-    public class GetPublicationByGenreQuery : IRequest<List<PublicationDto>>
+    public class GetPublicationByGenreQuery : IRequest<List<PublicationResponse>>
     {
         public int IdGenre { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
 
-        public class GetMovieByIdQueryHandler : IRequestHandler<GetPublicationByGenreQuery, List<PublicationDto>>
+        public class GetMovieByIdQueryHandler : IRequestHandler<GetPublicationByGenreQuery, List<PublicationResponse>>
         {
             private readonly IApplicationDbContext _context;
 
@@ -18,7 +20,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                 _context = context;
             }
 
-            public async Task<List<PublicationDto>> Handle(GetPublicationByGenreQuery query, CancellationToken cancellationToken)
+            public async Task<List<PublicationResponse>> Handle(GetPublicationByGenreQuery query, CancellationToken cancellationToken)
             {
                 var genreExist = await _context.Genre.Where(a => a.Id == query.IdGenre)
                     .FirstOrDefaultAsync(cancellationToken)
@@ -28,12 +30,14 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                .Where(a => a.GenreId == query.IdGenre)
                .Include(p => p.Genre)
                .Include(p => p.ApplicationUser)
-               .Select(p => new PublicationDto
+               .Skip((query.PageNumber - 1) * query.PageSize)
+               .Take(query.PageSize)
+               .Select(p => new PublicationResponse
                {
                    PublicationId = p.Id,
                    PublicationName = p.PublicationName,
                    GenreName = p.Genre.Name,
-                   Author = new Author
+                   Author = new AuthorResponse
                    {
                        UserName = p.ApplicationUser.UserName,
                        FirstName = p.ApplicationUser.FirstName,

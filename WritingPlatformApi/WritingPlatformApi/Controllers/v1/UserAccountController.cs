@@ -21,7 +21,7 @@ namespace WritingPlatformApi.Controllers.v1
         }
 
         [HttpPost]
-        [Route("by-username")]
+        [Route("by-userId")]/////////////////////////
         public async Task<IActionResult> PersonalInformation(GetUserAccountByLoginQuery query)
         {
             return Ok(await Mediator.Send(query));

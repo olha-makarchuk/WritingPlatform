@@ -18,29 +18,30 @@ namespace Application.PlatformFeatures.Commands.UserAccountCommands
         public string LastName { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string UserId { get; set; } = string.Empty;
-
-
-        //public string PhotoPath { get; set; } = string.Empty;
     }
     public class UpdateGenreCommandHandler : IRequestHandler<ChangePersonalInformationCommand, ApplicationUser>
     {
         private readonly IApplicationDbContext _context;
-        private IApiClientGoogleDrive _client;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UpdateGenreCommandHandler(IApplicationDbContext context, IApiClientGoogleDrive client, UserManager<ApplicationUser> userManager)
+        public UpdateGenreCommandHandler(IApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _client = client;
             _userManager = userManager;
         }
 
         public async Task<ApplicationUser> Handle(ChangePersonalInformationCommand command, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(command.UserId)
-             ?? throw new Exception("User not found");
+                 ?? throw new Exception("User not found");
 
-            //_client.UpdateFile(command.PhotoPath, "GenreFolder");
+            var userNameExists = await _userManager.FindByNameAsync(command.UserName);
+
+            if(userNameExists != null)
+            {
+                throw new Exception("User with the same username alredy exists");
+            }
+
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
             user.PersonalInformation = command.PersonalInformation; 

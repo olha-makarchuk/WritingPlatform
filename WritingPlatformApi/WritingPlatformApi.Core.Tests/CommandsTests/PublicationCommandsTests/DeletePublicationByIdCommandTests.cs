@@ -78,7 +78,45 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.PublicationCommands
             });
         }
 
- 
+
+        [Fact]
+        public async Task Handle_WhenNoOtherPublicationsExistForUser_ShouldUpdateUserIsAuthorFalse()
+        {
+            // Arrange
+            var publication = new Publication
+            {
+                Id = 1,
+                FileKey = "file_key",
+                TitleKey = "title_key",
+                ApplicationUserId = "user_id"
+            };
+            _dbContext.AddAndSave(publication);
+
+            var command = new DeletePublicationByIdCommand { Id = 1 };
+
+            _storageMock.Setup(s => s.DeleteAsync(publication.FileKey)).Verifiable();
+            _storageMock.Setup(s => s.DeleteAsync(publication.TitleKey)).Verifiable();
+
+            var user = new ApplicationUser { Id = "user_id", UserName = "testuser", IsAuthor = true };
+            _userManagerDecorator.SetupFindByIdAsync(user);
+            _userManagerDecorator.SetupUpdateAsync(IdentityResult.Success);
+
+            _dbContext.Assert(async context =>
+            {
+                var handler = new DeletePublicationCommandHandler(context, _userManagerDecorator.UserManagerMock.Object, _storageMock.Object);
+
+                // Act
+                var result = await handler.Handle(command, _cts.Token);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.Equal(publication.Id, result.Id);
+
+                // Verify user update
+                _userManagerDecorator.UserManagerMock.Verify(u => u.FindByIdAsync(publication.ApplicationUserId), Times.Once);
+                _userManagerDecorator.UserManagerMock.Verify(u => u.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Once);
+            });
+        }
 
         private static DeletePublicationCommandHandler CreateSut(
             ApplicationDbContext context,

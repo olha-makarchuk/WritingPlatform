@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.PlatformFeatures.Commands.SortByItemCommands
 {
@@ -12,16 +13,17 @@ namespace Application.PlatformFeatures.Commands.SortByItemCommands
     public class CreateSortByItemCommandHandler : IRequestHandler<CreateSortByItemCommand, SortByItem>
     {
         private readonly IApplicationDbContext _context;
-        private IApiClientGoogleDrive _client;
 
-        public CreateSortByItemCommandHandler(IApplicationDbContext context, IApiClientGoogleDrive client)
+        public CreateSortByItemCommandHandler(IApplicationDbContext context)
         {
             _context = context;
-            _client = client;
         }
 
         public async Task<SortByItem> Handle(CreateSortByItemCommand command, CancellationToken cancellationToken)
         {
+            var sortByItemm = await _context.SortByItem.FirstOrDefaultAsync(u => u.FieldName == command.FieldName, cancellationToken)
+             ?? throw new Exception("SortByItemm alredy exists");
+
             var sortByItem = new SortByItem
             {
                 ItemName = command.ItemName,

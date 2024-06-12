@@ -121,12 +121,12 @@ export class UserService {
     const body = { idPublication: publicationId,  rating: rating, userId: userId};
     return this.http.post<void>(API_URL + 'Rewiew/rewiew', body);
   }
-
+/*
   getOwnRewiew(publicationId: number, userId: string ): Observable<Rewiew> {
     const body = { publicationId: publicationId, userId: userId};
     return this.http.post<Rewiew>(API_URL + 'Rewiew/own-rewiew', body);
   }
-
+*/
   deleteRewiew(rewiewId: number): Observable<void> {
     return this.http.delete<void>(API_URL + 'Rewiew/' + rewiewId);
   }

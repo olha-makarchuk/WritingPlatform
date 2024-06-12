@@ -34,10 +34,11 @@ namespace WritingPlatformApi.Controllers.v1
             return Ok(await Mediator.Send(query));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllPubications()
+        [HttpPost]
+        [Route("all-publication")]//////////////////////
+        public async Task<IActionResult> GetAllPubications(GetAllPublicationQuery query)
         {
-            return Ok(await Mediator.Send(new GetAllPublicationQuery()));
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpPost]
@@ -46,13 +47,6 @@ namespace WritingPlatformApi.Controllers.v1
         {
             var a = await Mediator.Send(query);
             return Ok(a);
-        }
-
-        [HttpPost]
-        [Route("text")]
-        public async Task<IActionResult> GetPubicationsText (GetPublicationTextQuery query)
-        {
-            return Ok(await Mediator.Send(query));
         }
 
         [HttpDelete("{publicationId}")]

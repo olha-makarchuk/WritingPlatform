@@ -9,7 +9,6 @@ namespace Application.PlatformFeatures.Queries.Rewiew
     {
         public string UserId { get; set; }
         public int PublicationId { get; set; }
-        public int RewiewId { get; set; }
 
         public class GetOwnRewiewQueryHandler : IRequestHandler<GetOwnRewiewQuery, UserRewiew>
         {
@@ -22,6 +21,9 @@ namespace Application.PlatformFeatures.Queries.Rewiew
 
             public async Task<UserRewiew> Handle(GetOwnRewiewQuery query, CancellationToken cancellationToken)
             {
+                var publication = await _context.Publication.FirstOrDefaultAsync(u => u.Id == query.PublicationId)
+                    ?? throw new Exception("Publication not found");
+
                 var rewiew = await _context.UserRewiew
                     .Where(u => u.ApplicationUserId == query.UserId)
                     .Where(p => p.PublicationId == query.PublicationId)

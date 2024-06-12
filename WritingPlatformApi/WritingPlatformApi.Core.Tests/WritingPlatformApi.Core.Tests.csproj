@@ -26,19 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CommandsTests\UserAccountCommandsTests\" />
-    <Folder Include="CommandsTests\SortByItemCommandsTests\" />
-    <Folder Include="CommandsTests\RewiewCommandsTests\" />
-    <Folder Include="QueriesTests\AuthorQueriesTests\" />
-    <Folder Include="QueriesTests\CommentQueriesTests\" />
-    <Folder Include="QueriesTests\GenreQueriesTests\" />
-    <Folder Include="QueriesTests\UserAccountQueriesTests\" />
-    <Folder Include="QueriesTests\SortByItemQueriesTests\" />
-    <Folder Include="QueriesTests\RewiewQueriesTests\" />
-    <Folder Include="QueriesTests\PublicationQueriesTests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Persistance\Persistence.csproj" />
   </ItemGroup>
 

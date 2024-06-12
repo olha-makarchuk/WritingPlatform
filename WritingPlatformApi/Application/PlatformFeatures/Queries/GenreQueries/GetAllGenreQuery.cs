@@ -10,12 +10,10 @@ namespace Application.PlatformFeatures.Queries.GenreQueries
         public class GetAllGenressQueryHandler : IRequestHandler<GetAllGenreQuery, IEnumerable<Genre>>
         {
             private readonly IApplicationDbContext _context;
-            private IApiClientGoogleDrive _client;
 
-            public GetAllGenressQueryHandler(IApplicationDbContext context, IApiClientGoogleDrive client)
+            public GetAllGenressQueryHandler(IApplicationDbContext context )
             {
                 _context = context;
-                _client = client;
             }
             
             public async Task<IEnumerable<Genre>> Handle(GetAllGenreQuery request, CancellationToken cancellationToken)

@@ -44,11 +44,14 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
                 .Where(p=>p.ApplicationUserId == publication.ApplicationUserId)
                 .ToListAsync(cancellationToken);
 
-            if (publicationsUser == null )
+            if (publicationsUser.Count == 0)
             {
-                var userExists = await _userManager.FindByIdAsync(publication.ApplicationUserId);
-                userExists.IsAuthor = false;
-                await _userManager.UpdateAsync(userExists);
+                var user = await _userManager.FindByIdAsync(publication.ApplicationUserId);
+                if (user != null)
+                {
+                    user.IsAuthor = false;
+                    await _userManager.UpdateAsync(user);
+                }
             }
 
             return publication;
