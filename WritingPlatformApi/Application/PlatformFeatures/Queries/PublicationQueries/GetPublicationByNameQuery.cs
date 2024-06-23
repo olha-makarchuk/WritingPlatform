@@ -21,6 +21,8 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
 
             public async Task<List<PublicationResponse>> Handle(GetPublicationByNameQuery query, CancellationToken cancellationToken)
             {
+                var totalPublications = await _context.Publication.Where(u => u.PublicationName == query.PublicationName).CountAsync();
+
                 var publicationList = await _context.Publication
                 .Where(a => a.PublicationName == query.PublicationName)
                 .Include(p => p.Genre)
@@ -43,7 +45,8 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                     TitleKey = p.TitleKey,
                     FileKey = p.FileKey,
                     DatePublication = p.DatePublication,
-                    bookDescription = p.bookDescription
+                    bookDescription = p.bookDescription,
+                    PaginatorCount = (int)Math.Ceiling((double)totalPublications / query.PageSize)
                 })
                 .ToListAsync(cancellationToken)
                  ?? throw new Exception("Publication not found");

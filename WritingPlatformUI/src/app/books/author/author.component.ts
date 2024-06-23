@@ -8,9 +8,9 @@ import { Author } from "../../shared/models/author";
   styleUrls: ['./author.component.css']
 })
 export class AuthorComponent implements OnInit {
-  authors: Array<Author> = [];
+  authors: Author[] = [];
   currentPage: number = 1;
-  pageSize: number = 5; // Adjust page size as needed
+  pageSize: number = 5;
   totalPages: number = 0;
 
   constructor(private userService: UserService) { }
@@ -20,19 +20,16 @@ export class AuthorComponent implements OnInit {
   }
 
   fetchAuthors(): void {
-    this.userService.getAuthors().subscribe(authors => {
-      this.authors = authors;
-      this.totalPages = Math.ceil(authors.length / this.pageSize);
+    this.userService.getAuthors(this.currentPage, this.pageSize).subscribe(response => {
+      this.authors = response;
+      if (response.length > 0) {
+        this.totalPages = response[0].paginatorCount;
+      }
     });
   }
 
   onPageChange(pageNumber: number): void {
     this.currentPage = pageNumber;
-  }
-
-  getPaginatedAuthors(): Author[] {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = Math.min(startIndex + this.pageSize, this.authors.length);
-    return this.authors.slice(startIndex, endIndex);
+    this.fetchAuthors();
   }
 }

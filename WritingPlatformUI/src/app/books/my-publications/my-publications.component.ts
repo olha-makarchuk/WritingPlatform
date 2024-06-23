@@ -10,7 +10,7 @@ import { TokenStorageService } from '../../_services/token-storage.service';
   styleUrls: ['./my-publications.component.css']
 })
 export class MyPublicationsComponent implements OnInit {
-  publications: Array<Publication> = [];
+  publications: Publication[] = [];
   isLoggedIn = false;
   userId: string = "";
   currentPage: number = 1;
@@ -31,26 +31,28 @@ export class MyPublicationsComponent implements OnInit {
       this.userId = user.userId || null;
     }
 
-    this.userService.getPublicationsByAuthor(this.userId).subscribe(publications => {
+    this.fetchPublications();
+  }
+
+  fetchPublications(): void {
+    this.userService.getPublicationsByAuthor(this.userId, this.currentPage, this.pageSize).subscribe(publications => {
       this.publications = publications;
-      this.totalPages = Math.ceil(publications.length / this.pageSize);
+      this.totalPages = publications[0].paginatorCount;
     });
   }
 
   onDeletePublication(publicationId: number): void {
     this.userService.deletePublication(publicationId).subscribe(() => {
-      this.publications = this.publications.filter(publication => publication.publicationId !== publicationId);
-      this.totalPages = Math.ceil(this.publications.length / this.pageSize);
+      this.fetchPublications();
     });
   }
 
   onPageChange(pageNumber: number): void {
     this.currentPage = pageNumber;
+    this.fetchPublications();
   }
 
   getPaginatedPublications(): Publication[] {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = Math.min(startIndex + this.pageSize, this.publications.length);
-    return this.publications.slice(startIndex, endIndex);
+    return this.publications;
   }
 }

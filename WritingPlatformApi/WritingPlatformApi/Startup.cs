@@ -1,5 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-using Persistence.Context;
+﻿using Persistence.Context;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Application.Services;
@@ -50,14 +49,15 @@ namespace WritingPlatformApi
                 c.OAuthAppName("Writing Platform API");
             });
 
+            app.UseHttpsRedirection();
+
             app.UseHttpLogging();
 
-            app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
 
             app.UseAuthorization();
-            app.UseCors("CorsPolicy");
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>

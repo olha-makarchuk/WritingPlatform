@@ -30,9 +30,10 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                 {
                     throw new Exception("Author not found");
                 }
-                
 
-               var publicationList = await _context.Publication
+                var totalPublications = await _context.Publication.Where(u => u.ApplicationUserId == query.UserId).CountAsync();
+
+                var publicationList = await _context.Publication
                .Where(a => a.ApplicationUserId == query.UserId)
                .Include(p => p.Genre)
                .Include(p => p.ApplicationUser)
@@ -54,7 +55,8 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                    TitleKey = p.TitleKey,
                    FileKey = p.FileKey,
                    DatePublication = p.DatePublication,
-                   bookDescription = p.bookDescription
+                   bookDescription = p.bookDescription,
+                   PaginatorCount = (int)Math.Ceiling((double)totalPublications / query.PageSize)
                })
                .ToListAsync(cancellationToken)
                 ?? throw new Exception("Publication not found");

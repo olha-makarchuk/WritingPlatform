@@ -11,10 +11,10 @@ namespace WritingPlatformApi.Controllers.v1
         {
         }
         
-        [HttpGet]
-        public async Task<IActionResult> GetAllAuthors()
+        [HttpPost]
+        public async Task<IActionResult> GetAllAuthors(GetAllAuthorQuery query)
         {
-            var authors = await Mediator.Send(new GetAllAuthorQuery());
+            var authors = await Mediator.Send(query);
 
             return Ok(authors);
         }

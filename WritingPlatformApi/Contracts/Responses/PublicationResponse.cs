@@ -11,5 +11,6 @@
         public string TitleKey { get; set; }
         public DateTime DatePublication { get; set; }
         public string bookDescription { get; set; }
+        public int PaginatorCount { get; set; }
     }
 }

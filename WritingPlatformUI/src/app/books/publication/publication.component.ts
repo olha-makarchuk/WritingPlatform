@@ -63,7 +63,7 @@ export class PublicationComponent implements OnInit {
     this.userService.getComments(publicationId).subscribe(comments => {
       this.comments = comments;
     });
-
+/*
     if (this.isLoggedIn && this.loggedInUserId) {
       this.userService.getOwnRewiew(publicationId, this.loggedInUserId).subscribe(review => {
         if (review) {
@@ -71,7 +71,7 @@ export class PublicationComponent implements OnInit {
           this.userReviewId = review.id;  // Assuming the review object has an ID
         }
       });
-    }
+    }*/
   }
   
   onSubmitComment(): void {

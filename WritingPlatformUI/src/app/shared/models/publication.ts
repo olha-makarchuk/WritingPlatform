@@ -13,6 +13,7 @@ export interface Publication {
   countOfRewiews:number;
   bookDescription: string;
   author: Author;
+  paginatorCount: number;
 }
 
 

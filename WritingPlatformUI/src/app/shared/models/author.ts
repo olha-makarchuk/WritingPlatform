@@ -5,4 +5,5 @@ export interface Author {
   countPublication: number;
   idAuthor: string;
   personalInformation: string;
+  paginatorCount: number;
 }

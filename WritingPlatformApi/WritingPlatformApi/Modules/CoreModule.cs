@@ -24,9 +24,6 @@ namespace WritingPlatformApi.Modules
                    .AsImplementedInterfaces()
                    .WithTransientLifetime());
 
-            
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddApiVersioning(t =>
             {

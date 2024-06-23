@@ -77,7 +77,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.AuthorQueriesTests
             });
         }
 
-        private static GetAllAuthorQuery.GetAllMoviesQueryHandler CreateSut(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        private static GetAllAuthorQuery.GetAllAuthorsQueryHandler CreateSut(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
             => new(context, userManager);
     }
 }

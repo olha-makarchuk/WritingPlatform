@@ -35,8 +35,8 @@ namespace WritingPlatformApi.Controllers.v1
         }
 
         [HttpPost]
-        [Route("all-publication")]//////////////////////
-        public async Task<IActionResult> GetAllPubications(GetAllPublicationQuery query)
+        [Route("all-publication")]
+        public async Task<IActionResult> GetAllP5ubications(GetAllPublicationQuery query)
         {
             return Ok(await Mediator.Send(query));
         }

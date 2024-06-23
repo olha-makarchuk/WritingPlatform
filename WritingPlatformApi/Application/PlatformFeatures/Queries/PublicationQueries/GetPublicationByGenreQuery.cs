@@ -26,6 +26,8 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                     .FirstOrDefaultAsync(cancellationToken)
                     ?? throw new Exception("Genre not found");
 
+                var totalPublications = await _context.Publication.Where(u => u.GenreId == query.IdGenre).CountAsync();
+
                 var publicationList = await _context.Publication
                .Where(a => a.GenreId == query.IdGenre)
                .Include(p => p.Genre)
@@ -48,7 +50,8 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                    TitleKey = p.TitleKey,
                    FileKey = p.FileKey,
                    DatePublication = p.DatePublication,
-                   bookDescription = p.bookDescription
+                   bookDescription = p.bookDescription,
+                   PaginatorCount = (int)Math.Ceiling((double)totalPublications / query.PageSize)
                })
                .ToListAsync(cancellationToken)
                 ?? throw new Exception("Publication not found");
