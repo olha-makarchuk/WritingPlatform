@@ -1,20 +1,17 @@
-<div style="margin-top: 80px;"></div>
+<div style="margin-top: 100px;"></div>
 <div class="jumbotron container" style="background-color: white; width: 70%;">
   <header class="text-center">
-    <h3>Категорії книг</h3>
+    <h3 style="font-weight: 700;">Жанри</h3>
   </header>
   <div style="margin-top: 80px;" class="genre-list">
-    <h3 class="text-center mt-5 mb-3 text-warning" *ngIf="genres.length === 0">No movies here...</h3>
+    <h3 class="text-center mt-5 mb-3 text-warning" *ngIf="genres.length === 0">No books here...</h3>
     <div class="genre-block">
-      <div class="row">
-        <div class="col-md-4 col-sm-6" *ngFor="let genre of genres">
-          <div class="genre-item">
-            <a [routerLink]="['/all-publications/by-genre', genre.id]" class="genre-link d-flex align-items-center">
-              <img class="genre-image" alt="Genre Image" [src]="'https://booksinshops.blob.core.windows.net/books-in-shop/' + genre.fileKey">
-              <div style="margin-left: 10px;" class="genre-name">{{ genre.name }}</div>
-            </a>
-          </div>
-        </div>
+      <div class="genre-item" *ngFor="let genre of genres">
+        <a [routerLink]="['/all-publications/by-genre', genre.id]" class="genre-link">
+          <img class="genre-image" alt="Genre Image" [src]="'https://booksinshops.blob.core.windows.net/books-in-shop/' + genre.fileKey">
+          <div class="genre-name">{{ genre.name }}</div>
+        </a>
       </div>
+    </div>
   </div>
 </div>

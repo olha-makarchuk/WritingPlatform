@@ -24,3 +24,27 @@
     color: #888;
   }
   
+  .publication-details h3 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .publication-item a {
+    text-decoration: none;
+    color: inherit; 
+  }
+
+  .publication-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #233487;
+    color: #ffffff;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+  }

@@ -1,7 +1,7 @@
-<div style="margin-top: 80px;"></div>
+<div style="margin-top: 100px;"></div>
 <div class="jumbotron container" style="background-color: white; width: 70%;">
   <header class="text-center">
-    <h3>Автори</h3>
+    <h3 style="font-weight: 700;">Автори</h3>
   </header>
   <div style="margin-top: 20px;" class="author-list">
     <h3 class="text-center mt-5 mb-3 text-warning" *ngIf="authors.length === 0">Немає авторів...</h3>
@@ -9,16 +9,16 @@
       <a [routerLink]="['/all-publications/by-author', author.idAuthor]" class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let author of authors">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{ author.firstName }} {{ author.lastName }}</h5>
-          <small>{{ author.countPublication }} Публікацій</small>
+          <p>{{ author.countPublication }} Публікацій</p>
         </div>
         <p class="mb-1">{{ author.userName }}</p>
       </a>
     </div>
 
     <div class="pagination-controls" style="margin-top: 20px;">
-      <button class="btn btn-primary" *ngIf="currentPage > 1" (click)="onPageChange(currentPage - 1)">Previous Page</button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button class="btn btn-primary" *ngIf="currentPage < totalPages" (click)="onPageChange(currentPage + 1)">Next Page</button>
+      <button class="btn btn-primary" *ngIf="currentPage > 1" (click)="onPageChange(currentPage - 1)">Попередня сторінка</button>
+      <span>Сторінка {{ currentPage }} з {{ totalPages }}</span>
+      <button class="btn btn-primary" *ngIf="currentPage < totalPages" (click)="onPageChange(currentPage + 1)">Наступна сторінка</button>
     </div>
   </div>
 </div>

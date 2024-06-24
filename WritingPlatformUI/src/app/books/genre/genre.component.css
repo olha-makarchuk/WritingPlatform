@@ -1,46 +1,52 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f9f9f9; /* Light background color for the body */
+  color: #333; /* Darker text color for better readability */
+}
+
 .genre-block {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center; /* Center align items */
+  gap: 20px; /* Add space between items */
 }
 
 .genre-item {
-  margin-bottom: 100px;
+  margin-bottom: 20px; /* Reduced margin for better spacing */
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px; /* More rounded corners */
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, transform 0.3s; /* Add transform transition */
+  flex: 1 1 calc(33.333% - 40px); /* Responsive item width */
+  max-width: calc(33.333% - 40px); /* Ensure max-width matches the flex-basis */
+  min-width: 280px; /* Minimum width for small screens */
+}
+
+.genre-item:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px); /* Slight lift on hover */
 }
 
 .genre-image {
   width: 80px;
-  height:80px;
+  height: 80px;
   border-radius: 10px;
   object-fit: cover;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.genre-item:hover {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-
 .genre-link {
-  display: block;
-  width: 600px;
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  color: black;
-  padding: 5px;
-}
-
-.genre-icon {
-  margin-bottom: 10px;
-  text-align: center;
+  color: #333; /* Darker text color */
+  padding: 10px; /* Increased padding for better spacing */
 }
 
 .genre-name {
-  margin-left: 30px;
+  margin-left: 20px;
   font-size: 20px;
-  text-align: center;
+  font-weight: 500; /* Medium font weight */
 }

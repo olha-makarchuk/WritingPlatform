@@ -57,7 +57,6 @@ export class CreatePublicationComponent implements OnInit {
         bookDescription: this.bookDescription
       };
       this.userService.CreatePublication(publication).subscribe(() => {
-        // Handle success: reset form fields and show success message
         this.resetForm();
         this.successMessage = 'Publication created successfully!';
       });

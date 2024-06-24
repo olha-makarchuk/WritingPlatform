@@ -53,25 +53,25 @@ export class PublicationComponent implements OnInit {
       this.loggedInUserId = user.userId || null;
       this.login = user.userId || null;
     }
-
+  
     const publicationId = this.route.snapshot.params['publicationId'];
-
+  
     this.userService.getPublicationById(publicationId).subscribe(publication => {
       this.publication = publication;
     });
-
+  
     this.userService.getComments(publicationId).subscribe(comments => {
       this.comments = comments;
     });
-/*
+  
     if (this.isLoggedIn && this.loggedInUserId) {
       this.userService.getOwnRewiew(publicationId, this.loggedInUserId).subscribe(review => {
         if (review) {
           this.hasReviewed = true;
-          this.userReviewId = review.id;  // Assuming the review object has an ID
+          this.userReviewId = review.id;  
         }
       });
-    }*/
+    }
   }
   
   onSubmitComment(): void {
@@ -95,24 +95,28 @@ export class PublicationComponent implements OnInit {
     if (this.isSubmittingReview) {
       return; // Prevent multiple submissions
     }
-
+  
     if (this.newRating !== null && this.newRating >= 0 && this.newRating <= 100 && this.publication && !this.hasReviewed) {
       this.isSubmittingReview = true;  // Set flag to indicate submission in progress
       this.userService.addRewiew(this.publication.publicationId, this.newRating, this.loggedInUserId).subscribe(() => {
         this.userService.getPublicationById(this.publication!.publicationId).subscribe(publication => {
           this.publication = publication;
         });
-        this.hasReviewed = true; // Mark as reviewed
-        this.isSubmittingReview = false; // Reset the submission flag
-        this.ratingError = '';
+        this.userService.getOwnRewiew(this.publication!.publicationId, this.loggedInUserId).subscribe(review => {
+          if (review) {
+            this.hasReviewed = true;
+            this.userReviewId = review.id;  
+          }
+          this.isSubmittingReview = false; 
+          this.ratingError = '';
+        });
       }, () => {
-        this.isSubmittingReview = false; // Reset the submission flag on error
+        this.isSubmittingReview = false; 
       });
     } else {
       this.ratingError = 'Please enter a rating between 0 and 100.';
     }
   }
-
   onDeleteReview(): void {
     if (this.userReviewId) {
       this.userService.deleteRewiew(this.userReviewId).subscribe(() => {

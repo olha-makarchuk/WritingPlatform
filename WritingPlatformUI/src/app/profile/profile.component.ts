@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit , OnDestroy {
   loadUserInfo(): void {
     const userName = this.token.getUser().userName;
     this.userId = this.token.getUser().userId;
-    this.userService.getUserByUserName(userName).subscribe(
+    this.userService.getUserByUserName(this.userId).subscribe(
       data => {
         this.currentUser = data;
       },

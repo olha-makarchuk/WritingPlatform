@@ -23,18 +23,20 @@ namespace Application.PlatformFeatures.Commands.RewiewCommand
 
         public async Task<Publication> Handle(CreateRewiewCommand command, CancellationToken cancellationToken)
         {
-            var publication = await _context.Publication.Where(u => u.Id == command.IdPublication).FirstOrDefaultAsync(cancellationToken);
+            // Check if the user has already reviewed the publication
+            var existingReview = await _context.UserRewiew
+                .FirstOrDefaultAsync(r => r.ApplicationUserId == command.UserId && r.PublicationId == command.IdPublication);
 
-            int newRating = 0;
+            if (existingReview != null)
+            {
+                throw new Exception("User has already reviewed this publication.");
+            }
 
-            if (publication.CountOfRewiews == 0)
-            {
-                newRating = command.Rating;
-            }
-            else
-            {
-                newRating = (publication.Rating + command.Rating) / (publication.CountOfRewiews + 1);
-            }
+            var publication = await _context.Publication.FirstOrDefaultAsync(u => u.Id == command.IdPublication, cancellationToken);
+            if (publication == null) throw new Exception("Publication not found");
+
+            int newRating = (publication.CountOfRewiews == 0) ? command.Rating :
+                            (publication.Rating + command.Rating) / (publication.CountOfRewiews + 1);
 
             publication.CountOfRewiews++;
             publication.Rating = newRating;

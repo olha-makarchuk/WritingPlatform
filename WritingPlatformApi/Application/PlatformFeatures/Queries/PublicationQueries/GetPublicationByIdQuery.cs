@@ -8,8 +8,6 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
     public class GetPublicationByIdQuery : IRequest<PublicationByIdResponse>
     {
         public int IdPublication { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; } 
 
         public class GetPublicationByIdQueryHandler : IRequestHandler<GetPublicationByIdQuery, PublicationByIdResponse>
         {
@@ -26,8 +24,6 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                .Where(a => a.Id == query.IdPublication)
                .Include(p => p.Genre)
                .Include(p => p.ApplicationUser)
-               .Skip((query.PageNumber - 1) * query.PageSize)
-               .Take(query.PageSize)
                .Select(p => new PublicationByIdResponse
                {
                    PublicationId = p.Id,

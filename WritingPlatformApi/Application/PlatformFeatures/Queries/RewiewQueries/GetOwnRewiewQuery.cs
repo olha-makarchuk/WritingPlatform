@@ -27,8 +27,7 @@ namespace Application.PlatformFeatures.Queries.Rewiew
                 var rewiew = await _context.UserRewiew
                     .Where(u => u.ApplicationUserId == query.UserId)
                     .Where(p => p.PublicationId == query.PublicationId)
-                    .FirstOrDefaultAsync()
-                    ?? throw new Exception("Rewiew not found");
+                    .FirstOrDefaultAsync();
 
                 return rewiew;
             }

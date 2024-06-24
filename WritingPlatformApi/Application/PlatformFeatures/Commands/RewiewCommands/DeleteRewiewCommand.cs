@@ -24,9 +24,14 @@ namespace Application.PlatformFeatures.Commands.RewiewCommand
             var rewiew = await _context.UserRewiew.Where(u => u.Id == command.RewiewId).FirstOrDefaultAsync()
              ?? throw new Exception("Rewiew not found");
 
-            var a = await _context.Publication.Where(u => u.Id == command.RewiewId).FirstOrDefaultAsync(cancellationToken);
+            var a = await _context.Publication.Where(u => u.Id == rewiew.PublicationId).FirstOrDefaultAsync(cancellationToken);
 
-            var d = ((a.Rating * a.CountOfRewiews) - rewiew.Rewiew) / (a.CountOfRewiews - 1);
+            int d = 0;
+
+            if(a.CountOfRewiews - 1 != 0)
+            {
+                d = ((a.Rating * a.CountOfRewiews) - rewiew.Rewiew) / (a.CountOfRewiews - 1);
+            }
 
             a.CountOfRewiews--;
             a.Rating = d;

@@ -1,31 +1,33 @@
-<div class="search-bar-container" style="margin-top: 100px;">
-  <input type="text" [(ngModel)]="searchQuery" placeholder="Search by publication name" class="form-control" />
-  <button (click)="searchPublicationsByName()" class="btn btn-primary mt-2">Search</button>
+<div style="margin-top: 80px;"></div>
+<div class="search-bar-container">
+  <input type="text" [(ngModel)]="searchQuery" placeholder="Пошук за назвою публікації" class="form-control" />
+  <button (click)="searchPublicationsByName()" class="btn btn-primary">Пошук</button>
 </div>
-<div class="publication-list-container" style="margin-top: 30px;">
+
+<div class="publication-list-container">
   <div *ngIf="publications.length > 0; else noPublications">
     <ul class="publication-list">
       <li class="publication-item" *ngFor="let publication of publications">
         <a [routerLink]="['/publication', publication.publicationId]" class="publication-link">
           <div class="publication-details">
             <h3>{{ publication.publicationName }}</h3>
-            <p><strong>Author:</strong> {{ publication.author.firstName }} {{ publication.author.lastName }}</p>
-            <p><strong>Genre:</strong> {{ publication.genreName }}</p>
-            <p><strong>Rating:</strong> {{ publication.rating }}/5</p>
-            <p><strong>Date:</strong> {{ publication.datePublication | date }}</p>
+            <p><strong>Автор:</strong> {{ publication.author.firstName }} {{ publication.author.lastName }}</p>
+        <p><strong>Жанр:</strong> {{ publication.genreName }}</p>
+        <p><strong>Рейтинг:</strong> {{ publication.rating }}/5</p>
+        <p><strong>Дата:</strong> {{ publication.datePublication | date }}</p>
           </div>
         </a>
       </li>
     </ul>
       
     <div class="pagination-controls">
-      <button *ngIf="currentPage > 1" (click)="onPageChange(currentPage - 1)">Previous Page</button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button *ngIf="currentPage < totalPages" (click)="onPageChange(currentPage + 1)">Next Page</button>
+      <button *ngIf="currentPage > 1" class="btn btn-primary" (click)="onPageChange(currentPage - 1)">Попередня сторінка</button>
+      <span>Сторінка {{ currentPage }} з {{ totalPages }}</span>
+      <button *ngIf="currentPage < totalPages" class="btn btn-primary" (click)="onPageChange(currentPage + 1)">Наступна сторінка</button>
     </div>
   </div>
 
   <ng-template #noPublications>
-    <p class="no-publications">No publications found.</p>
+    <p class="no-publications">Публікацій не знайдено.</p>
   </ng-template>
 </div>

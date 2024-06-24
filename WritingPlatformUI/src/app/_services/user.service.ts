@@ -48,8 +48,8 @@ export class UserService {
     return this.http.post<Array<Publication>>(API_URL + 'Publication/all-publication', body);
   }
 
-  getPublicationById(publicationId: number): Observable<Publication> {
-    const body = { IdPublication: publicationId };
+  getPublicationById(idPublication: number): Observable<Publication> {
+    const body = { idPublication};
     return this.http.post<Publication>(API_URL + 'Publication/by-id', body);
   }
 
@@ -98,10 +98,10 @@ export class UserService {
     return this.http.delete<void>(API_URL + 'Comment/' + commentId);
   }
 
-  getUserByUserName(userName: string): Observable<PersonalInformation> {
-    const body = { userName: userName };
+  getUserByUserName(userId: string): Observable<PersonalInformation> {
+    const body = { userId };
     return this.http.post<PersonalInformation>(
-      API_URL + 'UserAccount/by-username',
+      API_URL + 'UserAccount/by-userId',
       body
     );
   }
@@ -167,15 +167,9 @@ export class UserService {
     };
     return this.http.post<void>(API_URL + 'Rewiew/rewiew', body);
   }
-  /*
+
   getOwnRewiew(publicationId: number, userId: string ): Observable<Rewiew> {
     const body = { publicationId: publicationId, userId: userId};
-    return this.http.post<Rewiew>(API_URL + 'Rewiew/own-rewiew', body);
-  }
-*/
-
-  getOwnRewiew(publicationId: number, userId: string): Observable<Rewiew> {
-    const body = { publicationId: publicationId, userId: userId };
     return this.http.post<Rewiew>(API_URL + 'Rewiew/own-rewiew', body);
   }
 

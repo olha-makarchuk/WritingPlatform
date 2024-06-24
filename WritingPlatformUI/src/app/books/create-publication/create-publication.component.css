@@ -1,0 +1,53 @@
+.publication-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type="file"] {
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  
+  .success-message {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #233487;
+    color: #ffffff;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+  }

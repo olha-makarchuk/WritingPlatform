@@ -1,36 +1,100 @@
+/* Загальні стилі */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Стилі для контейнера з пошуковою панеллю */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar-container input {
+  flex: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #233487;
+  color: #ffffff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Стилі для контейнера зі списком публікацій */
 .publication-list-container {
-    margin-top: 50px;
-  }
-  
-  .publication-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .publication-item {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .publication-details h3 {
-    margin-top: 0;
-  }
-  
-  .no-publications {
-    font-style: italic;
-    color: #888;
-  }
-  .search-bar-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-bar-container input {
-    flex: 1;
-    margin-right: 10px;
-  }
-  
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.publication-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.publication-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+}
+
+.publication-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.publication-details h3 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.publication-item p {
+  margin-bottom: 8px;
+}
+
+.no-publications {
+  font-style: italic;
+  color: #888;
+}
+
+.pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-controls button {
+  margin: 0 5px;
+}
+
+.publication-item a {
+  text-decoration: none;
+  color: inherit; 
+}

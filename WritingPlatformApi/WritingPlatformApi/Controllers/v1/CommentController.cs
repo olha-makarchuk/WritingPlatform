@@ -1,6 +1,5 @@
 ﻿using Application.PlatformFeatures.Commands.CommentCommands;
 using Application.PlatformFeatures.Queries.CommentQueries;
-using Application.PlatformFeatures.Queries.GenreQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,0 +1,27 @@
+/* Optional: Add custom styling */
+.author-list {
+    padding: 20px;
+  }
+  
+  .list-group-item {
+    margin-bottom: 10px;
+  }
+  
+  .pagination-controls {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* Styling for pagination buttons */
+  .pagination-controls button {
+    margin: 0 5px;
+  }
+  
+  /* Styling for jumbotron (optional) */
+  .jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+    box-shadow: rgba(0, 0, 0, 0.15);
+  }
+  

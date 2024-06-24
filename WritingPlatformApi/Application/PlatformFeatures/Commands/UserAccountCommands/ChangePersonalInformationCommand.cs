@@ -37,7 +37,7 @@ namespace Application.PlatformFeatures.Commands.UserAccountCommands
 
             var userNameExists = await _userManager.FindByNameAsync(command.UserName);
 
-            if(userNameExists != null)
+            if(userNameExists != null && user.UserName != userNameExists.UserName)
             {
                 throw new Exception("User with the same username alredy exists");
             }

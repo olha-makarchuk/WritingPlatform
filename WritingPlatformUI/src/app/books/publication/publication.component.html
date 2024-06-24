@@ -5,19 +5,19 @@
       <div>
         <img class="publication-image" alt="Publication Image" [src]="'https://booksinshops.blob.core.windows.net/books-in-shop/' + publication.titleKey">
       </div>
-      <button [routerLink]="['/read-publication']" [queryParams]="{ fileKey: publication.fileKey}" class="read-button" style="margin-top: 20px;" [disabled]="!isLoggedIn" [class.disabled-button]="!isLoggedIn">Читати</button>
+      <button [routerLink]="['/read-publication']" [queryParams]="{ fileKey: publication.fileKey, countOfPages: publication.countOfPages}" class="read-button" style="margin-top: 20px;" [disabled]="!isLoggedIn" [class.disabled-button]="!isLoggedIn">Читати</button>
       <div *ngIf="!isLoggedIn">
         <p>Зареєструйтеся, щоб отримати доступ до книги</p>
       </div>
       <div *ngIf="isLoggedIn && !hasReviewed" class="rating-form">
-        <label for="rating">Додати оцінку (0-100):</label>
+        <label class="add-ratting" for="rating">Оцінка (0-100):</label>
         <input type="number" id="rating" [(ngModel)]="newRating" name="rating" min="0" max="100">
-        <button (click)="onSubmitReview()" class="read-button" style="margin-top: 20px;" [disabled]="isSubmittingReview">Додати оцінку</button>
+        <button (click)="onSubmitReview()" class="add-ratting-button" style="margin-top: 20px;" [disabled]="isSubmittingReview">Додати оцінку</button>
         <div *ngIf="ratingError" class="error-message">{{ ratingError }}</div>
       </div>
-      <div *ngIf="isLoggedIn && hasReviewed">
-        <p>Ви вже залишили відгук.</p>
-        <button (click)="onDeleteReview()" class="delete-button" style="margin-top: 20px;">Видалити відгук</button>
+      <div style="margin-top: 30px;" *ngIf="isLoggedIn && hasReviewed">
+        <p style="margin-bottom: 0px;">Ви вже залишили оцінку</p>
+        <button (click)="onDeleteReview()" class="delete-button" style="font-size: 14px;">Видалити оцінку</button>
       </div>
       <div *ngIf="!isLoggedIn">
         <p>Зареєструйтеся, щоб додати оцінку</p>
@@ -30,38 +30,39 @@
       <p><strong>Дата публікації:</strong> {{ publication.datePublication | date }}</p>
     </div>
   </div>
+  <div class="tab-buttons">
+    <button (click)="showBookInfo()" [class.active]="activeTab === 'book'">Про книгу</button>
+    <button (click)="showAuthorInfo()" [class.active]="activeTab === 'author'">Про автора</button>
+    <button (click)="showReviewsInfo()" [class.active]="activeTab === 'reviews'">Відгуки</button>
+  </div>
+  <div>
+    <td style="vertical-align: top;" [ngSwitch]="activeTab">
+      <ng-container *ngSwitchCase="'book'">
+        <p>{{publication.bookDescription}}</p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'author'">
+        <p>{{publication.author.personalInformation}}</p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'reviews'">
+        <div *ngIf="comments.length > 0; else noComments">
+          <div *ngFor="let comment of comments" class="comment">
+            <p>{{comment.commentText}}</p>
+            <button *ngIf="comment.userId === loggedInUserId" (click)="onDeleteComment(comment.commentId)">Видалити</button>
+          </div>
+        </div>
+        <ng-template #noComments>
+          <p>Поки що немає жодних коментарів.</p>
+        </ng-template>
+        <div *ngIf="isLoggedIn">
+          <form (ngSubmit)="onSubmitComment()" #commentForm="ngForm">
+            <textarea [(ngModel)]="newCommentText" name="commentText" required></textarea>
+            <button type="submit" [disabled]="!commentForm.form.valid">Додати відгук</button>
+          </form>
+        </div>
+        <div *ngIf="!isLoggedIn">
+          <p>Зареєструйтеся, щоб залишити коментар</p>
+        </div>
+      </ng-container>
+    </td>
+  </div>
 </div>
-<div class="tab-buttons">
-  <button (click)="showBookInfo()" [class.active]="activeTab === 'book'">Про книгу</button>
-  <button (click)="showAuthorInfo()" [class.active]="activeTab === 'author'">Про автора</button>
-  <button (click)="showReviewsInfo()" [class.active]="activeTab === 'reviews'">Відгуки</button>
-</div>
-
-<td style="vertical-align: top;" [ngSwitch]="activeTab">
-  <ng-container *ngSwitchCase="'book'">
-    <p>{{publication?.bookDescription}}</p>
-  </ng-container>
-  <ng-container *ngSwitchCase="'author'">
-    <p>{{publication?.author?.personalInformation}}</p>
-  </ng-container>
-  <ng-container *ngSwitchCase="'reviews'">
-    <div *ngIf="comments.length > 0; else noComments">
-      <div *ngFor="let comment of comments" class="comment">
-        <p>{{comment.commentText}}</p>
-        <button *ngIf="comment.userId === loggedInUserId" (click)="onDeleteComment(comment.commentId)">Видалити</button>
-      </div>
-    </div>
-    <ng-template #noComments>
-      <p>Поки що немає жодних коментарів.</p>
-    </ng-template>
-    <div *ngIf="isLoggedIn">
-      <form (ngSubmit)="onSubmitComment()" #commentForm="ngForm">
-        <textarea [(ngModel)]="newCommentText" name="commentText" required></textarea>
-        <button type="submit" [disabled]="!commentForm.form.valid">Додати відгук</button>
-      </form>
-    </div>
-    <div *ngIf="!isLoggedIn">
-      <p>Зареєструйтеся, щоб залишити відгук</p>
-    </div>
-  </ng-container>
-</td>

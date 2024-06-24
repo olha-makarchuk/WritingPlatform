@@ -5,7 +5,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 900px;
     margin: 40px auto;
-    font-family: 'Montserrat', sans-serif; /* Зміна шрифта для заголовків */
+    font-family: 'Montserrat', sans-serif; 
     transition: transform 0.3s, box-shadow 0.3s;
   }
   
@@ -26,7 +26,7 @@
   
   .publication-title {
     color: #333;
-    font-size: 32px; /* Змінений розмір заголовків */
+    font-size: 32px; 
     margin-bottom: 20px;
     text-transform: uppercase;
   }
@@ -49,7 +49,7 @@
     color: #555;
     line-height: 1.8;
     margin-bottom: 10px;
-    font-family: 'Roboto', sans-serif; /* Зміна шрифта для тексту */
+    font-family: 'Roboto', sans-serif; 
   }
   
   .publication-content p strong {
@@ -57,13 +57,13 @@
   }
   
   .read-button {
-    background-color: #3498db; /* колір фону */
-    color: white; /* колір тексту */
-    padding: 15px 25px; /* відступи */
-    border: none; /* видалення рамки */
-    border-radius: 8px; /* закруглені кути */
-    cursor: pointer; /* зміна курсору при наведенні */
-    transition: background-color 0.3s; /* плавна зміна коліру фону */
+    background-color: #233487;
+    width: 200px;
+    color: white; 
+    padding: 15px 25px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer;
   }
   .disabled-button {
     background-color: #ccc;
@@ -71,4 +71,80 @@
     cursor: not-allowed;
   }
   
+  .tab-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    border-bottom: 2px solid #ddd;
+  }
   
+  .tab-buttons button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s, border-bottom 0.3s;
+  }
+  
+  .tab-buttons button.active {
+    color: #233487;
+    border-bottom: 10px solid #233487;
+  }
+  
+  .tab-buttons button:hover {
+    color: #233487;
+  }
+  
+  .comment {
+    margin-bottom: 20px;
+  }
+  
+  .comment button {
+    background-color: #c1574b;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .comment button:hover {
+    background-color: #c0392b;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+  }
+  
+  .delete-button {
+    background-color: #c1574b;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #c1574b;
+  }
+
+  .add-ratting{
+    font-size: 18px;
+    margin-top: 30px;
+  }
+
+  .add-ratting-button{
+    font-size: 14px;
+    margin-top: 0px;
+    background-color: #233487;
+    width: 150px;
+    color: white; 
+    padding: 10px 10px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer;
+  }

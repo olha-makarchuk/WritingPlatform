@@ -1,7 +1,9 @@
 <div style="margin-top: 100px;">
-  <h1>Catalog</h1>
+  <header class="text-center">
+    <h3 style="font-weight: 700;">Каталог</h3>
+  </header>
   <div class="checkbox-container">
-    <label>Genres:</label>
+    <label style="font-weight: bold;">Жанри:</label>
     <div class="genre-scroll-container">
       <div *ngFor="let genre of genres">
         <label>
@@ -11,58 +13,62 @@
       </div>
     </div>
   </div>
-  
-  <div>
-    <label for="startPage">Start Page:</label>
-    <input type="number" id="startPage" [(ngModel)]="sortQuery.startPage" (change)="onPageInputChange()">
-  </div>
-  <div>
-    <label for="endPage">End Page:</label>
-    <input type="number" id="endPage" [(ngModel)]="sortQuery.endPage" (change)="onPageInputChange()">
-  </div>
-  <div>
-    <label for="yearPublication">Year of Publication:</label>
-    <input type="number" id="yearPublication" [(ngModel)]="sortQuery.yearPublication" (change)="onYearPublicationChange()">
+
+  <div class="sorting-block">
+    <div style="display: flex; align-items: center;"> 
+      <div style="margin-right: 10px;">
+        <label class="label-line" for="startPage">Кількість сторінок з</label>
+        <input type="number" id="startPage" [(ngModel)]="sortQuery.startPage" (change)="onPageInputChange()">
+      </div>
+      <div>
+        <label style=" font-weight: bold;" for="endPage">- по:</label>
+        <input type="number" id="endPage" [(ngModel)]="sortQuery.endPage" (change)="onPageInputChange()">
+      </div>
+    </div>
+    <div>
+      <label class="label-line" for="yearPublication">Рік публікації:</label>
+      <input type="number" id="yearPublication" [(ngModel)]="sortQuery.yearPublication" (change)="onYearPublicationChange()">
+    </div>
+
+    <div>
+      <label class="label-line" for="sort">Сортувати по:</label>
+      <select id="sort" (change)="onSortChange($event)">
+        <option *ngFor="let item of sortByItems" [value]="item.id">{{ item.itemName }}</option>
+      </select>
+      <select id="sortDirection" (change)="onSortDirectionChange($event)">
+        <option value="asc">Зростанням</option>
+        <option value="desc">Спаданням</option>
+      </select>
+    </div>
+    <div>
+      <button (click)="sortPublications()">Sort</button>
+    </div>
   </div>
 
-  <div>
-    <label for="sort">Sort by:</label>
-    <select id="sort" (change)="onSortChange($event)">
-      <option *ngFor="let item of sortByItems" [value]="item.id">{{ item.itemName }}</option>
-    </select>
-    <select id="sortDirection" (change)="onSortDirectionChange($event)">
-      <option value="asc">Ascending</option>
-      <option value="desc">Descending</option>
-    </select>
-  </div>
-  <div>
-    <button (click)="sortPublications()">Sort</button>
-  </div>
-  
   <div class="publication-list-container">
     <div *ngIf="publications.length > 0; else noPublications">
       <ul class="publication-list">
         <li class="publication-item" *ngFor="let publication of getPaginatedPublications()">
           <a [routerLink]="['/publication', publication.publicationId]" class="publication-link">
             <div class="publication-details">
-              <h3>{{ publication.publicationName }}</h3>
+              <p style=" font-size:24px; color: #333; font-weight: bold;">{{ publication.publicationName }}</p>
               <p><strong>Author:</strong> {{ publication.author.userName }}</p>
               <p><strong>Genre:</strong> {{ publication.genreName }}</p>
-              <p><strong>Rating:</strong> {{ publication.rating }}/5</p>
+              <p><strong>Rating:</strong> {{ publication.rating }}/100</p>
               <p><strong>Date:</strong> {{ publication.datePublication | date }}</p>
             </div>
           </a>
         </li>
       </ul>
-  
-      <div class="pagination-controls">
-        <button *ngIf="currentPage > 1" (click)="onPageChange(currentPage - 1)">Previous Page</button>
-        <span>Page {{ currentPage }} of {{ totalPages }}</span>
-        <button *ngIf="currentPage < totalPages" (click)="onPageChange(currentPage + 1)">Next Page</button>
-      </div>
     </div>
     <ng-template #noPublications>
       <p class="no-publications">No publications found.</p>
     </ng-template>
+  </div>
+  
+  <div class="pagination-controls">
+    <button *ngIf="currentPage > 1" (click)="onPageChange(currentPage - 1)">Previous Page</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button *ngIf="currentPage < totalPages" (click)="onPageChange(currentPage + 1)">Next Page</button>
   </div>
 </div>
