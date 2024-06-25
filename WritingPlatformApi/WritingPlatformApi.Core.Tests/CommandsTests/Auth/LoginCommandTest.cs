@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Domain.Entities;
-using Application.Tests.PlatformFeatures.Commands.Auth;
 
 namespace WritingPlatformApi.Core.Tests.Commands.Auth
 {

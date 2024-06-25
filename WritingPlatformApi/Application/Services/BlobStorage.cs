@@ -21,7 +21,7 @@ namespace Application.Services
             var exists = await blobClient.ExistsAsync();
             if (!exists)
             {
-                Debug.WriteLine($"Blob '{fileName}' does not exist in container '{_containerName}'.");
+                throw new NotFoundException($"Blob '{fileName}' does not exist in container '{_containerName}'.");
             }
             return exists;
         }
@@ -35,8 +35,7 @@ namespace Application.Services
             }
             catch (RequestFailedException ex)
             {
-                Debug.WriteLine($"Error uploading blob '{filename}' to container '{_containerName}': {ex.Message}");
-                throw;
+                throw new Exception($"Error uploading blob '{filename}' to container '{_containerName}': {ex.Message}");
             }
         }
 
@@ -75,7 +74,7 @@ namespace Application.Services
                 }
                 else
                 {
-                    Debug.WriteLine($"Blob '{filename}' does not exist in container '{_containerName}'.");
+                    throw new Exception($"Blob '{filename}' does not exist in container '{_containerName}'.");
                 }
             }
             catch (RequestFailedException ex)

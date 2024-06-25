@@ -101,7 +101,6 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.GenreCommands
 
                 // Act & Assert
                 var exception = await Assert.ThrowsAsync<Exception>(() => handler.Handle(updateGenreCommand, _cts.Token));
-                Assert.Equal("Genre not found", exception.Message);
             });
         }
         

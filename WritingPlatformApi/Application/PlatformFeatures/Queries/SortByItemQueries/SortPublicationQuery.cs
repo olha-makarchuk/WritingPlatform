@@ -80,7 +80,7 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
 
                 if (sortByItem == null)
                 {
-                    throw new Exception("Invalid sort by item");
+                    throw new ArgumentException("Invalid sort by item");
                 }
 
                 IOrderedEnumerable<PublicationWithCommentsCount> orderedPublicationsQuery;
@@ -102,7 +102,7 @@ namespace Application.PlatformFeatures.Queries.SortByItemQueries
                             publicationsWithCommentsCountQuery.OrderByDescending(u => u.CommentsCount);
                         break;
                     default:
-                        throw new Exception("Invalid sort by field");
+                        throw new ArgumentException("Invalid sort by field");
                 }
 
 

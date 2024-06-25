@@ -1,18 +1,23 @@
-<h2>PDF Viewer</h2>
-
 <div class="pdf-container">
-  
   <pdf-viewer [src]="src"
               [original-size]="false"
               [show-all]="false"
               [page]="currentPage"
   ></pdf-viewer>
+</div>
 
-  <button (click)="previousPage()" [disabled]="currentPage <= 1">Попередня сторінка ({{ currentPage - 1 > 0 ? currentPage - 1 : '' }})</button>
-  <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Наступна сторінка ({{ currentPage + 1 <= totalPages ? currentPage + 1 : '' }})</button>
+<div class="controls-container">
+  <div class="button-container">
+    <button (click)="previousPage()" [disabled]="currentPage <= 1" class="nav-button">
+      Попередня сторінка ({{ currentPage - 1 > 0 ? currentPage - 1 : '' }})
+    </button>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages" class="nav-button">
+      Наступна сторінка ({{ currentPage + 1 <= totalPages ? currentPage + 1 : '' }})
+    </button>
+  </div>
   
   <div class="paginator">
-    <input type="number" [(ngModel)]="currentPage" (change)="goToPage()">
+    <input type="number" [(ngModel)]="currentPage" (change)="goToPage()" class="page-input">
     <span>/ {{ totalPages }}</span>
   </div>
 </div>

@@ -12,6 +12,6 @@ namespace WritingPlatformApi.Controllers
         {
             _mediator = mediator;
         }
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>()!;
     }
 }

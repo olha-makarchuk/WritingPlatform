@@ -132,7 +132,53 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
             });
         }
 
+        [Fact]
+        public async Task Handle_UserHasAlreadyReviewed_ShouldThrowArgumentException()
+        {
+            // Arrange
+            var fixture = new Fixture();
 
+            var publication = new Publication
+            {
+                Id = 1,
+                PublicationName = "Sample Publication",
+                ApplicationUserId = "qwerty",
+                bookDescription = "qwerty",
+                CountOfPages = 2,
+                FileKey = "FileKey",
+                TitleKey = "Title",
+                DatePublication = DateTime.Now,
+                GenreId = 1,
+                Rating = 4,
+                CountOfRewiews = 1 // Example initial values
+            };
+
+            var existingReview = new UserRewiew
+            {
+                PublicationId = publication.Id,
+                Rewiew = 5,
+                ApplicationUserId = "sample-user-id"
+            };
+
+            _dbContext.AddAndSave(publication);
+            _dbContext.AddAndSave(existingReview);
+
+            var command = new CreateRewiewCommand
+            {
+                IdPublication = publication.Id,
+                Rating = 5,
+                UserId = "sample-user-id"
+            };
+
+            _dbContext.Assert(async context =>
+            {
+                var handler = CreateSut(context);
+
+                // Act & Assert
+                var exception = await Assert.ThrowsAsync<ArgumentException>(() => handler.Handle(command, _cts.Token));
+                Assert.Equal("User has already reviewed this publication.", exception.Message);
+            });
+        }
         private static CreateRewiewCommandHandler CreateSut(ApplicationDbContext context)
             => new CreateRewiewCommandHandler(context);
     }

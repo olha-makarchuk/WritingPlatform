@@ -1,6 +1,85 @@
+.pdf-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 80px;
+  width: 100%;
+  max-width:950px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 pdf-viewer {
-    display: block;
-    height: 1100px; 
-    width: 700px;
+  display: block;
+  height: 85vh;
+  width: 900px; 
+}
+
+.controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 750px;
+  margin-bottom: 20px;
+}
+
+.nav-button {
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.nav-button:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+.nav-button:hover:not(:disabled) {
+  background-color: #357ab8;
+}
+
+.paginator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-input {
+  width: 60px;
+  padding: 5px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Додаткові стилі для адаптивності */
+@media (max-width: 768px) {
+  .button-container {
+    flex-direction: column;
   }
-  
+
+  .nav-button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}

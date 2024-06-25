@@ -1,13 +1,8 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.PlatformFeatures.Commands.UserAccountCommands
 {
@@ -33,13 +28,13 @@ namespace Application.PlatformFeatures.Commands.UserAccountCommands
         public async Task<ApplicationUser> Handle(ChangePersonalInformationCommand command, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(command.UserId)
-                 ?? throw new Exception("User not found");
+                 ?? throw new NotFoundException("User not found");
 
             var userNameExists = await _userManager.FindByNameAsync(command.UserName);
 
             if(userNameExists != null && user.UserName != userNameExists.UserName)
             {
-                throw new Exception("User with the same username alredy exists");
+                throw new ArgumentException("User with the same username alredy exists");
             }
 
             user.FirstName = command.FirstName;

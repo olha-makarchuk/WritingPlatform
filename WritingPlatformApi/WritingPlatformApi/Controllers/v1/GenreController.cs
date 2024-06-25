@@ -15,8 +15,7 @@ namespace WritingPlatformApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var a = await Mediator.Send(new GetAllGenreQuery());
-            return Ok(a);
+            return Ok(await Mediator.Send(new GetAllGenreQuery()));
         }
 
         [HttpPost]

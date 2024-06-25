@@ -1,5 +1,7 @@
 ﻿using CorrelationId.Abstractions;
 using Newtonsoft.Json;
+using System.Net;
+using Application.Services;
 
 namespace WritingPlatformApi.Middleware
 {
@@ -30,7 +32,15 @@ namespace WritingPlatformApi.Middleware
         private static Task HandleExceptionAsync(HttpContext context, Exception exception,
             IWebHostEnvironment env, string correlationId, ILogger logger)
         {
-            var code = StatusCodes.Status500InternalServerError;
+            int code;
+            if (exception is NotFoundException)
+            {
+                code = (int)HttpStatusCode.NotFound;
+            }
+            else
+            {
+                code = StatusCodes.Status500InternalServerError;
+            }
             string prodMessage = string.Empty;
             string correlationIdMessage = $"Request CorrelationId is '{correlationId}'.";
 

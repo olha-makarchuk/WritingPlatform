@@ -1,6 +1,7 @@
 ﻿using Application.PlatformFeatures.Commands.CommentCommands;
 using Application.PlatformFeatures.Queries.CommentQueries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WritingPlatformApi.Controllers.v1
@@ -12,26 +13,24 @@ namespace WritingPlatformApi.Controllers.v1
         {
         }
         
-        [HttpPost]
-        public async Task<IActionResult> CreateComment(CreateCommentCommand request)
+        [HttpPost, Authorize]
+        public async Task<IActionResult> CreateComment([FromBody] CreateCommentCommand request)
         {
-            var a = await Mediator.Send(request);
-            return Ok(a);
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]
         [Route("by-publication")]
         public async Task<IActionResult> GetComments(GetCommentsByPublicationQuery query)
         {
-            var a = await Mediator.Send(query);
-            return Ok(a);
+            return Ok(await Mediator.Send(query));
         }
 
-        [HttpDelete("{commentId}")]
+        [HttpDelete("{commentId}"), Authorize]
         public async Task<IActionResult> DeleteCommentById(int commentId)
         {
-            var a = await Mediator.Send(new DeleteCommentCommand() { CommentId= commentId });
-            return Ok(a);
+            var result = await Mediator.Send(new DeleteCommentCommand() { CommentId= commentId });
+            return Ok(result);
         }
     }
 }

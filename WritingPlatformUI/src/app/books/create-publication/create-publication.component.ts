@@ -19,6 +19,7 @@ export class CreatePublicationComponent implements OnInit {
   titlePath: File | null = null;
   bookDescription: string = '';
   successMessage: string = '';
+  loading: boolean = false;
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -48,6 +49,7 @@ export class CreatePublicationComponent implements OnInit {
 
   onSubmit(): void {
     if (this.filePath && this.titlePath) {
+      this.loading = true; // Починаємо показ "Please wait"
       const publication: PublicationCreate = {
         publicationName: this.publicationName,
         genreId: this.genreId,
@@ -59,9 +61,11 @@ export class CreatePublicationComponent implements OnInit {
       this.userService.CreatePublication(publication).subscribe(() => {
         this.resetForm();
         this.successMessage = 'Publication created successfully!';
+        this.loading = false; // Приховуємо "Please wait" після завершення
       });
     }
   }
+  
 
   resetForm(): void {
     this.publicationName = '';

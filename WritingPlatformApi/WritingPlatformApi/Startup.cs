@@ -5,9 +5,9 @@ using Application.Services;
 using WritingPlatformApi.Modules;
 using CorrelationId.DependencyInjection;
 using Microsoft.AspNetCore.HttpLogging;
-using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using Application.PlatformFeatures;
+using CorrelationId;
+using WritingPlatformApi.Middleware;
 
 namespace WritingPlatformApi
 {
@@ -31,35 +31,39 @@ namespace WritingPlatformApi
             services.AddDefaultCorrelationId();
             services.AddApplication();
 
-            services.UseCoreLogging();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IBlobStorage, BlobStorage>();
-            services.AddScoped<IPdfReaderService, PdfReaderService>();
+            services.AddScoped<IPdfReaderService, PdfReaderPaginatorService>();
             services.AddSingleton<BlobStorageConfig>();
 
             ConfigureDb(services);
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "Writing Platform API V1");
-                c.OAuthAppName("Writing Platform API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Writing Platform API V1");
             });
 
-            app.UseHttpsRedirection();
+            app.UseCorrelationId();
+
+            app.UseMiddleware<HealthCheckMiddleware>();
+
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.UseHttpLogging();
 
-            app.UseCors("CorsPolicy");
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
-
             app.UseAuthorization();
 
-            app.UseRouting();
+            app.UseCors("CorsPolicy");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -72,10 +76,6 @@ namespace WritingPlatformApi
             {
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             });
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<ApplicationDbContext>()
-                            .AddDefaultTokenProviders();
         }
     }
 }

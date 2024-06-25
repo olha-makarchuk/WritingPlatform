@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Contracts.Responses;
 using Domain.Entities;
 using MediatR;
@@ -26,9 +27,9 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
             public async Task<List<PublicationResponse>> Handle(GetPublicationByAuthorQuery query, CancellationToken cancellationToken)
             {
                 var authorExist = await _userManager.FindByIdAsync(query.UserId);
-                if (authorExist == null || !authorExist.IsAuthor)
+                if (authorExist == null)
                 {
-                    throw new Exception("Author not found");
+                    throw new NotFoundException("Author not found");
                 }
 
                 var totalPublications = await _context.Publication.Where(u => u.ApplicationUserId == query.UserId).CountAsync();
@@ -59,7 +60,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                    PaginatorCount = (int)Math.Ceiling((double)totalPublications / query.PageSize)
                })
                .ToListAsync(cancellationToken)
-                ?? throw new Exception("Publication not found");
+                ?? throw new NotFoundException("Publication not found");
 
                 return publicationList;
             }

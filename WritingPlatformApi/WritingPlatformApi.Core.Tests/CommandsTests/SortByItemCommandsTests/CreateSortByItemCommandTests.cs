@@ -77,8 +77,8 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.SortByItemCommandsTests
                 var handler = CreateSut(context);
 
                 // Act & Assert
-                var exception = await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, _cts.Token));
-                Assert.Equal("SortByItemm alredy exists", exception.Message);
+                var exception = await Assert.ThrowsAsync<ArgumentException>(() => handler.Handle(command, _cts.Token));
+                Assert.Equal("SortByItem already exists", exception.Message);
             });
         }
 

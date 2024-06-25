@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -24,10 +25,10 @@ namespace Application.PlatformFeatures.Commands.UserAccountCommands
         public async Task<ApplicationUser> Handle(DeleteAccountCommand command, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(command.UserId)
-                 ?? throw new Exception("User not found");
+                 ?? throw new NotFoundException("User not found");
 
             user.IsActive = false;
-            _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
 
             return user;
         }

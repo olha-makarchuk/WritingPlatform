@@ -40,10 +40,10 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
             ValidateJpegFile(command.TitlePath);
 
             var user = await _userManager.FindByIdAsync(command.UserId)
-                ?? throw new InvalidOperationException("User not found");
+                ?? throw new NotFoundException("User not found");
 
             var genre = await _context.Genre.FirstOrDefaultAsync(u => u.Id == command.GenreId)
-                ?? throw new InvalidOperationException("Genre not found");
+                ?? throw new NotFoundException("Genre not found");
 
             var existingPublications = await _context.Publication
                 .Include(u => u.ApplicationUser)

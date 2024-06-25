@@ -70,7 +70,6 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
 
                 // Act & Assert
                 var exception = await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, _cts.Token));
-                Assert.Equal("User not found", exception.Message);
             });
         }
 

@@ -7,32 +7,32 @@
     
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
-        <a href="/genres" class="nav-link text-white" routerLink="genres">Genres</a>
+        <a href="/genres" class="nav-link text-white" routerLink="genres">Жанри</a>
       </li>
       <li class="nav-item">
-        <a href="/authors" class="nav-link text-white" routerLink="authors">Authors</a>
+        <a href="/authors" class="nav-link text-white" routerLink="authors">Автори</a>
       </li>
       <li class="nav-item">
-        <a href="/all-publications" class="nav-link text-white" routerLink="all-publications">Publications</a>
+        <a href="/all-publications" class="nav-link text-white" routerLink="all-publications">Публікації</a>
       </li>
-      <li class="nav-item">
-        <a href="/create-publication" class="nav-link text-white" routerLink="create-publication">create</a>
-      </li>
+
       <li class="nav-item">
         <a href="/catalog" class="nav-link text-white" routerLink="catalog">Каталог</a>
       </li>
     </ul>
-
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
-        <a href="/register" class="nav-link text-white" routerLink="register">Register</a>
+        <a href="/register" class="nav-link text-white" routerLink="register">Реєстрація</a>
       </li>
       <li class="nav-item">
-        <a href="/login" class="nav-link text-white" routerLink="login">Login</a>
+        <a href="/login" class="nav-link text-white" routerLink="login">Вхід</a>
       </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+      <li class="nav-item">
+        <a href="/create-publication" class="nav-link text-white" routerLink="create-publication">Створити публікацію</a>
+      </li>
       <li class="nav-item">
         <a href="/my-publications" class="nav-link text-white" routerLink="my-publications">Мої публікації</a>
       </li>

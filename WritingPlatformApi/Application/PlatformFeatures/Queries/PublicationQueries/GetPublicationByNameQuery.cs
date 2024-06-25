@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Contracts.Responses;
+using Application.Services;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
@@ -49,7 +50,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                     PaginatorCount = (int)Math.Ceiling((double)totalPublications / query.PageSize)
                 })
                 .ToListAsync(cancellationToken)
-                 ?? throw new Exception("Publication not found");
+                 ?? throw new NotFoundException("Publication not found");
 
                 return publicationList;
             }

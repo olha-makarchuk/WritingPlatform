@@ -28,7 +28,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.PublicationQueriesTests
 
             _dbContext.AddAndSave(publication);
 
-            var query = new GetPublicationByIdQuery { IdPublication = publication.Id, PageNumber = 1, PageSize = 1 };
+            var query = new GetPublicationByIdQuery { IdPublication = publication.Id};
 
             _dbContext.Assert(async context =>
             {
@@ -47,7 +47,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.PublicationQueriesTests
         public async Task GetPublicationByIdQuery_WithInvalidId_ShouldThrowException()
         {
             // Arrange
-            var query = new GetPublicationByIdQuery { IdPublication = -1, PageNumber = 1, PageSize = 1 };
+            var query = new GetPublicationByIdQuery { IdPublication = -1};
 
             _dbContext.Assert(async context =>
             {
@@ -70,7 +70,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.PublicationQueriesTests
 
             _dbContext.AddAndSave(publication);
 
-            var query = new GetPublicationByIdQuery { IdPublication = publication.Id + 1, PageNumber = 1, PageSize = 1 };
+            var query = new GetPublicationByIdQuery { IdPublication = publication.Id + 1};
 
             _dbContext.Assert(async context =>
             {

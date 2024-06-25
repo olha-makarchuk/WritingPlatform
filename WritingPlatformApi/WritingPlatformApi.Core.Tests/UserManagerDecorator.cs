@@ -55,6 +55,7 @@ namespace WritingPlatformApi.Core.Tests
         {
             UserManagerMock.Setup(x => x.UpdateAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(result);
         }
+
         public void SetupFindByIdAsync(ApplicationUser user)
         {
             UserManagerMock.Setup(x => x.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(user);

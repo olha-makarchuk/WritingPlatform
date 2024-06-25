@@ -1,26 +1,70 @@
-.publication-list-container {
-    margin-top: 50px;
-  }
-  
-  .publication-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .publication-item {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .publication-details h3 {
-    margin-top: 0;
-  }
-  
-  .no-publications {
-    font-style: italic;
-    color: #888;
-  }
-  
+.profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.form-block {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+.nav-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}

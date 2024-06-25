@@ -74,14 +74,20 @@ export class PublicationComponent implements OnInit {
     }
   }
   
+  
   onSubmitComment(): void {
     if (this.newCommentText.trim() && this.publication) {
-      this.userService.createComment(this.publication.publicationId, this.newCommentText, this.login).subscribe(() => {
+      this.userService.createComment(this.publication.publicationId, this.newCommentText, this.login)
+      .subscribe(() => {
         this.userService.getComments(this.publication!.publicationId).subscribe(comments => {
           this.comments = comments;
           this.newCommentText = '';
         });
-      });
+      },
+      (error) => {
+        console.error('Error creating comment:', error);
+      }
+    );
     }
   }
 

@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,17 +24,16 @@ namespace Application.PlatformFeatures.Commands.RewiewCommand
 
         public async Task<Publication> Handle(CreateRewiewCommand command, CancellationToken cancellationToken)
         {
-            // Check if the user has already reviewed the publication
             var existingReview = await _context.UserRewiew
                 .FirstOrDefaultAsync(r => r.ApplicationUserId == command.UserId && r.PublicationId == command.IdPublication);
 
             if (existingReview != null)
             {
-                throw new Exception("User has already reviewed this publication.");
+                throw new ArgumentException("User has already reviewed this publication.");
             }
 
             var publication = await _context.Publication.FirstOrDefaultAsync(u => u.Id == command.IdPublication, cancellationToken);
-            if (publication == null) throw new Exception("Publication not found");
+            if (publication == null) throw new NotFoundException("Publication not found");
 
             int newRating = (publication.CountOfRewiews == 0) ? command.Rating :
                             (publication.Rating + command.Rating) / (publication.CountOfRewiews + 1);
@@ -42,7 +42,7 @@ namespace Application.PlatformFeatures.Commands.RewiewCommand
             publication.Rating = newRating;
 
             _context.Publication.Update(publication);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             var rewiew = new UserRewiew()
             {

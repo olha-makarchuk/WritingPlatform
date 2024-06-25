@@ -1,38 +1,43 @@
-﻿using Application.PlatformFeatures.Queries.Rewiew;
+﻿using Application.PlatformFeatures.Queries.Review;
+using Application.Services;
 using AutoFixture;
 using Domain.Entities;
 using Persistence.Context;
+using Xunit;
 
-namespace WritingPlatformApi.Core.Tests.QueriesTests.RewiewQueriesTests
+namespace WritingPlatformApi.Core.Tests.QueriesTests.ReviewQueriesTests
 {
-    public class GetOwnRewiewQueryTests
+    public class GetOwnReviewQueryTests
     {
         private readonly DbContextDecorator<ApplicationDbContext> _dbContext;
         protected readonly CancellationTokenSource _cts = new();
 
-        public GetOwnRewiewQueryTests()
+        public GetOwnReviewQueryTests()
         {
             var options = Utilities.CreateInMemoryDbOptions<ApplicationDbContext>();
             _dbContext = new DbContextDecorator<ApplicationDbContext>(options);
         }
 
         [Fact]
-        public async Task GetOwnRewiewQuery_WithValidParameters_ShouldReturnRewiew()
+        public async Task GetOwnReviewQuery_WithValidParameters_ShouldReturnReview()
         {
             // Arrange
             var fixture = new Fixture();
             var user = fixture.Build<ApplicationUser>().Create();
             var publication = fixture.Build<Publication>().Create();
-            var rewiew = fixture.Build<UserRewiew>()
-                                .With(r => r.ApplicationUserId, user.Id)
-                                .With(r => r.PublicationId, publication.Id)
-                                .Create();
 
             _dbContext.AddAndSave(user);
             _dbContext.AddAndSave(publication);
-            _dbContext.AddAndSave(rewiew);
 
-            var query = new GetOwnRewiewQuery { UserId = user.Id, PublicationId = publication.Id };
+            var review = new UserRewiew()
+            {
+                ApplicationUserId = user.Id,
+                PublicationId = publication.Id,
+                Rewiew = 50
+            };
+            _dbContext.AddAndSave(review);
+
+            var query = new GetOwnReviewQuery { UserId = user.Id, PublicationId = publication.Id };
 
             _dbContext.Assert(async context =>
             {
@@ -43,14 +48,14 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.RewiewQueriesTests
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(rewiew.Id, result.Id);
-                Assert.Equal(rewiew.ApplicationUserId, result.ApplicationUserId);
-                Assert.Equal(rewiew.PublicationId, result.PublicationId);
+                Assert.Equal(review.Id, result.Id);
+                Assert.Equal(review.ApplicationUserId, result.ApplicationUserId);
+                Assert.Equal(review.PublicationId, result.PublicationId);
             });
         }
 
         [Fact]
-        public async Task GetOwnRewiewQuery_WithInvalidPublicationId_ShouldThrowException()
+        public async Task GetOwnReviewQuery_WithInvalidPublicationId_ShouldThrowNotFoundException()
         {
             // Arrange
             var fixture = new Fixture();
@@ -58,19 +63,19 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.RewiewQueriesTests
 
             _dbContext.AddAndSave(user);
 
-            var query = new GetOwnRewiewQuery { UserId = user.Id, PublicationId = 999 }; // Invalid PublicationId
+            var query = new GetOwnReviewQuery { UserId = user.Id, PublicationId = 999 }; // Invalid PublicationId
 
             _dbContext.Assert(async context =>
             {
                 var handler = CreateSut(context);
 
-                // Act and Assert
-                await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(query, _cts.Token));
+                // Act & Assert
+                await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(query, _cts.Token));
             });
         }
 
         [Fact]
-        public async Task GetOwnRewiewQuery_WithInvalidUserId_ShouldThrowException()
+        public async Task GetOwnReviewQuery_WithInvalidUserId_ShouldThrowNotFoundException()
         {
             // Arrange
             var fixture = new Fixture();
@@ -78,19 +83,19 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.RewiewQueriesTests
 
             _dbContext.AddAndSave(publication);
 
-            var query = new GetOwnRewiewQuery { UserId = "invalidUserId", PublicationId = publication.Id }; // Invalid UserId
+            var query = new GetOwnReviewQuery { UserId = "invalidUserId", PublicationId = publication.Id }; // Invalid UserId
 
             _dbContext.Assert(async context =>
             {
                 var handler = CreateSut(context);
 
-                // Act and Assert
-                await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(query, _cts.Token));
+                // Act & Assert
+                await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(query, _cts.Token));
             });
         }
 
         [Fact]
-        public async Task GetOwnRewiewQuery_WithNoRewiew_ShouldThrowException()
+        public async Task GetOwnReviewQuery_WithNoReview_ShouldThrowNotFoundException()
         {
             // Arrange
             var fixture = new Fixture();
@@ -100,18 +105,18 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.RewiewQueriesTests
             _dbContext.AddAndSave(user);
             _dbContext.AddAndSave(publication);
 
-            var query = new GetOwnRewiewQuery { UserId = user.Id, PublicationId = publication.Id };
+            var query = new GetOwnReviewQuery { UserId = user.Id, PublicationId = publication.Id };
 
             _dbContext.Assert(async context =>
             {
                 var handler = CreateSut(context);
 
-                // Act and Assert
-                await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(query, _cts.Token));
+                // Act & Assert
+                await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(query, _cts.Token));
             });
         }
 
-        private GetOwnRewiewQuery.GetOwnRewiewQueryHandler CreateSut(ApplicationDbContext context)
-            => new GetOwnRewiewQuery.GetOwnRewiewQueryHandler(context);
+        private GetOwnReviewQuery.GetOwnReviewQueryHandler CreateSut(ApplicationDbContext context)
+            => new GetOwnReviewQuery.GetOwnReviewQueryHandler(context);
     }
 }

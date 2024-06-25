@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +29,7 @@ namespace Application.PlatformFeatures.Commands.PublicationCommands
         {
             var publication = await _context.Publication.Where(a => a.Id == command.Id)
                 .FirstOrDefaultAsync(cancellationToken)
-                ?? throw new Exception("Publication not Found");
+                ?? throw new NotFoundException("Publication not Found");
 
             await _storage.DeleteAsync(publication.FileKey);
             await _storage.DeleteAsync(publication.TitleKey);

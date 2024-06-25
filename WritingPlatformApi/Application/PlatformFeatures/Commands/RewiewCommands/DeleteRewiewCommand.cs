@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Application.PlatformFeatures.Commands.RewiewCommand
         public async Task<UserRewiew> Handle(DeleteRewiewCommand command, CancellationToken cancellationToken)
         {
             var rewiew = await _context.UserRewiew.Where(u => u.Id == command.RewiewId).FirstOrDefaultAsync()
-             ?? throw new Exception("Rewiew not found");
+             ?? throw new NotFoundException("Rewiew not found");
 
             var a = await _context.Publication.Where(u => u.Id == rewiew.PublicationId).FirstOrDefaultAsync(cancellationToken);
 

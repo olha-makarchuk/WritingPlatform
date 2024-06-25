@@ -1,7 +1,7 @@
 ﻿using Application.PlatformFeatures.Commands.UserAccountCommands;
 using Application.PlatformFeatures.Queries.UserAccountQueries;
-using Google.Apis.Drive.v3.Data;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WritingPlatformApi.Controllers.v1
@@ -14,20 +14,20 @@ namespace WritingPlatformApi.Controllers.v1
         }
 
         [HttpPost]
-        [Route("change")]
+        [Route("change"), Authorize]
         public async Task<IActionResult> ChangePersonalInformation(ChangePersonalInformationCommand request)
         {
             return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]
-        [Route("by-userId")]/////////////////////////
+        [Route("by-userId")]
         public async Task<IActionResult> PersonalInformation(GetUserAccountByLoginQuery query)
         {
             return Ok(await Mediator.Send(query));
         }
 
-        [HttpDelete("{accountId}")]
+        [HttpDelete("{accountId}"), Authorize]
         public async Task<IActionResult> DeleteAccount(string accountId)
         {
             return Ok(await Mediator.Send(new DeleteAccountCommand() {UserId = accountId }));

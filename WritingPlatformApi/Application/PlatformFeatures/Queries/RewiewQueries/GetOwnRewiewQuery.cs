@@ -1,35 +1,36 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.PlatformFeatures.Queries.Rewiew
+namespace Application.PlatformFeatures.Queries.Review
 {
-    public class GetOwnRewiewQuery : IRequest<UserRewiew>
+    public class GetOwnReviewQuery : IRequest<UserRewiew>
     {
         public string UserId { get; set; }
         public int PublicationId { get; set; }
 
-        public class GetOwnRewiewQueryHandler : IRequestHandler<GetOwnRewiewQuery, UserRewiew>
+        public class GetOwnReviewQueryHandler : IRequestHandler<GetOwnReviewQuery, UserRewiew>
         {
             private readonly IApplicationDbContext _context;
 
-            public GetOwnRewiewQueryHandler(IApplicationDbContext context)
+            public GetOwnReviewQueryHandler(IApplicationDbContext context)
             {
                 _context = context;
             }
 
-            public async Task<UserRewiew> Handle(GetOwnRewiewQuery query, CancellationToken cancellationToken)
+            public async Task<UserRewiew> Handle(GetOwnReviewQuery query, CancellationToken cancellationToken)
             {
-                var publication = await _context.Publication.FirstOrDefaultAsync(u => u.Id == query.PublicationId)
-                    ?? throw new Exception("Publication not found");
+                var publication = await _context.Publication
+                    .FirstOrDefaultAsync(u => u.Id == query.PublicationId, cancellationToken)
+                    ?? throw new NotFoundException("Publication not found");
 
-                var rewiew = await _context.UserRewiew
-                    .Where(u => u.ApplicationUserId == query.UserId)
-                    .Where(p => p.PublicationId == query.PublicationId)
-                    .FirstOrDefaultAsync();
+                var review = await _context.UserRewiew
+                    .FirstOrDefaultAsync(u => u.ApplicationUserId == query.UserId && u.PublicationId == query.PublicationId, cancellationToken)
+                    ?? throw new NotFoundException("Review not found");
 
-                return rewiew;
+                return review;
             }
         }
     }

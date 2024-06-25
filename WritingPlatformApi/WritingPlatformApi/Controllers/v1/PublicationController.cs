@@ -2,6 +2,7 @@
 using MediatR;
 using Application.PlatformFeatures.Queries.PublicationQueries;
 using Application.PlatformFeatures.Commands.PublicationCommands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WritingPlatformApi.Controllers.v1
 {
@@ -13,7 +14,9 @@ namespace WritingPlatformApi.Controllers.v1
         public PublicationController(ILogger<PublicationController> logger, IMediator mediator) : base(mediator)
         {
             _logger = logger;
-        }        [HttpPost]
+        }
+
+        [HttpPost, Authorize]
         public async Task<IActionResult> Create(CreatePublicationCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -44,14 +47,14 @@ namespace WritingPlatformApi.Controllers.v1
         [Route("by-id")]
         public async Task<IActionResult> GetPubicationsById(GetPublicationByIdQuery query)
         {
-            var a = await Mediator.Send(query);
-            return Ok(a);
+            return Ok(await Mediator.Send(query));
         }
 
-        [HttpDelete("{publicationId}")]
+        [HttpDelete("{publicationId}"), Authorize]
         public async Task<IActionResult> DeletePubicationById(int publicationId)
         {
-            return Ok(await Mediator.Send(new DeletePublicationByIdCommand() { Id= publicationId }));
+            var result = await Mediator.Send(new DeletePublicationByIdCommand() { Id = publicationId });
+            return Ok(result);
         }
 
         [HttpPost]

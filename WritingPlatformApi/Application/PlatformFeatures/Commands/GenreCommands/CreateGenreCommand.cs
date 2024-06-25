@@ -23,11 +23,6 @@ namespace Application.PlatformFeatures.Commands.GenreCommands
 
         public async Task<Genre> Handle(CreateGenreCommand command, CancellationToken cancellationToken)
         {
-            if (command.Name == null && command.FilePath == null)
-            {
-                throw new Exception("Fields cannot be null");
-            }
-
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             var genreFileName = $"{Guid.NewGuid()}_{timestamp}_{command.FilePath.FileName}";
 
@@ -36,7 +31,7 @@ namespace Application.PlatformFeatures.Commands.GenreCommands
             {
                 await _storage.PutContextAsync(genreFileName, genreStream);
             }
-
+            
             var genre = new Genre
             {
                 Name = command.Name,
@@ -44,7 +39,7 @@ namespace Application.PlatformFeatures.Commands.GenreCommands
             };
 
             _context.Genre.Add(genre);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return genre;
         }

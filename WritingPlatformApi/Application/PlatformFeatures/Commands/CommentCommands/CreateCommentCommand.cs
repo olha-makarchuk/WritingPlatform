@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -26,10 +27,10 @@ namespace Application.PlatformFeatures.Commands.CommentCommands
         public async Task<Comment> Handle(CreateCommentCommand command, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(command.ApplicationUserId)
-                ?? throw new Exception($"User with ID {command.ApplicationUserId} not found.");
+                ?? throw new NotFoundException($"User with ID {command.ApplicationUserId} not found.");
 
             var publication = _context.Publication.Where(u => u.Id == command.PublicationId)
-                ?? throw new Exception($"Publication with ID {command.PublicationId} not found.");
+                ?? throw new NotFoundException($"Publication with ID {command.PublicationId} not found.");
 
             var comment = new Comment
             {
@@ -39,7 +40,7 @@ namespace Application.PlatformFeatures.Commands.CommentCommands
             };
 
             _context.Comment.Add(comment);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return comment;
         }

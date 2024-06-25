@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
             {
                 var genreExist = await _context.Genre.Where(a => a.Id == query.IdGenre)
                     .FirstOrDefaultAsync(cancellationToken)
-                    ?? throw new Exception("Genre not found");
+                    ?? throw new NotFoundException("Genre not found");
 
                 var totalPublications = await _context.Publication.Where(u => u.GenreId == query.IdGenre).CountAsync();
 
@@ -54,7 +55,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                    PaginatorCount = (int)Math.Ceiling((double)totalPublications / query.PageSize)
                })
                .ToListAsync(cancellationToken)
-                ?? throw new Exception("Publication not found");
+                ?? throw new NotFoundException("Publication not found");
 
                 return publicationList;
             }

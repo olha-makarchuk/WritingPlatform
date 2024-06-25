@@ -14,8 +14,7 @@ namespace WritingPlatformApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetAllSortByItem()
         {
-            var a = await Mediator.Send(new GetAllSortByItemQuery());
-            return Ok(a);
+            return Ok(await Mediator.Send(new GetAllSortByItemQuery()));
         }
 
         [HttpPost]
@@ -24,13 +23,11 @@ namespace WritingPlatformApi.Controllers.v1
             return Ok(await Mediator.Send(command));
         }
 
-
         [HttpPost]
         [Route("sort")]
         public async Task<IActionResult> Sort(SortPublicationQuery query)
         {
-            var a = await Mediator.Send(query);
-            return Ok(a);
+            return Ok(await Mediator.Send(query));
         }
     }
 }

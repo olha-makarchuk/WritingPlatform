@@ -1,4 +1,6 @@
 ﻿using Application.Interfaces;
+using Application.Services;
+using Contracts.Responses;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -24,7 +26,7 @@ namespace Application.PlatformFeatures.Queries.UserAccountQueries
         public async Task<PersonalInformationResponse> Handle(GetUserAccountByLoginQuery query, CancellationToken cancellationToken)
         {
             var user = _userManager.FindByIdAsync(query.UserId).Result
-                ?? throw new Exception("User not found");
+                ?? throw new NotFoundException("User not found");
 
             PersonalInformationResponse response = new();
             response.UserName = user.UserName;
@@ -34,14 +36,5 @@ namespace Application.PlatformFeatures.Queries.UserAccountQueries
             response.LastName = user.LastName;
             return response;
         }
-    }
-
-    public class PersonalInformationResponse()
-    {
-        public string FirstName {get; set;}
-        public string LastName { get; set;}
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string PersonalInformation {  get; set; }
     }
 }

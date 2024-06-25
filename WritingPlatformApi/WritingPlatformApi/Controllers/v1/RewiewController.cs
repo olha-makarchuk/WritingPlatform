@@ -1,6 +1,7 @@
 ﻿using Application.PlatformFeatures.Commands.RewiewCommand;
-using Application.PlatformFeatures.Queries.Rewiew;
+using Application.PlatformFeatures.Queries.Review;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WritingPlatformApi.Controllers.v1
@@ -12,25 +13,25 @@ namespace WritingPlatformApi.Controllers.v1
         {
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         [Route("rewiew")]
         public async Task<IActionResult> CreateOwnRewiew(CreateRewiewCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         [Route("own-rewiew")]
-        public async Task<IActionResult> GetOwnRewiew(GetOwnRewiewQuery query)
+        public async Task<IActionResult> GetOwnRewiew(GetOwnReviewQuery query)
         {
-            var a = await Mediator.Send(query);
-            return Ok(a);
+            return Ok(await Mediator.Send(query));
         }
 
-        [HttpDelete("{rewiewId}")]
+        [HttpDelete("{rewiewId}"), Authorize]
         public async Task<IActionResult> DeleteRewiew(int rewiewId)
         {
-            return Ok(await Mediator.Send(new DeleteRewiewCommand { RewiewId = rewiewId }));
+            var result = await Mediator.Send(new DeleteRewiewCommand { RewiewId = rewiewId });
+            return Ok(result);
         }
     }
 }

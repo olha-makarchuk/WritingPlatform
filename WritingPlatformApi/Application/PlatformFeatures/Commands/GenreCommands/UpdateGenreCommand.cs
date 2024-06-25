@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace Application.PlatformFeatures.Commands.GenreCommands
         public async Task<Genre> Handle(UpdateGenreCommand command, CancellationToken cancellationToken)
         {
             var genre = await _context.Genre.FirstOrDefaultAsync(a => a.Id == command.Id, cancellationToken)
-                ?? throw new Exception("Genre not found");
+                ?? throw new NotFoundException("Genre not found");
 
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             var genreFileName = $"{Guid.NewGuid()}_{timestamp}_{command.FilePath.FileName}";
@@ -41,7 +42,7 @@ namespace Application.PlatformFeatures.Commands.GenreCommands
             genre.FileKey = genreFileName;
             genre.Name = command.Name;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return genre;
         }

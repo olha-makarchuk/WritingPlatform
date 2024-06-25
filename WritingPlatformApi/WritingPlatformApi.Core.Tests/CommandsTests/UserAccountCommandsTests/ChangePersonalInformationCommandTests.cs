@@ -3,6 +3,10 @@ using AutoFixture;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Persistence.Context;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
 {
@@ -68,7 +72,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
             var existingUser = fixture.Build<ApplicationUser>().Create();
 
             var userWithSameUsername = fixture.Build<ApplicationUser>()
-                                      .With(p => p.UserName, existingUser.UserName)
+                                      .With(p => p.UserName, "new_username")
                                       .Create();
 
             _dbContext.AddAndSave(existingUser);
@@ -91,8 +95,8 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
                 var handler = CreateSut(context, _userManagerMock.UserManagerMock.Object);
 
                 // Act & Assert
-                var exception = await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, _cts.Token));
-                Assert.Equal("User with the same username alredy exists", exception.Message);
+                var exception = await Assert.ThrowsAsync<ArgumentException>(() => handler.Handle(command, _cts.Token));
+                Assert.Equal("User with the same username already exists", exception.Message);
             });
         }
 

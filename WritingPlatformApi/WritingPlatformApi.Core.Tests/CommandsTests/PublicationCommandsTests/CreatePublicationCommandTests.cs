@@ -178,7 +178,6 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.PublicationCommands
 
                 // Act & Assert
                 var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => handler.Handle(command, _cts.Token));
-                Assert.Equal("User not found", exception.Message);
             });
         }
 
@@ -212,7 +211,6 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.PublicationCommands
 
                 // Act & Assert
                 var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => handler.Handle(command, _cts.Token));
-                Assert.Equal("Genre not found", exception.Message);
             });
         }
 

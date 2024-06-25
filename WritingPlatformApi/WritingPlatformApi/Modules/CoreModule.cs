@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence.Context;
@@ -58,6 +57,11 @@ namespace WritingPlatformApi.Modules
                     }
                 });
             });
+
+            // For Identity  
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                            .AddEntityFrameworkStores<ApplicationDbContext>()
+                            .AddDefaultTokenProviders();
 
             // Adding Authentication  
             services.AddAuthentication(options =>

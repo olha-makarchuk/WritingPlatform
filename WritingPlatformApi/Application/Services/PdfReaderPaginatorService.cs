@@ -3,7 +3,7 @@ using iTextSharp.text.pdf;
 
 namespace Application.Services
 {
-    public class PdfReaderService : IPdfReaderService
+    public class PdfReaderPaginatorService : IPdfReaderService
     {
         public int GetPageCount(Stream filePath)
         {

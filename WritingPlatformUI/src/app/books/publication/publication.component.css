@@ -40,6 +40,7 @@
   }
   
   .publication-content {
+    margin-top: 12%;
     font-size: 18px;
     flex-grow: 1;
     min-width: 250px;
@@ -59,12 +60,13 @@
   .read-button {
     background-color: #233487;
     width: 200px;
-    color: white; 
-    padding: 15px 25px; 
-    border: none; 
-    border-radius: 8px; 
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
   }
+  
   .disabled-button {
     background-color: #ccc;
     color: #666;
@@ -99,6 +101,10 @@
   
   .comment {
     margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .comment button {
@@ -129,22 +135,56 @@
   }
   
   .delete-button:hover {
-    background-color: #c1574b;
+    background-color: #c0392b;
   }
-
-  .add-ratting{
+  
+  .add-ratting {
     font-size: 18px;
     margin-top: 30px;
   }
-
-  .add-ratting-button{
+  
+  .add-ratting-button {
     font-size: 14px;
     margin-top: 0px;
     background-color: #233487;
     width: 150px;
-    color: white; 
-    padding: 10px 10px; 
-    border: none; 
-    border-radius: 8px; 
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
+  }
+  
+  .action-message {
+    margin-top: 20px;
+    text-align: center;
+    color: #555;
+  }
+  
+  .reviewed-section {
+    margin-top: 30px;
+    text-align: center;
+    color: #555;
+  }
+  
+  .comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+  }
+  
+  .comment-form button {
+    background-color: #233487;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .comment-form button:hover {
+    background-color: #1a2759;
   }

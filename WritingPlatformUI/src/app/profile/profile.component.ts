@@ -7,7 +7,8 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit , OnDestroy {
   isLoggedIn = false;
@@ -57,7 +58,7 @@ export class ProfileComponent implements OnInit , OnDestroy {
       this.eventBusSub.unsubscribe();
   }
 
-  onDeleteAcoount(): void {
+  onDeleteAccount(): void {
     this.userService.deleteAccount(this.userId).subscribe();
     this.token.signOut();
     this.isLoggedIn = false;

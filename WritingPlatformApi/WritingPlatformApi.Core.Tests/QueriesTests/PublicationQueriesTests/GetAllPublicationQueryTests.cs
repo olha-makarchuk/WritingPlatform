@@ -87,7 +87,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.PublicationQueriesTests
             });
         }
 
-        private static GetAllPublicationQuery.GetAllMoviesQueryHandler CreateSut(ApplicationDbContext context)
-            => new GetAllPublicationQuery.GetAllMoviesQueryHandler(context);
+        private static GetAllPublicationQueryHandler CreateSut(ApplicationDbContext context)
+            => new GetAllPublicationQueryHandler(context);
     }
 }

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Contracts.Responses;
+using Application.Services;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
@@ -45,7 +46,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                    DatePublication = p.DatePublication
                })
                .FirstOrDefaultAsync(cancellationToken)
-                ?? throw new Exception("Publication not found");
+                ?? throw new NotFoundException("Publication not found");
 
                 return publication;
             }

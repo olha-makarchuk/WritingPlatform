@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,  HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Author } from '../shared/models/author';
 import { Genre } from '../shared/models/genre';
@@ -10,6 +10,7 @@ import { PublicationCreate } from '../shared/models/publication-create';
 import { PersonalInformation } from '../shared/models/personal-informatin';
 import { PersonalInformationChange } from '../shared/models/personal-informatin-change';
 import { Rewiew } from '../shared/models/rewiew';
+import { TokenStorageService } from './token-storage.service';
 
 const API_URL = 'https://localhost:7265/api/v1.0/';
 
@@ -17,7 +18,9 @@ const API_URL = 'https://localhost:7265/api/v1.0/';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private tokenStorageService: TokenStorageService,
+  ) {}
 
   getAuthors(pageNumber: number, pageSize: number): Observable<Array<Author>> {
     const body = { pageNumber: pageNumber.toString(), pageSize: pageSize.toString() };
@@ -58,13 +61,22 @@ export class UserService {
     commentText: string,
     applicationUserId: string
   ): Observable<CreateComment> {
+    // Assuming you have a way to get the access token (e.g., from AuthService)
+    const accessToken = this.tokenStorageService.getToken();
+
     const body = {
       publicationId: publicationId,
       applicationUserId: applicationUserId,
       commentText: commentText,
     };
-    return this.http.post<CreateComment>(API_URL + 'Comment', body);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}` // Access token from AuthService
+    });
+    return this.http.post<CreateComment>(API_URL + 'Comment', body, { headers: headers });
   }
+
 
   getComments(publicationId: number): Observable<Array<Comments>> {
     const body = { IdPublication: publicationId };

@@ -21,8 +21,13 @@ namespace Application.PlatformFeatures.Commands.SortByItemCommands
 
         public async Task<SortByItem> Handle(CreateSortByItemCommand command, CancellationToken cancellationToken)
         {
-            var sortByItemm = await _context.SortByItem.FirstOrDefaultAsync(u => u.FieldName == command.FieldName, cancellationToken)
-             ?? throw new Exception("SortByItemm alredy exists");
+            var existingSortByItem = await _context.SortByItem
+                .FirstOrDefaultAsync(u => u.FieldName == command.FieldName, cancellationToken);
+
+            if (existingSortByItem != null)
+            {
+                throw new ArgumentException("SortByItem already exists");
+            }
 
             var sortByItem = new SortByItem
             {
@@ -31,7 +36,7 @@ namespace Application.PlatformFeatures.Commands.SortByItemCommands
             };
 
             _context.SortByItem.Add(sortByItem);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return sortByItem;
         }

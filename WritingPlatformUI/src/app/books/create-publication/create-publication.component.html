@@ -1,34 +1,40 @@
 <div style="margin-top: 100px;"></div>
 <form (ngSubmit)="onSubmit()" class="publication-form">
-    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-    
-    <div class="form-group">
-      <label for="publicationName">Назва публікації:</label>
-      <input type="text" id="publicationName" [(ngModel)]="publicationName" name="publicationName" required>
-    </div>
-    
-    <div class="form-group">
-      <label for="genreId">Жанр:</label>
-      <select id="genreId" [(ngModel)]="genreId" name="genreId" required>
-        <option *ngFor="let genre of genres" [value]="genre.id">{{genre.name}}</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="filePath">Файл публікації (PDF):</label>
-      <input type="file" id="filePath" (change)="onFileChange($event, 'filePath')" accept="application/pdf" required>
-    </div>
-    
-    <div class="form-group">
-      <label for="titlePath">Зображення обкладинки (JPEG):</label>
-      <input type="file" id="titlePath" (change)="onFileChange($event, 'titlePath')" accept="image/jpeg" required>
-    </div>
-    
-    <div class="form-group">
-      <label for="bookDescription">Опис книги:</label>
-      <textarea id="bookDescription" [(ngModel)]="bookDescription" name="bookDescription" required></textarea>
-    </div>
-    
-    <button type="submit">Створити публікацію</button>
-  </form>
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="spinner"></div>
+    <div>Please wait...</div>
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
   
+  <div class="form-group">
+    <label for="publicationName">Назва публікації:</label>
+    <input type="text" id="publicationName" [(ngModel)]="publicationName" name="publicationName" required>
+  </div>
+  
+  <div class="form-group">
+    <label for="genreId">Жанр:</label>
+    <select id="genreId" [(ngModel)]="genreId" name="genreId" required>
+      <option *ngFor="let genre of genres" [value]="genre.id">{{genre.name}}</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="filePath">Файл публікації (PDF):</label>
+    <input type="file" id="filePath" (change)="onFileChange($event, 'filePath')" accept="application/pdf" required>
+  </div>
+  
+  <div class="form-group">
+    <label for="titlePath">Зображення обкладинки (JPEG):</label>
+    <input type="file" id="titlePath" (change)="onFileChange($event, 'titlePath')" accept="image/jpeg" required>
+  </div>
+  
+  <div class="form-group">
+    <label for="bookDescription">Опис книги:</label>
+    <textarea id="bookDescription" [(ngModel)]="bookDescription" name="bookDescription" required></textarea>
+  </div>
+  
+  <button type="submit" [disabled]="loading">
+    <span *ngIf="!loading">Створити публікацію</span>
+  </button>
+</form>

@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace Application.PlatformFeatures.Queries.CommentQueries
                 var a = await _context.Publication.ToListAsync(cancellationToken);
                 var publicationExist = await _context.Publication
                     .FirstOrDefaultAsync(a => a.Id == query.IdPublication)
-                    ?? throw new Exception("Publication not found");
+                    ?? throw new NotFoundException("Publication not found");
 
                 return await _context.Comment
                     .Where(a => a.PublicationId == query.IdPublication)
