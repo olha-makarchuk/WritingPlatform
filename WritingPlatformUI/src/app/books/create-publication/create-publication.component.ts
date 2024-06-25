@@ -58,7 +58,7 @@ export class CreatePublicationComponent implements OnInit {
         titlePath: this.titlePath,
         bookDescription: this.bookDescription
       };
-      this.userService.CreatePublication(publication).subscribe(() => {
+      this.userService.createPublication(publication).subscribe(() => {
         this.resetForm();
         this.successMessage = 'Publication created successfully!';
         this.loading = false; // Приховуємо "Please wait" після завершення

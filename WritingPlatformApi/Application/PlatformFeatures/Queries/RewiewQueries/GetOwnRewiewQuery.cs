@@ -27,8 +27,7 @@ namespace Application.PlatformFeatures.Queries.Review
                     ?? throw new NotFoundException("Publication not found");
 
                 var review = await _context.UserRewiew
-                    .FirstOrDefaultAsync(u => u.ApplicationUserId == query.UserId && u.PublicationId == query.PublicationId, cancellationToken)
-                    ?? throw new NotFoundException("Review not found");
+                    .FirstOrDefaultAsync(u => u.ApplicationUserId == query.UserId && u.PublicationId == query.PublicationId, cancellationToken);
 
                 return review;
             }

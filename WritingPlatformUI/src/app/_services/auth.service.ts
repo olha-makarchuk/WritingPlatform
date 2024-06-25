@@ -31,6 +31,4 @@ export class AuthService {
   refreshToken(tokenData: TokenApi) {
     return this.http.post(AUTH_API + 'Token/refresh', tokenData, httpOptions);
   }
-
-  
 }

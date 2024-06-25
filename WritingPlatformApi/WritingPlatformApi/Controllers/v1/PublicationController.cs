@@ -16,7 +16,7 @@ namespace WritingPlatformApi.Controllers.v1
             _logger = logger;
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
         public async Task<IActionResult> Create(CreatePublicationCommand command)
         {
             return Ok(await Mediator.Send(command));
