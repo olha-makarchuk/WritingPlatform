@@ -79,8 +79,7 @@ namespace Application.Services
             }
             catch (RequestFailedException ex)
             {
-                Debug.WriteLine($"Error deleting blob '{filename}' from container '{_containerName}': {ex.Message}");
-                throw;
+                throw new Exception($"Error deleting blob '{filename}' from container '{_containerName}': {ex.Message}");
             }
         }
     }

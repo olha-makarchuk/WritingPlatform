@@ -3,13 +3,20 @@ using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.CommentCommands
 {
     public class CreateCommentCommand : IRequest<Comment>
     {
+        [Required(ErrorMessage = "CommentText is required.")]
+        [MaxLength(500, ErrorMessage = "CommentText cannot be longer than 256 characters.")]
         public string CommentText { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "ApplicationUserId is required.")]
         public string ApplicationUserId { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "PublicationId is required.")]
         public int PublicationId { get; set; }
     }
 

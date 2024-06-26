@@ -4,12 +4,16 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.AuthorQueries
 {
     public class GetAllAuthorQuery : IRequest<IEnumerable<AllAuthorResponse>>
     {
+        [Required(ErrorMessage = "PageNumber is required.")]
         public int PageNumber { get; set; }
+
+        [Required(ErrorMessage = "PageSize is required.")]
         public int PageSize { get; set; }
 
         public class GetAllAuthorQueryHandler : IRequestHandler<GetAllAuthorQuery, IEnumerable<AllAuthorResponse>>

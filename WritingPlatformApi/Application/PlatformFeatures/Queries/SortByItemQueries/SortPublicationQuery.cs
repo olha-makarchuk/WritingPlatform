@@ -2,16 +2,28 @@
 using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.SortByItemQueries
 {
     public class SortPublicationQuery : IRequest<List<SortPublicationResponse>>
     {
+        [Required(ErrorMessage = "GenreIds is required.")]
         public List<int> GenreIds { get; set; }
+
+        [Required(ErrorMessage = "StartPage is required.")]
         public int StartPage { get; set; }
+
+        [Required(ErrorMessage = "EndPage is required.")]
         public int EndPage { get; set; }
+
+        [Required(ErrorMessage = "YearPublication is required.")]
         public int YearPublication { get; set; }
+
+        [Required(ErrorMessage = "SortBy is required.")]
         public int SortBy { get; set; }
+
+        [Required(ErrorMessage = "SortDirection is required.")]
         public string SortDirection { get; set; }
 
         public class SortPublicationQueryHandler : IRequestHandler<SortPublicationQuery, List<SortPublicationResponse>>

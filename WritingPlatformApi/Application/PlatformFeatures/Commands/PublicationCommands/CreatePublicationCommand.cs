@@ -1,23 +1,36 @@
 ﻿using Application.Interfaces;
 using Application.Services;
 using Domain.Entities;
-using iTextSharp.text.pdf;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.PublicationCommands
 {
     public class CreatePublicationCommand : IRequest<Publication>
     {
+        [Required(ErrorMessage = "PublicationName is required.")]
+        [MaxLength(256, ErrorMessage = "PublicationName cannot be longer than 256 characters.")]
         public string PublicationName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "GenreId is required.")]
         public int GenreId { get; set; }
+
+        [Required(ErrorMessage = "UserId is required.")]
         public string UserId { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "FilePath is required.")]
         public IFormFile FilePath { get; set; }
+
+        [Required(ErrorMessage = "TitlePath is required.")]
         public IFormFile TitlePath { get; set; }
+
+        [Required(ErrorMessage = "BookDescription is required.")]
         public string BookDescription { get; set; } = string.Empty;
     }
+
 
     public class CreatePublicationCommandHandler : IRequestHandler<CreatePublicationCommand, Publication>
     {

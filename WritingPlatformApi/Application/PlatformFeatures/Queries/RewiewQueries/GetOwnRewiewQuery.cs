@@ -3,12 +3,16 @@ using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.Review
 {
     public class GetOwnReviewQuery : IRequest<UserRewiew>
     {
+        [Required(ErrorMessage = "UserId is required.")]
         public string UserId { get; set; }
+
+        [Required(ErrorMessage = "PublicationId is required.")]
         public int PublicationId { get; set; }
 
         public class GetOwnReviewQueryHandler : IRequestHandler<GetOwnReviewQuery, UserRewiew>

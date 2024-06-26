@@ -3,11 +3,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Contracts.Responses;
 using Application.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
     public class GetPublicationByIdQuery : IRequest<PublicationByIdResponse>
     {
+        [Required(ErrorMessage = "IdPublication is required.")]
         public int IdPublication { get; set; }
 
         public class GetPublicationByIdQueryHandler : IRequestHandler<GetPublicationByIdQuery, PublicationByIdResponse>

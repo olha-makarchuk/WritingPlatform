@@ -3,15 +3,28 @@ using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.UserAccountCommands
 {
     public class ChangePersonalInformationCommand: IRequest<ApplicationUser>
     {
+        [Required(ErrorMessage = "PersonalInformation is required.")]
         public string PersonalInformation { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "FirstName is required.")]
+        [MaxLength(256, ErrorMessage = "FirstName cannot be longer than 256 characters.")]
         public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "LastName is required.")]
+        [MaxLength(256, ErrorMessage = "LastName cannot be longer than 256 characters.")]
         public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "UserName is required.")]
+        [MaxLength(256, ErrorMessage = "UserName cannot be longer than 256 characters.")]
         public string UserName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "UserId is required.")]
         public string UserId { get; set; } = string.Empty;
     }
     public class UpdateGenreCommandHandler : IRequestHandler<ChangePersonalInformationCommand, ApplicationUser>

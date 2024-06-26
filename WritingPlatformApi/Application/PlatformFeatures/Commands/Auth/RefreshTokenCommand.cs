@@ -3,13 +3,16 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.Auth
 {
     public class RefreshTokenCommand : IRequest<TokenApiResponse>
     {
+        [Required(ErrorMessage = "AccessToken is required.")]
         public string AccessToken { get; set; }
 
+        [Required(ErrorMessage = "RefreshToken is required.")]
         public string RefreshToken { get; set; }
     }
 

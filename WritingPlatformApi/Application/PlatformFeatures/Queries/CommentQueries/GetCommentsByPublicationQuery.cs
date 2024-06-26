@@ -3,11 +3,13 @@ using Application.Services;
 using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.CommentQueries
 {
     public class GetCommentsByPublicationQuery : IRequest<List<CommentResponse>>
     {
+        [Required(ErrorMessage = "IdPublication is required.")]
         public int IdPublication { get; set; }
 
         public class GetCommentByPublicationQuerieHandler : IRequestHandler<GetCommentsByPublicationQuery, List<CommentResponse>>

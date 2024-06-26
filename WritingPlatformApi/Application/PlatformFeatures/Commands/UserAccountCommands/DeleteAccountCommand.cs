@@ -3,11 +3,13 @@ using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.UserAccountCommands
 {
     public class DeleteAccountCommand : IRequest<ApplicationUser>
     {
+        [Required(ErrorMessage = "UserId is required.")]
         public string UserId { get; set; } = string.Empty;
     }
 

@@ -4,13 +4,20 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.GenreCommands
 {
     public class UpdateGenreCommand : IRequest<Genre>
     {
+        [Required(ErrorMessage = "Id is required.")]
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
+        [MaxLength(256, ErrorMessage = "Name cannot be longer than 256 characters.")]
         public string Name { get; set; } = null!;
+
+        [Required(ErrorMessage = "FilePath is required.")]
         public IFormFile FilePath { get; set; } = null!;
     }
     public class UpdateGenreCommandHandler : IRequestHandler<UpdateGenreCommand, Genre>

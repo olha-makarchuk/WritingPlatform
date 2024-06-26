@@ -3,11 +3,13 @@ using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.RewiewCommand
 {
     public class DeleteRewiewCommand : IRequest<UserRewiew>
     {
+        [Required(ErrorMessage = "RewiewId is required.")]
         public int RewiewId { get; set; }
     }
 

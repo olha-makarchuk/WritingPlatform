@@ -2,17 +2,35 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 
 namespace Application.PlatformFeatures.Commands.Auth
 {
     public class RegistrationCommand : IRequest<RegistrationResponse>
     {
+        [Required(ErrorMessage = "UserName is required.")]
+        [MaxLength(256, ErrorMessage = "UserName cannot be longer than 256 characters.")]
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "FirstName is required.")]
+        [MaxLength(256, ErrorMessage = "FirstName cannot be longer than 256 characters.")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "LastName is required.")]
+        [MaxLength(256, ErrorMessage = "LastName cannot be longer than 256 characters.")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [MaxLength(256, ErrorMessage = "Email cannot be longer than 256 characters.")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Role is required.")]
+        [MaxLength(256, ErrorMessage = "Role cannot be longer than 256 characters.")]
         public string Role { get; set; }
     }
 

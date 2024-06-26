@@ -5,13 +5,19 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
     public class GetPublicationByAuthorQuery : IRequest<List<PublicationResponse>>
     {
+        [Required(ErrorMessage = "UserId is required.")]
         public string UserId { get; set; } =string.Empty;
+
+        [Required(ErrorMessage = "PageNumber is required.")]
         public int PageNumber { get; set; }
+
+        [Required(ErrorMessage = "PageSize is required.")]
         public int PageSize { get; set; }
 
         public class GetPublicationByAuthorHandler : IRequestHandler<GetPublicationByAuthorQuery, List<PublicationResponse>>

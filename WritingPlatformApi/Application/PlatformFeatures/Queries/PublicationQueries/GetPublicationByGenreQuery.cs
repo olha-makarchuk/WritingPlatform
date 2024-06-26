@@ -3,13 +3,19 @@ using Application.Services;
 using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
     public class GetPublicationByGenreQuery : IRequest<List<PublicationResponse>>
     {
+        [Required(ErrorMessage = "IdGenre is required.")]
         public int IdGenre { get; set; }
+
+        [Required(ErrorMessage = "PageNumber is required.")]
         public int PageNumber { get; set; }
+
+        [Required(ErrorMessage = "PageSize is required.")]
         public int PageSize { get; set; }
 
         public class GetMovieByIdQueryHandler : IRequestHandler<GetPublicationByGenreQuery, List<PublicationResponse>>

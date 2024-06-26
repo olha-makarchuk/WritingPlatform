@@ -2,12 +2,16 @@
 using Contracts.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
     public class GetAllPublicationQuery : IRequest<IEnumerable<PublicationResponse>>
     {
+        [Required(ErrorMessage = "PageNumber is required.")]
         public int PageNumber { get; set; }
+
+        [Required(ErrorMessage = "PageSize is required.")]
         public int PageSize { get; set; }
     }
 

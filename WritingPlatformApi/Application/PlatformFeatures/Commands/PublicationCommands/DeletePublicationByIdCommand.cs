@@ -4,11 +4,13 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.PublicationCommands
 {
     public class DeletePublicationByIdCommand : IRequest<Publication>
     {
+        [Required(ErrorMessage = "Id is required.")]
         public int Id { get; set; }
     }
 

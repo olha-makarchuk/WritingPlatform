@@ -2,12 +2,18 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.SortByItemCommands
 {
     public class CreateSortByItemCommand : IRequest<SortByItem>
     {
+        [Required(ErrorMessage = "ItemName is required.")]
+        [MaxLength(256, ErrorMessage = "ItemName cannot be longer than 256 characters.")]
         public string ItemName { get; set; } = null!;
+
+        [Required(ErrorMessage = "FieldName is required.")]
+        [MaxLength(256, ErrorMessage = "FieldName cannot be longer than 256 characters.")]
         public string FieldName { get; set; } = null!;
     }
     public class CreateSortByItemCommandHandler : IRequestHandler<CreateSortByItemCommand, SortByItem>

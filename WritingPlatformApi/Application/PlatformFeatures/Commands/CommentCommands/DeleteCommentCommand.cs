@@ -3,11 +3,13 @@ using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.CommentCommands
 {
     public class DeleteCommentCommand : IRequest<Comment>
     {
+        [Required(ErrorMessage = "CommentId is required.")]
         public int CommentId { get; set; }
     }
 

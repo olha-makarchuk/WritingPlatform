@@ -3,13 +3,20 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Contracts.Responses;
 using Application.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.PublicationQueries
 {
     public class GetPublicationByNameQuery : IRequest<List<PublicationResponse>>
     {
+        [Required(ErrorMessage = "IdPublication is required.")]
+        [MaxLength(256, ErrorMessage = "PublicationName cannot be longer than 256 characters.")]
         public string PublicationName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "IdPublication is required.")]
         public int PageNumber { get; set; }
+
+        [Required(ErrorMessage = "IdPublication is required.")]
         public int PageSize { get; set; }
 
         public class GetPublicationByNameQueryHandler : IRequestHandler<GetPublicationByNameQuery, List<PublicationResponse>>

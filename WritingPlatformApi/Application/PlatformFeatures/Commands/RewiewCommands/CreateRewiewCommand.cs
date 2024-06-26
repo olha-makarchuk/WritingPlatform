@@ -3,13 +3,20 @@ using Application.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.RewiewCommand
 {
     public class CreateRewiewCommand : IRequest<Publication>
     {
+        [Required(ErrorMessage = "IdPublication is required.")]
         public int IdPublication { get; set; }
+
+        [Required(ErrorMessage = "Rating is required.")]
         public int Rating { get; set; }
+
+        [Required(ErrorMessage = "UserId is required.")]
+        [Range(0, 100, ErrorMessage = "Rating must be between 0 and 100.")]
         public string UserId { get; set; }
     }
 

@@ -5,13 +5,18 @@ using System.IdentityModel.Tokens.Jwt;
 using Contracts.Response.Auth;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Commands.Auth
 {
     public class LoginCommand : IRequest<LoginResponse>
     {
+        [Required(ErrorMessage = "username is required.")]
+        [MaxLength(256, ErrorMessage = "username cannot be longer than 256 characters.")]
         public string username { get; set; }
 
+        [Required(ErrorMessage = "password is required.")]
+        [MaxLength(256, ErrorMessage = "password cannot be longer than 256 characters.")]
         public string password { get; set; }
     }
 

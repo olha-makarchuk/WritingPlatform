@@ -4,11 +4,13 @@ using Contracts.Responses;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.PlatformFeatures.Queries.UserAccountQueries
 {
     public class GetUserAccountByLoginQuery : IRequest<PersonalInformationResponse>
     {
+        [Required(ErrorMessage = "UserId is required.")]
         public string UserId { get; set; }
     }
 
