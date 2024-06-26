@@ -1,12 +1,7 @@
 ﻿using Application.PlatformFeatures.Commands.CommentCommands;
 using AutoFixture;
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using Persistence.Context;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace WritingPlatformApi.Core.Tests.CommandsTests.CommentCommands
 {

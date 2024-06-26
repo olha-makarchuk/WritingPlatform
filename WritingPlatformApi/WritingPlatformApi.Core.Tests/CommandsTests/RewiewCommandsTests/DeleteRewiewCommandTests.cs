@@ -38,14 +38,14 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
                 DatePublication = DateTime.Now,
                 GenreId = 1,
                 Rating = 3,
-                CountOfRewiews = 2 // Example initial values
+                CountOfRewiews = 2 
             };
 
             var userReviewToDelete = new UserRewiew
             {
                 Id = 1,
                 PublicationId = publication.Id,
-                Rewiew = 4, // Review to delete
+                Rewiew = 4,
                 ApplicationUserId = "sample-user-id"
             };
 
@@ -66,14 +66,12 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(userReviewToDelete.Id, result.Id); // Ensure the returned review ID matches the deleted one
+                Assert.Equal(userReviewToDelete.Id, result.Id);
 
-                // Verify publication's updated values
                 var updatedPublication = await context.Publication.FirstOrDefaultAsync(p => p.Id == publication.Id);
-                Assert.Equal(1, updatedPublication.CountOfRewiews); // Count of reviews should decrease by 1
-                Assert.Equal(2, updatedPublication.Rating); // Assuming (3 * 2 - 4) / 1 = 2
+                Assert.Equal(1, updatedPublication.CountOfRewiews);
+                Assert.Equal(2, updatedPublication.Rating);
 
-                // Ensure the deleted review no longer exists in the database
                 var deletedReview = await context.UserRewiew.FindAsync(userReviewToDelete.Id);
                 Assert.Null(deletedReview);
             });
@@ -87,7 +85,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
 
             var command = new DeleteRewiewCommand
             {
-                RewiewId = 999 // Non-existent review ID
+                RewiewId = 999 
             };
 
             _dbContext.Assert(async context =>

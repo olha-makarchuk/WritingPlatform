@@ -44,7 +44,6 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.SortByItemCommandsTests
                 Assert.Equal(command.ItemName, result.ItemName);
                 Assert.Equal(command.FieldName, result.FieldName);
 
-                // Verify that the SortByItem was added to the database
                 var sortByItemFromDb = await context.SortByItem.FirstOrDefaultAsync(s => s.FieldName == command.FieldName);
                 Assert.NotNull(sortByItemFromDb);
                 Assert.Equal(command.ItemName, sortByItemFromDb.ItemName);
@@ -57,7 +56,6 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.SortByItemCommandsTests
             // Arrange
             var fixture = new Fixture();
 
-            // Add an existing SortByItem to the database
             var existingSortByItem = new SortByItem
             {
                 ItemName = "Existing Item",
@@ -69,7 +67,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.SortByItemCommandsTests
             var command = new CreateSortByItemCommand
             {
                 ItemName = "New Sort Item",
-                FieldName = existingSortByItem.FieldName // Use the same field name as the existing one
+                FieldName = existingSortByItem.FieldName 
             };
 
             _dbContext.Assert(async context =>

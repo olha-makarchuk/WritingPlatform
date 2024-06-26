@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Domain.Entities;
-
+            
 namespace WritingPlatformApi.Core.Tests.Commands.Auth
 {
     public class LoginCommandTests

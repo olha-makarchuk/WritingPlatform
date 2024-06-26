@@ -57,7 +57,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.PublicationQueriesTests
 
             _dbContext.AddAndSaveRange(publications);
 
-            var query = new GetAllPublicationQuery { PageNumber = 3, PageSize = 5 }; // Only 2 pages of data
+            var query = new GetAllPublicationQuery { PageNumber = 3, PageSize = 5 }; 
 
             _dbContext.Assert(async context =>
             {
@@ -76,7 +76,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.PublicationQueriesTests
         public async Task GetAllPublicationQuery_WithInvalidPageSize_ShouldThrowException()
         {
             // Arrange
-            var query = new GetAllPublicationQuery { PageNumber = 1, PageSize = 0 }; // Invalid PageSize
+            var query = new GetAllPublicationQuery { PageNumber = 1, PageSize = 0 }; 
 
             _dbContext.Assert(async context =>
             {

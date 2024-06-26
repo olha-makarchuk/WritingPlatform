@@ -3,7 +3,6 @@ using Application.Services;
 using AutoFixture;
 using Domain.Entities;
 using Persistence.Context;
-using Xunit;
 
 namespace WritingPlatformApi.Core.Tests.QueriesTests.ReviewQueriesTests
 {
@@ -63,7 +62,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.ReviewQueriesTests
 
             _dbContext.AddAndSave(user);
 
-            var query = new GetOwnReviewQuery { UserId = user.Id, PublicationId = 999 }; // Invalid PublicationId
+            var query = new GetOwnReviewQuery { UserId = user.Id, PublicationId = 999 }; 
 
             _dbContext.Assert(async context =>
             {
@@ -83,7 +82,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.ReviewQueriesTests
 
             _dbContext.AddAndSave(publication);
 
-            var query = new GetOwnReviewQuery { UserId = "invalidUserId", PublicationId = publication.Id }; // Invalid UserId
+            var query = new GetOwnReviewQuery { UserId = "invalidUserId", PublicationId = publication.Id }; 
 
             _dbContext.Assert(async context =>
             {

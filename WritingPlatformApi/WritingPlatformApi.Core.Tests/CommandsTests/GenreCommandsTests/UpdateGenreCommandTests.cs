@@ -5,10 +5,6 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using Persistence.Context;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace WritingPlatformApi.Core.Tests.CommandsTests.GenreCommands
 {

@@ -112,7 +112,6 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.PublicationCommands
                 Assert.NotNull(result);
                 Assert.Equal(publication.Id, result.Id);
 
-                // Verify user update
                 _userManagerDecorator.UserManagerMock.Verify(u => u.FindByIdAsync(publication.ApplicationUserId), Times.Once);
                 _userManagerDecorator.UserManagerMock.Verify(u => u.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Once);
             });
@@ -124,5 +123,4 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.PublicationCommands
             UserManager<ApplicationUser> userManager)
             => new(context, userManager, storage);
     }
-
 }

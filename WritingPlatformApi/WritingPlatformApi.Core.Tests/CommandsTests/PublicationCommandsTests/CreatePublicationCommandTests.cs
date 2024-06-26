@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using Persistence.Context;
-using Xunit;
 
 namespace WritingPlatformApi.Core.Tests.CommandsTests.PublicationCommands
 {

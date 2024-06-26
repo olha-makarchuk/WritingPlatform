@@ -1,16 +1,13 @@
 <div style="margin-top: 100px;"></div>
 
 <form (ngSubmit)="onSubmit()" class="publication-form" #publicationForm="ngForm" novalidate>
-  <!-- Loading overlay -->
   <div *ngIf="loading" class="loading-overlay">
     <div class="spinner"></div>
     <div>Please wait...</div>
   </div>
 
-  <!-- Success message -->
   <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
   
-  <!-- Publication name -->
   <div class="form-group">
     <label for="publicationName">Назва публікації:</label>
     <input type="text" id="publicationName" [(ngModel)]="publicationName" name="publicationName" required #publicationNameInput="ngModel">
@@ -19,7 +16,6 @@
     </div>
   </div>
   
-  <!-- Genre selection -->
   <div class="form-group">
     <label for="genreId">Жанр:</label>
     <select id="genreId" [(ngModel)]="genreId" name="genreId" required #genreIdInput="ngModel">
@@ -30,7 +26,6 @@
     </div>
   </div>
   
-<!-- PDF file upload -->
 <div class="form-group">
   <label for="filePath">Файл публікації (PDF):</label>
   <input type="file" id="filePath" (change)="onFileChange($event, 'filePath')" accept="application/pdf" required>
@@ -39,7 +34,6 @@
   </div>
 </div>
 
-<!-- JPEG image upload -->
 <div class="form-group">
   <label for="titlePath">Зображення обкладинки (JPEG):</label>
   <input type="file" id="titlePath" (change)="onFileChange($event, 'titlePath')" accept="image/jpeg" required>
@@ -49,7 +43,6 @@
 </div>
 
   
-  <!-- Book description -->
   <div class="form-group">
     <label for="bookDescription">Опис книги:</label>
     <textarea id="bookDescription" [(ngModel)]="bookDescription" name="bookDescription" required #bookDescriptionInput="ngModel"></textarea>
@@ -58,7 +51,6 @@
     </div>
   </div>
   
-  <!-- Submit button -->
   <button type="submit" [disabled]="loading || publicationForm.invalid">
     <span *ngIf="!loading">Створити публікацію</span>
   </button>

@@ -1,7 +1,6 @@
 ﻿using Application.PlatformFeatures.Commands.RewiewCommand;
 using AutoFixture;
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 
 namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
@@ -60,8 +59,8 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
                 // Assert
                 Assert.NotNull(result);
                 Assert.Equal(publication.Id, result.Id);
-                Assert.Equal(3, result.CountOfRewiews); // Assert the updated count of reviews
-                Assert.Equal(4, result.Rating); // Assert the calculated average rating (assuming integer division in the handler)
+                Assert.Equal(3, result.CountOfRewiews); 
+                Assert.Equal(4, result.Rating); 
             });
         }
 
@@ -73,7 +72,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
 
             var command = new CreateRewiewCommand
             {
-                IdPublication = 999, // Non-existent publication ID
+                IdPublication = 999,
                 Rating = 5,
                 UserId = "sample-user-id"
             };
@@ -105,7 +104,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
                 DatePublication = DateTime.Now,
                 GenreId = 1,
                 Rating = 0,
-                CountOfRewiews = 0 // Example initial values
+                CountOfRewiews = 0 
             };
 
             _dbContext.AddAndSave(publication);
@@ -127,8 +126,8 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
                 // Assert
                 Assert.NotNull(result);
                 Assert.Equal(publication.Id, result.Id);
-                Assert.Equal(1, result.CountOfRewiews); // Assert the updated count of reviews
-                Assert.Equal(command.Rating, result.Rating); // Assert the rating equals the command's rating
+                Assert.Equal(1, result.CountOfRewiews); 
+                Assert.Equal(command.Rating, result.Rating); 
             });
         }
 
@@ -150,7 +149,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.RewiewCommandsTests
                 DatePublication = DateTime.Now,
                 GenreId = 1,
                 Rating = 4,
-                CountOfRewiews = 1 // Example initial values
+                CountOfRewiews = 1 
             };
 
             var existingReview = new UserRewiew

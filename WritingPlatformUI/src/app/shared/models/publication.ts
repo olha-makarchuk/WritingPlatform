@@ -16,8 +16,6 @@ export interface Publication {
   paginatorCount: number;
 }
 
-
-// sort-publication-query.ts
 export interface SortPublicationQuery {
   genreIds: number[];
   startPage: number;
@@ -25,12 +23,6 @@ export interface SortPublicationQuery {
   yearPublication: number;
   sortByItemId: number;
 }
-/*
-export enum SortByItem {
-  Rating = 'Rating',
-  DateAdding = 'DateAdding',
-  NumberReviews = 'NumberReviews'
-}*/
 
 export interface SortByItem {
   itemName: string;

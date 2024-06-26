@@ -72,7 +72,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.GenreCommands
             // Arrange
             var fixture = new Fixture();
 
-            Application.PlatformFeatures.Commands.GenreCommands.CreateGenreCommand createGenreCommand = new()
+            CreateGenreCommand createGenreCommand = new()
             {
                 FilePath = (IFormFile)null!,
                 Name = (string)null!

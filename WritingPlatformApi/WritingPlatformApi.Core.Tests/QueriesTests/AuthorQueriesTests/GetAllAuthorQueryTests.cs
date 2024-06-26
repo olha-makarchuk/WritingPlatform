@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Application.PlatformFeatures.Queries.AuthorQueries;
+﻿using Application.PlatformFeatures.Queries.AuthorQueries;
 using AutoFixture;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;

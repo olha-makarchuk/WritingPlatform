@@ -156,7 +156,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.SortByItemQueriesTests
                 StartPage = 0,
                 EndPage = 1000,
                 YearPublication = 0,
-                SortBy = 999, // Invalid SortBy ID
+                SortBy = 999, 
                 SortDirection = "asc"
             };
 
@@ -293,7 +293,7 @@ namespace WritingPlatformApi.Core.Tests.QueriesTests.SortByItemQueriesTests
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(3, result.Count); // Only publications with page count between 100 and 200
+                Assert.Equal(3, result.Count); 
             });
         }
 

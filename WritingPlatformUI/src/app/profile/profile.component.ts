@@ -41,10 +41,9 @@ export class ProfileComponent implements OnInit , OnDestroy {
     this.userService.changeUserInfoByUserName(this.userId, userName, lastName, firstName, personalInformation).subscribe(
       (response: PersonalInformationChange) => {
         alert('User information updated successfully');
-        // Update user info in session storage
         const updatedUser = { ...this.token.getUser(), userName };
         this.token.saveUser(updatedUser);
-        this.loadUserInfo(); // Reload user info to reflect changes
+        this.loadUserInfo(); 
       },
       err => {
         console.error(err);

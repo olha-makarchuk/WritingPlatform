@@ -3,10 +3,6 @@ using AutoFixture;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Persistence.Context;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
 {
@@ -44,7 +40,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
             };
 
             _userManagerMock.SetupFindByIdAsync(existingUser);
-            _userManagerMock.SetupFindByNameAsync(null); // Mocking that the new username doesn't exist
+            _userManagerMock.SetupFindByNameAsync(null);
 
             _dbContext.Assert(async context =>
             {
@@ -76,7 +72,7 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
                                       .Create();
 
             _dbContext.AddAndSave(existingUser);
-            _dbContext.AddAndSave(userWithSameUsername); // Add a user with the same username
+            _dbContext.AddAndSave(userWithSameUsername);
 
             var command = new ChangePersonalInformationCommand
             {
@@ -84,11 +80,11 @@ namespace WritingPlatformApi.Core.Tests.CommandsTests.UserAccountCommandsTests
                 FirstName = "Jane",
                 LastName = "Smith",
                 PersonalInformation = "New personal information",
-                UserName = "new_username" // Attempting to update with existing username
+                UserName = "new_username"
             };
 
             _userManagerMock.SetupFindByIdAsync(existingUser);
-            _userManagerMock.SetupFindByNameAsync(userWithSameUsername); // Mocking that the new username already exists
+            _userManagerMock.SetupFindByNameAsync(userWithSameUsername);
 
             _dbContext.Assert(async context =>
             {

@@ -1,9 +1,7 @@
 ﻿using Application.PlatformFeatures.Commands.Auth;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Moq;
 using WritingPlatformApi.Core.Tests;
-using Xunit;
 
 namespace Application.Tests.PlatformFeatures.Commands.Auth
 {
@@ -23,11 +21,7 @@ namespace Application.Tests.PlatformFeatures.Commands.Auth
             );
         }
 
-        [Fact]
-        public async Task Handle_UserRegistrationSuccess_ReturnsRegistrationResponse()
-        {
-            // Arrange
-            var command = new RegistrationCommand
+        public RegistrationCommand command = new()
             {
                 UserName = "testuser",
                 FirstName = "Test",
@@ -36,6 +30,10 @@ namespace Application.Tests.PlatformFeatures.Commands.Auth
                 Password = "Password123!"
             };
 
+        [Fact]
+        public async Task Handle_UserRegistrationSuccess_ReturnsRegistrationResponse()
+        {
+            // Arrange
             _userManagerMockSetup.SetupFindByNameAsyncTwice((ApplicationUser)null!, new ApplicationUser() { UserName = "testuser", Email = "testuser@example.com" });
             _userManagerMockSetup.SetupCreateAsync(IdentityResult.Success);
             _roleManagerMockSetup.SetupRoleExistsAsync(true);
@@ -53,15 +51,6 @@ namespace Application.Tests.PlatformFeatures.Commands.Auth
         public async Task Handle_UserAlreadyExists_ThrowsException()
         {
             // Arrange
-            var command = new RegistrationCommand
-            {
-                UserName = "testuser",
-                FirstName = "Test",
-                LastName = "User",
-                Email = "testuser@example.com",
-                Password = "Password123!"
-            };
-
             _userManagerMockSetup.SetupFindByNameAsync(new ApplicationUser());
 
             // Act & Assert
@@ -72,15 +61,6 @@ namespace Application.Tests.PlatformFeatures.Commands.Auth
         public async Task Handle_UserCreationFailed_ThrowsException()
         {
             // Arrange
-            var command = new RegistrationCommand
-            {
-                UserName = "testuser",
-                FirstName = "Test",
-                LastName = "User",
-                Email = "testuser@example.com",
-                Password = "Password123!"
-            };
-
             _userManagerMockSetup.SetupFindByNameAsync(null);
             _userManagerMockSetup.SetupCreateAsync(IdentityResult.Failed(new IdentityError { Description = "User creation failed!" }));
 
@@ -92,15 +72,6 @@ namespace Application.Tests.PlatformFeatures.Commands.Auth
         public async Task Handle_RoleCreationFailed_ThrowsException()
         {
             // Arrange
-            var command = new RegistrationCommand
-            {
-                UserName = "testuser",
-                FirstName = "Test",
-                LastName = "User",
-                Email = "testuser@example.com",
-                Password = "Password123!"
-            };
-
             _userManagerMockSetup.SetupFindByNameAsync(null);
             _userManagerMockSetup.SetupCreateAsync(IdentityResult.Success);
             _roleManagerMockSetup.SetupRoleExistsAsync(false);

@@ -16,9 +16,9 @@ export class CatalogComponent implements OnInit {
     startPage: 0,
     endPage: 0,
     yearPublication: 0,
-    sortByItemId: 1 // Default sort by Rating
+    sortByItemId: 1 
   };
-  sortByItems: SortByItem[] = []; // Array to store SortByItem objects received from the service
+  sortByItems: SortByItem[] = []; 
   sortDirection: string = 'asc';
   currentPage: number = 1;
   pageSize: number = 3; 
@@ -28,7 +28,7 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadGenres();
-    this.loadSortByItems(); // Load sort options from the service
+    this.loadSortByItems(); 
     this.sortPublications();
   }
 
@@ -78,7 +78,7 @@ export class CatalogComponent implements OnInit {
       // If genre is already selected, remove it from the array
       this.sortQuery.genreIds.splice(index, 1);
     }
-    this.sortPublications(); // Call sort method after genre change
+    this.sortPublications(); 
   }
   
   onPageChange(pageNumber: number): void {
@@ -92,9 +92,7 @@ export class CatalogComponent implements OnInit {
   }
 
   onPageInputChange(): void {
-    // Ensure startPage is less than or equal to endPage
     if (this.sortQuery.startPage > this.sortQuery.endPage) {
-      // Swap startPage and endPage if startPage is greater than endPage
       const temp = this.sortQuery.startPage;
       this.sortQuery.startPage = this.sortQuery.endPage;
       this.sortQuery.endPage = temp;

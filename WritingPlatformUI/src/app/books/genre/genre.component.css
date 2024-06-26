@@ -1,32 +1,32 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f9f9f9; /* Light background color for the body */
-  color: #333; /* Darker text color for better readability */
+  background-color: #f9f9f9;
+  color: #333; 
 }
 
 .genre-block {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Center align items */
-  gap: 20px; /* Add space between items */
+  justify-content: center; 
+  gap: 20px; 
 }
 
 .genre-item {
-  margin-bottom: 20px; /* Reduced margin for better spacing */
+  margin-bottom: 20px; 
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 10px; /* More rounded corners */
+  border-radius: 10px; 
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s, transform 0.3s; /* Add transform transition */
-  flex: 1 1 calc(33.333% - 40px); /* Responsive item width */
-  max-width: calc(33.333% - 40px); /* Ensure max-width matches the flex-basis */
-  min-width: 280px; /* Minimum width for small screens */
+  transition: box-shadow 0.3s, transform 0.3s; 
+  flex: 1 1 calc(33.333% - 40px); 
+  max-width: calc(33.333% - 40px); 
+  min-width: 280px; 
 }
 
 .genre-item:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  transform: translateY(-5px); /* Slight lift on hover */
+  transform: translateY(-5px); 
 }
 
 .genre-image {
@@ -41,12 +41,12 @@ body {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #333; /* Darker text color */
-  padding: 10px; /* Increased padding for better spacing */
+  color: #333; 
+  padding: 10px; 
 }
 
 .genre-name {
   margin-left: 20px;
   font-size: 20px;
-  font-weight: 500; /* Medium font weight */
+  font-weight: 500; 
 }

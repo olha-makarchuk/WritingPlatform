@@ -21,9 +21,9 @@ export class PublicationComponent implements OnInit {
   loggedInUserId: string = '';
   newRating: number | null = null;
   ratingError: string = '';
-  hasReviewed = false;  // To track if the user has already reviewed
-  isSubmittingReview = false;  // To track if a review is being submitted
-  userReviewId: number | null = null;  // To store the user's review ID
+  hasReviewed = false;  
+  isSubmittingReview = false; 
+  userReviewId: number | null = null;  
 
   constructor(
     private tokenStorageService: TokenStorageService,
