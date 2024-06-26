@@ -82,3 +82,7 @@ button {
     transform: rotate(360deg);
   }
 }
+button:disabled {
+  background-color: #cccccc; /* колір фону для вимкненої кнопки */
+  color: #666666; /* колір тексту для вимкненої кнопки */
+}

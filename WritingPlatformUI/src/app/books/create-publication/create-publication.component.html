@@ -1,40 +1,65 @@
 <div style="margin-top: 100px;"></div>
-<form (ngSubmit)="onSubmit()" class="publication-form">
+
+<form (ngSubmit)="onSubmit()" class="publication-form" #publicationForm="ngForm" novalidate>
+  <!-- Loading overlay -->
   <div *ngIf="loading" class="loading-overlay">
     <div class="spinner"></div>
     <div>Please wait...</div>
   </div>
 
+  <!-- Success message -->
   <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
   
+  <!-- Publication name -->
   <div class="form-group">
     <label for="publicationName">Назва публікації:</label>
-    <input type="text" id="publicationName" [(ngModel)]="publicationName" name="publicationName" required>
+    <input type="text" id="publicationName" [(ngModel)]="publicationName" name="publicationName" required #publicationNameInput="ngModel">
+    <div *ngIf="publicationNameInput.invalid && (publicationNameInput.dirty || publicationNameInput.touched)" class="text-danger">
+      Назва публікації обов'язкова до заповнення.
+    </div>
   </div>
   
+  <!-- Genre selection -->
   <div class="form-group">
     <label for="genreId">Жанр:</label>
-    <select id="genreId" [(ngModel)]="genreId" name="genreId" required>
-      <option *ngFor="let genre of genres" [value]="genre.id">{{genre.name}}</option>
+    <select id="genreId" [(ngModel)]="genreId" name="genreId" required #genreIdInput="ngModel">
+      <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
     </select>
+    <div *ngIf="genreIdInput.invalid && (genreIdInput.dirty || genreIdInput.touched)" class="text-danger">
+      Вибір жанру обов'язковий.
+    </div>
   </div>
   
-  <div class="form-group">
-    <label for="filePath">Файл публікації (PDF):</label>
-    <input type="file" id="filePath" (change)="onFileChange($event, 'filePath')" accept="application/pdf" required>
+<!-- PDF file upload -->
+<div class="form-group">
+  <label for="filePath">Файл публікації (PDF):</label>
+  <input type="file" id="filePath" (change)="onFileChange($event, 'filePath')" accept="application/pdf" required>
+  <div *ngIf="!filePath" class="text-danger">
+    Виберіть PDF файл.
   </div>
-  
-  <div class="form-group">
-    <label for="titlePath">Зображення обкладинки (JPEG):</label>
-    <input type="file" id="titlePath" (change)="onFileChange($event, 'titlePath')" accept="image/jpeg" required>
+</div>
+
+<!-- JPEG image upload -->
+<div class="form-group">
+  <label for="titlePath">Зображення обкладинки (JPEG):</label>
+  <input type="file" id="titlePath" (change)="onFileChange($event, 'titlePath')" accept="image/jpeg" required>
+  <div *ngIf="!titlePath" class="text-danger">
+    Виберіть JPEG зображення.
   </div>
+</div>
+
   
+  <!-- Book description -->
   <div class="form-group">
     <label for="bookDescription">Опис книги:</label>
-    <textarea id="bookDescription" [(ngModel)]="bookDescription" name="bookDescription" required></textarea>
+    <textarea id="bookDescription" [(ngModel)]="bookDescription" name="bookDescription" required #bookDescriptionInput="ngModel"></textarea>
+    <div *ngIf="bookDescriptionInput.invalid && (bookDescriptionInput.dirty || bookDescriptionInput.touched)" class="text-danger">
+      Опис книги обов'язковий до заповнення.
+    </div>
   </div>
   
-  <button type="submit" [disabled]="loading">
+  <!-- Submit button -->
+  <button type="submit" [disabled]="loading || publicationForm.invalid">
     <span *ngIf="!loading">Створити публікацію</span>
   </button>
 </form>

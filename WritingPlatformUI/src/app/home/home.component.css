@@ -1,5 +1,15 @@
-pdf-viewer {
-  display: block;
-  height: 1100px; 
-  width: 700px;
+.blue-half {
+  height: 50%;
+  background-color: blue;
+}
+
+.other-half {
+  height: 50%;
+  /* Ваш стиль для іншої половини сторінки */
+}
+
+.container {
+  height: 100%;
+  margin: 0;
+  display: flex; /* Використовуємо flexbox для легшого управління розташуванням */
 }

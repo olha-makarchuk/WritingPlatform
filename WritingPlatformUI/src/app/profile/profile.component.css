@@ -48,14 +48,10 @@ textarea {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #233487;
   color: #fff;
   cursor: pointer;
   font-size: 16px;
-}
-
-.btn-submit:hover {
-  background-color: #0056b3;
 }
 
 .nav-link {

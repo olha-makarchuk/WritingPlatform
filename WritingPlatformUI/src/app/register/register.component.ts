@@ -14,7 +14,7 @@ export class RegisterComponent {
     username: null,
     email: null,
     password: null,
-    role: 'admin' // todo: implement roles
+    role: 'User' 
   };
   isSuccessful = false;
   isSignUpFailed = false;

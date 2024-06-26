@@ -33,6 +33,7 @@ namespace Application.PlatformFeatures.Queries.AuthorQueries
                 var authors = await _context.Publication
                     .Include(p => p.ApplicationUser)
                     .GroupBy(p => new { p.ApplicationUserId, p.ApplicationUser.FirstName, p.ApplicationUser.LastName, p.ApplicationUser.UserName })
+                    .OrderBy(g => g.Key.FirstName) 
                     .Skip((request.PageNumber - 1) * request.PageSize)
                     .Take(request.PageSize)
                     .Select(g => new AllAuthorResponse
@@ -48,6 +49,7 @@ namespace Application.PlatformFeatures.Queries.AuthorQueries
 
                 return authors;
             }
+
         }
     }
 }

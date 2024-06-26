@@ -25,6 +25,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                .Where(a => a.Id == query.IdPublication)
                .Include(p => p.Genre)
                .Include(p => p.ApplicationUser)
+               .OrderBy(g => g.PublicationName)
                .Select(p => new PublicationByIdResponse
                {
                    PublicationId = p.Id,

@@ -1,5 +1,7 @@
+<div style="margin-top: 100px;"></div>
+
 <div class="col-md-12 mt-5 mb-5">
-  <h1 class="text-center">Registration</h1>
+  <h1 class="text-center">Реєстрація</h1>
   <div class="card card-container p-5">
     <form
       *ngIf="!isSuccessful"
@@ -9,7 +11,7 @@
       novalidate
     >
       <div class="form-group">
-        <label>First Name</label>
+        <label>Ім'я</label>
         <input
           type="text"
           class="form-control"
@@ -31,7 +33,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label>Last Name</label>
+        <label>Прізвище</label>
         <input
           type="text"
           class="form-control"
@@ -53,7 +55,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label>Username</label>
+        <label>Логін</label>
         <input
           type="text"
           class="form-control"
@@ -93,7 +95,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label>Password</label>
+        <label>Пароль</label>
         <input
           type="password"
           class="form-control"
@@ -111,7 +113,7 @@
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-block">Sign Up</button>
+        <button class="btn btn-primary btn-block" style="background-color: #233487">Зареєструватися</button>
       </div>
 
       <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">

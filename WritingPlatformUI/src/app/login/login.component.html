@@ -1,5 +1,7 @@
+<div style="margin-top: 100px;"></div>
+
 <div class="col-md-12 mt-5 mb-5">
-  <h1 class="text-center">Login</h1>
+  <h1 class="text-center">Вхід</h1>
   <div class="card card-container p-5">
     <form
       *ngIf="!isLoggedIn"
@@ -9,7 +11,7 @@
       novalidate
     >
       <div class="form-group">
-        <label>Username</label>
+        <label>Логін</label>
         <input
           type="text"
           class="form-control"
@@ -27,7 +29,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label>Password</label>
+        <label>Пароль</label>
         <input
           type="password"
           class="form-control"
@@ -49,8 +51,8 @@
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-block">
-          Login
+        <button class="btn btn-primary btn-block" style="background-color: #233487">
+          Вхід
         </button>
       </div>
       <div class="form-group">
@@ -64,8 +66,5 @@
       </div>
     </form>
 
-<!--    <div class="alert alert-success" *ngIf="isLoggedIn">-->
-<!--      Logged in as {{ roles }}.-->
-<!--    </div>-->
   </div>
 </div>

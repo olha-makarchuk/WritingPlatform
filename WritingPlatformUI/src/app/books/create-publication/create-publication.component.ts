@@ -49,7 +49,7 @@ export class CreatePublicationComponent implements OnInit {
 
   onSubmit(): void {
     if (this.filePath && this.titlePath) {
-      this.loading = true; // Починаємо показ "Please wait"
+      this.loading = true; 
       const publication: PublicationCreate = {
         publicationName: this.publicationName,
         genreId: this.genreId,
@@ -61,7 +61,7 @@ export class CreatePublicationComponent implements OnInit {
       this.userService.createPublication(publication).subscribe(() => {
         this.resetForm();
         this.successMessage = 'Publication created successfully!';
-        this.loading = false; // Приховуємо "Please wait" після завершення
+        this.loading = false; 
       });
     }
   }

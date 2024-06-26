@@ -30,6 +30,7 @@ namespace Application.PlatformFeatures.Queries.PublicationQueries
                 .Include(p => p.ApplicationUser)
                 .Skip((query.PageNumber - 1) * query.PageSize)
                 .Take(query.PageSize)
+                .OrderBy(g => g.PublicationName)
                 .Select(p => new PublicationResponse
                 {
                     PublicationId = p.Id,
