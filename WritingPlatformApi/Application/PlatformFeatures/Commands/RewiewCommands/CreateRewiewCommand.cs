@@ -13,10 +13,10 @@ namespace Application.PlatformFeatures.Commands.RewiewCommand
         public int IdPublication { get; set; }
 
         [Required(ErrorMessage = "Rating is required.")]
+        [Range(0, 100, ErrorMessage = "Rating must be between 0 and 100.")]
         public int Rating { get; set; }
 
         [Required(ErrorMessage = "UserId is required.")]
-        [Range(0, 100, ErrorMessage = "Rating must be between 0 and 100.")]
         public string UserId { get; set; }
     }
 

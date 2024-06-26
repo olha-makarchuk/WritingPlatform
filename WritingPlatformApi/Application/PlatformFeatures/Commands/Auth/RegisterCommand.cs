@@ -58,6 +58,7 @@ namespace Application.PlatformFeatures.Commands.Auth
                 IsAuthor = false,
                 IsActive = true,
                 Email = request.Email,
+                RefreshToken = GenerateRefreshToken(),
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = request.UserName,
             };
@@ -84,6 +85,13 @@ namespace Application.PlatformFeatures.Commands.Auth
                 UserName = registeredUser.UserName,
                 Email = registeredUser.Email
             };
+        }
+        public static string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
     }
 }

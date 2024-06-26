@@ -99,11 +99,11 @@ export class PublicationComponent implements OnInit {
 
   onSubmitReview(): void {
     if (this.isSubmittingReview) {
-      return; // Prevent multiple submissions
+      return; 
     }
   
     if (this.newRating !== null && this.newRating >= 0 && this.newRating <= 100 && this.publication && !this.hasReviewed) {
-      this.isSubmittingReview = true;  // Set flag to indicate submission in progress
+      this.isSubmittingReview = true;  
       this.userService.addRewiew(this.publication.publicationId, this.newRating, this.loggedInUserId).subscribe(() => {
         this.userService.getPublicationById(this.publication!.publicationId).subscribe(publication => {
           this.publication = publication;
