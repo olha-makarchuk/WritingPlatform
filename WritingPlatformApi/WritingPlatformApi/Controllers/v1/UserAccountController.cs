@@ -13,8 +13,8 @@ namespace WritingPlatformApi.Controllers.v1
         {
         }
 
-        [HttpPost]
-        [Route("change"), Authorize]
+        [HttpPost, Authorize]
+        [Route("change")]
         public async Task<IActionResult> ChangePersonalInformation(ChangePersonalInformationCommand request)
         {
             return Ok(await Mediator.Send(request));

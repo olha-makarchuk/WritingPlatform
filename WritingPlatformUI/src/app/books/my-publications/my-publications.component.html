@@ -7,7 +7,6 @@
         <a [routerLink]="['/publication', publication.publicationId]" class="publication-link">
           <div class="publication-details">
             <h3>{{ publication.publicationName }}</h3>
-            <p><strong>Автор:</strong> {{ publication.authorName }}</p>
             <p><strong>Жанр:</strong> {{ publication.genreName }}</p>
             <p><strong>Рейтинг:</strong> {{ publication.rating }}/5</p>
             <p><strong>Дата:</strong> {{ publication.datePublication | date }}</p>

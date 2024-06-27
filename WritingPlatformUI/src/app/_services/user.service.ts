@@ -105,8 +105,8 @@ export class UserService {
     };
     return this.http.post<PersonalInformationChange>(
       API_URL + 'UserAccount/change',
-      body
-    );
+      body,
+      { headers: this.getHeaders() });
   }
 
   getUserByUserName(userId: string): Observable<PersonalInformation> {

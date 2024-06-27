@@ -1,14 +1,17 @@
-.blue-half {
-  height: 50%;
-  background-color: blue;
+.platform-header {
+  background-color: #ffffff;
+  padding: 40px; 
+  text-align: center;
+  height: 200px; 
+  width: 100%;
+  box-sizing: border-box; 
+  border-radius: 20px;
 }
 
-.other-half {
-  height: 50%;
-}
-
-.container {
-  height: 100%;
-  margin: 0;
-  display: flex;
+.platform-header h1 {
+  color: #000;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0;
 }

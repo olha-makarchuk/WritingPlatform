@@ -1,8 +1,8 @@
 <div style="margin-top: 100px;"></div>
 <div *ngIf="publication" class="publication-container">
+  <h2 class="publication-title">{{ publication.publicationName }}</h2>
   <div class="publication-row">
     <div class="publication-left">
-      <h2 class="publication-title">{{ publication.publicationName }}</h2>
       <div>
         <img class="publication-image"
           alt="Publication Image"
@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="publication-content">
-      <p><strong>Автор:</strong> {{ publication.author.firstName }}</p>
+      <p><strong>Автор:</strong> {{ publication.author.firstName }} {{ publication.author.lastName }}</p>
       <p><strong>Жанр:</strong> {{ publication.genreName }}</p>
       <p><strong>Рейтинг:</strong> {{ publication.rating }} ({{ publication.countOfRewiews }} відгуки)</p>
       <p><strong>Дата публікації:</strong> {{ publication.datePublication | date }}</p>

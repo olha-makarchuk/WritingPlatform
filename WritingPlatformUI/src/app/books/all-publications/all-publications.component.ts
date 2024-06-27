@@ -11,7 +11,7 @@ import { UserService } from "../../_services/user.service";
 export class AllPublicationsComponent implements OnInit {
   publications: Publication[] = [];
   currentPage: number = 1;
-  pageSize: number = 2;
+  pageSize: number = 6;
   totalPages: number = 0;
   searchQuery: string = '';
   genreId: number | undefined;
