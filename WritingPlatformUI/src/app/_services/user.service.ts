@@ -103,7 +103,7 @@ export class UserService {
       firstName: firstName,
       personalInformation: personalInformation,
     };
-    return this.http.post<PersonalInformationChange>(
+    return this.http.put<PersonalInformationChange>(
       API_URL + 'UserAccount/change',
       body,
       { headers: this.getHeaders() });
