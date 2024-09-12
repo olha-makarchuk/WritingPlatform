@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   register(registrationUserData: Registration): Observable<any> {
-    return this.http.post(AUTH_API + 'Authentication/registration', registrationUserData, httpOptions);
+    return this.http.put(AUTH_API + 'Authentication/registration', registrationUserData, httpOptions);
   }
 
   refreshToken(tokenData: TokenApi) {

@@ -13,7 +13,7 @@ namespace WritingPlatformApi.Controllers.v1
         {
         }
 
-        [HttpPost, Authorize]
+        [HttpPut, Authorize]
         [Route("change")]
         public async Task<IActionResult> ChangePersonalInformation(ChangePersonalInformationCommand request)
         {

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpLogging;
 using Application.PlatformFeatures;
 using CorrelationId;
 using WritingPlatformApi.Middleware;
+using Microsoft.AspNetCore.Builder;
+using Application.PlatformFeatures.GraphQL;
 
 namespace WritingPlatformApi
 {
@@ -35,6 +37,13 @@ namespace WritingPlatformApi
             services.AddScoped<IBlobStorage, BlobStorage>();
             services.AddScoped<IPdfReaderService, PdfReaderPaginatorService>();
             services.AddSingleton<BlobStorageConfig>();
+
+            services.AddScoped<Query>();
+            services.AddScoped<Mutation>();
+
+            services.AddGraphQLServer()
+                    .AddQueryType<Query>()
+                    .AddMutationType<Mutation>();
 
             ConfigureDb(services);
         }
@@ -67,6 +76,7 @@ namespace WritingPlatformApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
             });
         }
 
