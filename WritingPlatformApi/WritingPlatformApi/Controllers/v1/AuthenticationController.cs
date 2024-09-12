@@ -34,7 +34,7 @@ namespace WritingPlatformApi.Controllers.v1
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("registration")]
         public async Task<IActionResult> Register(RegistrationCommand command)
         {
