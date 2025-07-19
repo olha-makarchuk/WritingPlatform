@@ -62,8 +62,17 @@ Writing Platform is a web application that automates the process of publishing w
     dotnet test
 
 ## 📦 Dependencies
-A full list of NuGet package dependencies per project is available in dependencies.txt.
-To regenerate it:
+### Backend (.NET API)
+
+A full list of NuGet package dependencies per project is available in `dependencies.txt`.  
+To regenerate it, run:
 ```
-    dotnet list package > dependencies.txt
+dotnet list package > dependencies.txt
+```
+
+### Frontend (Angular)
+Frontend dependencies are managed via package.json.
+To install or update packages, run:
+```
+npm install
 ```
